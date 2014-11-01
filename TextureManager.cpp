@@ -7,6 +7,7 @@ using namespace std;
 const string TextureManager::ENV_TEX_LOC = "test.png";
 const string TextureManager::SPRITE_TEX_LOC = "creeps.png";
 const string TextureManager::UI_TEX_LOC = "white-tower.png";
+const string TextureManager::FONT_TEX_LOC = "thickFont.png";
 
 TextureManager::TextureManager(){
 	
@@ -15,11 +16,13 @@ TextureManager::TextureManager(){
 	//texture[0] is Environment
 	//texture[1] is Sprites
 	//texture[2] is UI
+	//texture[3] is FONT
 
-	textures = new sf::Texture[3];
+	textures = new sf::Texture[4];
 	textures[0].loadFromFile(ENV_TEX_LOC);
 	textures[1].loadFromFile(SPRITE_TEX_LOC);
 	textures[2].loadFromFile(UI_TEX_LOC);
+	textures[3].loadFromFile(FONT_TEX_LOC);
 }
 
 TextureManager::~TextureManager(){
@@ -43,6 +46,9 @@ sf::Texture& TextureManager::getTexture(TextureManager::TEXTURE tex) const{
 		break;
 	case UI:
 		return textures[2];
+		break;
+	case FONT:
+		return textures[3];
 		break;
 	}
 }

@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "CreepSquad.h"
 #include <ctime>
+#include "TextMessage.h"
 
 using namespace std;
 
@@ -21,6 +22,8 @@ int main()
 	creepSquad->resetCreepSquad(1);
 
 	Player* player = new Player();
+
+	TextMessage* message = new TextMessage(tm, "IMMA STRING", sf::Vector2f(25.0f, 25.0f));
 
 	for (int i = 0; i < 20; ++i)
 		for (int j = 0; j < 20; ++j)
@@ -57,6 +60,7 @@ int main()
 			window.clear();
 			m->drawMap(&window);
 			creepSquad->move(player, &window);
+			message->drawMessage(&window);
 			window.display();
 
 			//reset clock
@@ -67,6 +71,9 @@ int main()
 
 	}
 
+	delete message;
+	message = NULL;
+	
 	delete tm;
 	tm = NULL;
 
