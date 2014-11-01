@@ -11,7 +11,9 @@ public:
 	
 	enum TILE_TYPE{ENV,PATH,START,END,CREEP};
 	
+	Map();
 	Map(int rows, int cols, TextureManager* texManager);
+	Map(int rows, int cols);
 	~Map();
 
 	const static int MAX_MAP_WIDTH = 64;
@@ -22,6 +24,7 @@ public:
 	//	const std::vector<std::vector<int>> getMap();
 
 	void setTile(int x, int y, TILE_TYPE t);
+	void setTile(int x, int y, int val);
 	int getCols() const;
 	int getRows() const;
 	int getTile(int x, int y) const;
