@@ -44,8 +44,6 @@ public:
 	// Custom methods
 	void printCreep() const;
 	void move(Map *map);
-	void checkMove(Map *map);
-	bool checkEndTile(Map *map, Player *player);
 	void damageCreep(Player *player, int damage);
 
 private:

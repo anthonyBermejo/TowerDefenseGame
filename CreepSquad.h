@@ -19,5 +19,8 @@ private:
 	vector<Creep*> creepSquad;
 	Map* map;
 	TextureManager* texManager;
+	void checkMove(Creep* creep, Map *map);
+	bool checkEndTile(Creep* creep, Map* map, Player* player);
+	void damageCreep(Player *player, int damage);
 };
 
