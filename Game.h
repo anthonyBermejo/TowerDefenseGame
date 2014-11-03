@@ -9,7 +9,7 @@
 
 class Game {
 public:
-	Game(sf::RenderWindow gameWindow, Map* map, TextureManager* tm);
+	Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm);
 
 	void run();
 	void update();
@@ -21,7 +21,7 @@ public:
 	void displayFinalScore(sf::RenderWindow* w);
 
 private:
-	sf::RenderWindow gameWindow;
+	sf::RenderWindow* gameWindow;
 	Map* map;
 	TextureManager* tm;
 	CreepSquad* creeps;

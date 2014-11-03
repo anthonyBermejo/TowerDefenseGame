@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Game::Game(sf::RenderWindow gameWindow, Map* map, TextureManager* tm) {
+Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	this->gameWindow = gameWindow;
 	this->map = map;
 	this->tm = tm;
@@ -26,15 +26,15 @@ void Game::run() {
 void Game::update() {
 	while (isRunning) {
 		// show everything!
-		draw(&gameWindow);
-		isRunning = gameWindow.isOpen();
+		draw(gameWindow);
+		isRunning = gameWindow->isOpen();
 		if (gameOver(creeps)) {
 			isRunning = false;
 		}
 		else if (levelCleared(creeps))
 			++level;
 	}
-	draw(&gameWindow);
+	draw(gameWindow);
 }
 
 void Game::draw(sf::RenderWindow* w) {
