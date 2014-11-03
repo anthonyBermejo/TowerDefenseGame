@@ -5,16 +5,17 @@
 #include "CreepSquad.h"
 #include <ctime>
 #include "TextMessage.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::RenderWindow window(sf::VideoMode(500, 500), "TD");
 
 	TextureManager* tm = new TextureManager();
+
+	Menu* menu = new Menu(tm, &window);
 	
 	Map* m = new Map(20, 20, tm);
 
@@ -22,8 +23,6 @@ int main()
 	creepSquad->resetCreepSquad(1);
 
 	Player* player = new Player();
-
-	TextMessage* message = new TextMessage(tm, "IMMA STRING", sf::Vector2f(25.0f, 25.0f));
 
 	for (int i = 0; i < 20; ++i)
 		for (int j = 0; j < 20; ++j)
@@ -58,9 +57,9 @@ int main()
 			//update logic
 
 			window.clear();
-			m->drawMap(&window);
-			creepSquad->move(player, &window);
-			message->drawMessage(&window);
+			//m->drawMap(&window);
+			//creepSquad->move(player, &window);
+			menu->update();
 			window.display();
 
 			//reset clock
@@ -70,9 +69,9 @@ int main()
 		
 
 	}
-
-	delete message;
-	message = NULL;
+	
+	delete menu;
+	menu = NULL;
 	
 	delete tm;
 	tm = NULL;

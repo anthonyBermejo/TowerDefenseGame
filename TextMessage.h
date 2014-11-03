@@ -1,8 +1,8 @@
 //used to hold a text message that will be drawn to the screen
 
 #pragma once
-#include "TextureManager.h";
-#include <string>;
+#include "TextureManager.h"
+#include <string>
 
 using namespace std;
 
@@ -11,7 +11,11 @@ public:
 	TextMessage(TextureManager* tm, string msg, sf::Vector2f pos);
 
 	void drawMessage(sf::RenderWindow* win);
-public:
+
+	void setColor(sf::Color);
+	void setMessage(string msg);
+	void setScale(sf::Vector2f);
+private:
 	void setLetter(int pos);
 
 	sf::Sprite letter;

@@ -1,4 +1,4 @@
-#include "TextMessage.h";
+#include "TextMessage.h"
 
 using namespace std;
 
@@ -23,9 +23,21 @@ void TextMessage::drawMessage(sf::RenderWindow* win){
 	}
 
 	//reset x position of letter
-	pos.x -= (8 * (message.length()-1));
+	pos.x -= ((8 * letter.getScale().x) * (message.length()-1));
 	letter.setPosition(pos);
 
+}
+
+void TextMessage::setColor(sf::Color c){
+	letter.setColor(c);
+}
+
+void TextMessage::setMessage(string msg){
+	message = msg;
+}
+
+void TextMessage::setScale(sf::Vector2f scale){
+	letter.setScale(scale);
 }
 
 void TextMessage::setLetter(int pos){
@@ -58,7 +70,7 @@ void TextMessage::setLetter(int pos){
 
 	//phew
 	if (pos != 0){
-		this->pos.x += 8; //increment the position of the sprite by the width of a charater
+		this->pos.x += 8 * letter.getScale().x; //increment the position of the sprite by the width of a charater
 		letter.setPosition(this->pos);
 	}
 

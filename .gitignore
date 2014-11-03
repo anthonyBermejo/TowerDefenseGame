@@ -156,3 +156,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+Tower Defence.vcxproj
+Tower Defence.vcxproj.filters
+TowerDefenseGame.vcxproj
+TowerDefenseGame.vcxproj.filters
