@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Creep.h"
 #include "Map.h"
+#include <queue>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ private:
 	vector<Creep*> creepSquad;
 	Map* map;
 	TextureManager* texManager;
+	queue<Creep*> creepQueue;
+
 	void checkMove(Creep* creep);
 	bool checkEndTile(Creep* creep, Player* player);
 	void damageCreep(Player *player, int damage);

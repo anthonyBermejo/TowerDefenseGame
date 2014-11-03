@@ -15,6 +15,11 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
 	removeDeadCreeps();
 
+	if (!creepQueue.empty()) {
+		creepSquad.push_back(creepQueue.front());
+		creepQueue.pop();
+	}
+
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 
 		// if creep reaches the endtile, delete the object and remove coins from player
@@ -36,6 +41,7 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 		creepSquad[i]->getSprite().setPosition(creepSquad[i]->getLocationX() * 24, creepSquad[i]->getLocationY() * 24);
 		w->draw(creepSquad[i]->getSprite());
 	}
+
 }
 
 void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
@@ -49,35 +55,34 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	switch (level)
 	{
 	case 1:
-		creepSquad.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepSquad.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepSquad.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepSquad.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepSquad.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
 		break;
 	case 2:
-		creepSquad.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepSquad.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepSquad.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepSquad.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepSquad.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
 	case 3:
-		creepSquad.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepSquad.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepSquad.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepSquad.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepSquad.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
 	case 4:
-		creepSquad.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepSquad.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepSquad.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepSquad.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepSquad.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
 		break;
 	}
 
 	for (int i = 0; i < creepSquad.size(); ++i) {
-
 		creepSquad[i]->getSprite().setPosition(creepSquad[i]->getLocationX() * 24, creepSquad[i]->getLocationY() * 24);
 		w->draw(creepSquad[i]->getSprite());
 	}

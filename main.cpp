@@ -20,7 +20,7 @@ int main()
 	Map* m = new Map(8, 8, tm);
 
 	CreepSquad* creepSquad = new CreepSquad(m, tm);
-	creepSquad->resetCreepSquad(1);
+	//creepSquad->resetCreepSquad(1);
 
 	Player* player = new Player();
 
