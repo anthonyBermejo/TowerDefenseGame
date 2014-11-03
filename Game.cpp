@@ -16,6 +16,12 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 
 	isRunning = false;
 	level = 1;
+
+	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
+
+	//reset window size to match that of the map
+	sf::Vector2u windowSize(map->getCols()*24, map->getRows()*24);
+	gameWindow->setSize(windowSize);
 }
 
 void Game::run() {
@@ -25,14 +31,39 @@ void Game::run() {
 
 void Game::update() {
 	while (isRunning) {
-		// show everything!
-		draw(gameWindow);
-		isRunning = gameWindow->isOpen();
-		if (gameOver(creeps)) {
-			isRunning = false;
+		timeElapsed += programClock.restart();
+
+		if (timeElapsed >= frameLength){//restrict to 60fps
+			//clear window
+			gameWindow->clear();
+
+
+			//draw map
+			map->drawMap(gameWindow);
+
+			//update
+			//creeps
+			creeps->move(player, gameWindow);
+
+			//towers
+			for (int i = 0; i < towers.size(); ++i){
+				towers[i]->Update(timeElapsed);
+				towers[i]->Draw(gameWindow);
+			}
+
+
+			// show everything!
+			draw(gameWindow);
+			isRunning = gameWindow->isOpen();
+			if (gameOver(creeps)) {
+				isRunning = false;
+			}
+			else if (levelCleared(creeps))
+				++level;
+
+			//reset timeElapsed
+			timeElapsed = sf::Time::Zero;
 		}
-		else if (levelCleared(creeps))
-			++level;
 	}
 	draw(gameWindow);
 }

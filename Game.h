@@ -30,4 +30,9 @@ private:
 	bool isRunning;
 	int level;
 
+	//time variables
+	sf::Time timeElapsed; //Keeps track of the time elapsed between update/draw calls
+	sf::Time frameLength; //time needed for 60 frames per second
+	sf::Clock programClock; //Clock to track time
+
 };

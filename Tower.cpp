@@ -1,14 +1,15 @@
-/*#include "Tower.h"
+#include "Tower.h"
 #include <iostream>
-#include "Creep.h"
-#include "Map.h"
 
 using namespace std;
 
-Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : type(type), upgradeLevel(level), xpos(xpos), ypos(ypos), map(map) {
+Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepSquad,Player* p,TextureManager* tm) : type(type), upgradeLevel(level), mapPosition(mapPos), squad(creepSquad), p(p), tm(tm) {
 
 	coolingDown = false;
-	cooldownElapsed = 0;
+	cooldownElapsed = sf::Time::Zero;
+
+	sprite.setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
+	sprite.setPosition(sf::Vector2f(mapPosition.x * 24.0f, mapPosition.y * 24.0f));
 
 	//initialize variables based on the tower type
 	switch (type){
@@ -18,7 +19,9 @@ Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : 
 		range = 6;
 		baseDamage = 5;
 
-		cooldownTime = 1;
+		cooldownTime = sf::milliseconds(1000);
+
+		sprite.setTextureRect(sf::IntRect(0, 0, 24, 24));
 
 		break;
 
@@ -28,7 +31,9 @@ Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : 
 		range = 4;
 		baseDamage = 4;
 
-		cooldownTime = 1.3;
+		cooldownTime = sf::milliseconds(1300);
+
+		sprite.setTextureRect(sf::IntRect(24, 0, 24, 24));
 
 		break;
 
@@ -38,7 +43,9 @@ Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : 
 		range = 5;
 		baseDamage = 10;
 
-		cooldownTime = 2.5;
+		cooldownTime = sf::milliseconds(2500);
+
+		sprite.setTextureRect(sf::IntRect(48, 0, 24, 24));
 
 		break;
 
@@ -48,7 +55,9 @@ Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : 
 		range = 7;
 		baseDamage = 12;
 
-		cooldownTime = 1.5;
+		cooldownTime = sf::milliseconds(1500);
+
+		sprite.setTextureRect(sf::IntRect(72, 0, 24, 24));
 
 		break;
 	}
@@ -56,7 +65,8 @@ Tower::Tower(Tower::TOWER_TYPE type, int level, int xpos, int ypos, Map* map) : 
 
 Tower::~Tower(){
 	//get rid of map pointer
-	map = NULL;
+	squad = NULL;
+	p = NULL;
 }
 
 //getters
@@ -74,13 +84,8 @@ int Tower::getDamage() const{
 }
 int Tower::getUpgradeLevel() const{ return upgradeLevel; }
 bool Tower::isCoolingDown() const{ return coolingDown; }
-int* Tower::getPosition() const{
-	int* position = new int[2];
-	position[0] = xpos;
-	position[1] = ypos;
-	return position;
-}
-double Tower::getCooldownTime() const{ return cooldownTime; }
+sf::Vector2i Tower::getMapPosition() const{ return mapPosition; }
+sf::Time Tower::getCooldownTime() const{ return cooldownTime; }
 
 int Tower::getUpgradeCost() const{
 	//for now, upgrade cost is calculated by taking the base cost
@@ -99,7 +104,7 @@ void Tower::setUpgradeLevel(int upgradeLevel){ this->upgradeLevel = upgradeLevel
 
 //Juicy stuff
 //----------------------------------------------
-void Tower::Update(double elapsedTime){
+void Tower::Update(sf::Time elapsedTime){
 	//initially, check to see if tower is cooling down
 	if (coolingDown){
 		cooldownElapsed += elapsedTime;
@@ -108,39 +113,37 @@ void Tower::Update(double elapsedTime){
 		//go back to kicking ass once cool down is over
 		if (cooldownElapsed >= cooldownTime){
 			coolingDown = false;
-			cooldownElapsed = 0;
+			cooldownElapsed = sf::Time::Zero;
 			cout << "\nTower Reloaded" << endl;
 		}
 	}
 	else{//ready to shoot
-		shootAvailableCreeps(map);
+		//shootAvailableCreeps(map);
+		//TODO - IMPLEMENT
+		coolingDown = true;
+		cout << "Fired\n";
 	}
 }
 
-void Tower::shootAvailableCreeps(Map* m){
-	int numInRange = m->getNumCreepsInRange(this);
+void Tower::Draw(sf::RenderWindow* w){
+	w->draw(sprite);
+}
 
-	//creeps were found
-	if (numInRange > 0){
-		cout << "\nTower shoots!\n";
+void Tower::shootAvailableCreeps(){
+	vector<Creep*> creeps = squad->getCreeps();
 
-		//get the creeps that are in range of this tower
-		//multiple creeps are returned only when the tower
-		//does AoE damage
-		Creep** creeps = m->getCreepsInRange(this);
-
-		//damage all creeps that apply
-		for (int i = 0; i < numInRange; ++i)
-			creeps[i]->damage(this);
-
-		coolingDown = true;
-
-		//get rid of creep pointers
-		for (int i = 0; i < numInRange; i++)
-			creeps[i] = NULL; // Don't delete the creep objects because they are still pointed to in Map
-
-		delete[] creeps;
-		creeps = NULL;
+	//loop through creeps and find closest creep, then damage it and pop out
+	//
+	//IN THE FUTURE -> no check for finding the CLOSEST, at the moment only the first encountered in the vector that is in range
+	for (int i = 0; i < creeps.size(); ++i){
+		if (abs(mapPosition.x - creeps[i]->getLocationX()) <= range &&
+			abs(mapPosition.y - creeps[i]->getLocationY()) <= range){
+			creeps[i]->damageCreep(p, getDamage());
+			cout << "Fired!\n";
+			break;
+		}
 	}
 
-}*/
+	//set cooling down
+	coolingDown = true;
+}

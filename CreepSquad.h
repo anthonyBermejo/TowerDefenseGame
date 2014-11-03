@@ -15,6 +15,8 @@ public:
 	void resetCreepSquad(int level);
 	virtual ~CreepSquad();
 
+	vector<Creep*> getCreeps();
+
 private:
 	vector<Creep*> creepSquad;
 	Map* map;

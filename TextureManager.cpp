@@ -8,6 +8,7 @@ const string TextureManager::ENV_TEX_LOC = "test.png";
 const string TextureManager::SPRITE_TEX_LOC = "creeps.png";
 const string TextureManager::UI_TEX_LOC = "white-tower.png";
 const string TextureManager::FONT_TEX_LOC = "thickFont.png";
+const string TextureManager::TOWER_TEX_LOC = "towers.png";
 
 TextureManager::TextureManager(){
 	
@@ -17,12 +18,14 @@ TextureManager::TextureManager(){
 	//texture[1] is Sprites
 	//texture[2] is UI
 	//texture[3] is FONT
+	//texture[4] is TOWERS
 
-	textures = new sf::Texture[4];
+	textures = new sf::Texture[5];
 	textures[0].loadFromFile(ENV_TEX_LOC);
 	textures[1].loadFromFile(SPRITE_TEX_LOC);
 	textures[2].loadFromFile(UI_TEX_LOC);
 	textures[3].loadFromFile(FONT_TEX_LOC);
+	textures[4].loadFromFile(TOWER_TEX_LOC);
 }
 
 TextureManager::~TextureManager(){
@@ -49,6 +52,9 @@ sf::Texture& TextureManager::getTexture(TextureManager::TEXTURE tex) const{
 		break;
 	case FONT:
 		return textures[3];
+		break;
+	case TOWER:
+		return textures[4];
 		break;
 	}
 }

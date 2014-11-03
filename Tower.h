@@ -2,10 +2,8 @@
 #define TOWER_H
 
 #include<SFML/Graphics.hpp>
-
-
-class Map;
-class Creep;
+#include "CreepSquad.h"
+#include "TextureManager.h"
 
 class Tower{
 
@@ -18,7 +16,7 @@ public:
 	*/
 	enum TOWER_TYPE{ ICE, CANNON, REGULAR, SUPER };
 
-	Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, Map* map);
+	Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* squad,Player* p,TextureManager* tm);
 	~Tower();
 
 	//getters
@@ -31,7 +29,7 @@ public:
 	bool isCoolingDown() const;
 	sf::Vector2i getMapPosition() const;
 	TOWER_TYPE getType() const;
-	double getCooldownTime() const;
+	sf::Time getCooldownTime() const;
 	int getUpgradeCost() const;
 	sf::Sprite getSprite() const;
 
@@ -41,7 +39,9 @@ public:
 
 	//other functions
 	//----------------------------------------
-	void Update(double elapsedTime); //elapsedTime being the time passed since last update
+	void Update(sf::Time elapsedTime); //elapsedTime being the time passed since last update
+
+	void Draw(sf::RenderWindow* w);
 
 
 private:
@@ -54,20 +54,23 @@ private:
 	int upgradeLevel;
 	const TOWER_TYPE type;
 
-	double cooldownTime;
-	double cooldownElapsed;
+	sf::Time cooldownTime;
+	sf::Time cooldownElapsed;
 	bool coolingDown;
 
 	const sf::Vector2i mapPosition;
 	
+	CreepSquad* squad;
+
+	TextureManager* tm;
 	sf::Sprite sprite;
 
-	Map* map;
+	Player* p;
 
 	//functions
 	//----------------------------------------
 
-	void shootAvailableCreeps(Map*);
+	void shootAvailableCreeps();
 
 };
 #endif

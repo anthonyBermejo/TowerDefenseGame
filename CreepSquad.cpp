@@ -9,6 +9,8 @@ CreepSquad::CreepSquad(Map* map, TextureManager* texManager)
 	this->texManager = texManager;
 }
 
+vector<Creep*> CreepSquad::getCreeps(){ return creepSquad; }
+
 void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
