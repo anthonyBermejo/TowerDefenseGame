@@ -89,8 +89,27 @@ void Map::setTile(int x, int y, TILE_TYPE val){
 	//checking that x and y are within map range and that value is valid
 	if (x >= 0 && x <= (getRows() - 1) &&
 		y >= 0 && y <= (getCols() - 1) &&
-		(val >= 0 && val <= 3))
+		(val >= 0 && val <= 3)){
+
+		if (val == Map::START){
+			start[0] = x;
+			start[1] = y;
+		}
+		else if (val == Map::END) {
+			end[0] = x;
+			end[1] = y;
+		}
+
 		map[x][y] = val;
+	}
+}
+
+int* Map::getStart(){
+	return start;
+}
+
+int* Map::getEnd(){
+	return end;
 }
 
 //printing map for testing
@@ -146,14 +165,8 @@ void Map::drawMap(sf::RenderWindow* w){
 				w->draw(envSprite1);
 
 				break;
-			case TILE_TYPE::PATH :
-				//FUCK SO MUCH TO DO
-				pathSprite1.setPosition(i * 24, j * 24);
-				envSprite1.setPosition(i * 24, j * 24);
-				w->draw(envSprite1);
-				w->draw(pathSprite1);
-				break;
 			case TILE_TYPE::START:
+				drawPath(w);
 				envSprite1.setPosition(i * 24, j * 24);
 				startSprite.setPosition(i * 24, j * 24);
 				w->draw(envSprite1);
@@ -167,4 +180,167 @@ void Map::drawMap(sf::RenderWindow* w){
 				break;
 			}
 		}
+}
+
+void Map::pathTest(){
+	//setting start and end
+	setTile(1, 0, Map::START);
+	setTile(4, 7, Map::END);
+
+	//creating path
+	setTile(1, 1, Map::PATH);
+	setTile(1, 2, Map::PATH);
+	setTile(2, 2, Map::PATH);
+	setTile(3, 2, Map::PATH);
+	setTile(3, 1, Map::PATH);
+	setTile(4, 1, Map::PATH);
+	setTile(5, 1, Map::PATH);
+	setTile(5, 2, Map::PATH);
+	setTile(5, 3, Map::PATH);
+	setTile(4, 3, Map::PATH);
+	setTile(4, 4, Map::PATH);
+	setTile(3, 4, Map::PATH);
+	setTile(2, 4, Map::PATH);
+	setTile(2, 5, Map::PATH);
+	setTile(2, 6, Map::PATH);
+	setTile(3, 6, Map::PATH);
+	setTile(4, 6, Map::PATH);
+
+}
+
+void Map::drawPath(sf::RenderWindow* w){
+	char dir;
+	bool connected = true;
+	int x = getStart()[0];
+	int y = getStart()[1];
+
+	//identifying and setting direction to check
+	if (y == 0)
+		dir = 'e';
+	else if (y == getCols() - 1)
+		dir = 'w';
+	else if (x == 0)
+		dir = 's';
+	else if (x == getRows() - 1)
+		dir = 'n';
+
+	//moves along the path, identifying path tiles to the north, east, south, and west, depending on the current (x, y) position.
+	do {
+		//checking is path ending is next
+		if (getTile(x + 1, y) == 4 || getTile(x - 1, y) == 4 || getTile(x, y + 1) == 4 || getTile(x, y - 1) == 4){
+			break;
+		}
+		else if (dir == 'n'){		//if heading north, check other directions
+			//path goes east
+			if (getTile(x, y + 1) == 1){
+				dir = 'e';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite5.setPosition(x * 24, y * 24);
+				w->draw(pathSprite5);
+				++y;
+			}
+			//path goes north
+			else if (getTile(x - 1, y) == 1) {
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite1.setPosition(x * 24, y * 24);
+				w->draw(pathSprite1);
+				--x;
+			}
+			//path goes west
+			else if (getTile(x, y - 1) == 1){
+				dir = 'w';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite6.setPosition(x * 24, y * 24);
+				w->draw(pathSprite6);
+				--y;
+			}
+			else
+				//no further path tiles found
+				connected = false;
+		}
+		else if (dir == 'e'){		//if heading east, check other directions
+			//path goes south
+			if (getTile(x + 1, y) == 1) {
+				dir = 's';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite7.setPosition(x * 24, y * 24);
+				w->draw(pathSprite7);
+				++x;
+			}
+			//path goes east
+			else if (getTile(x, y + 1) == 1) {
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite3.setPosition(x * 24, y * 24);
+				w->draw(pathSprite3);
+				++y;
+			}
+			//path goes north
+			else if (getTile(x - 1, y) == 1) {
+				dir = 'n';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite8.setPosition(x * 24, y * 24);
+				w->draw(pathSprite8);
+				--x;
+			}
+			else
+				//not further path tiles found
+				connected = false;
+		}
+		else if (dir == 's'){	//if heading south, check other directions
+			//path goes west
+			if (getTile(x, y - 1) == 1) {
+				dir = 'w';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite8.setPosition(x * 24, y * 24);
+				w->draw(pathSprite8);
+				--y;
+			}
+			//path goes south
+			else if (getTile(x + 1, y) == 1){
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite1.setPosition(x * 24, y * 24);
+				w->draw(pathSprite1);
+				++x;
+			}
+			//path goes east
+			else if (getTile(x, y + 1) == 1) {
+				dir = 'e';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite7.setPosition(x * 24, y * 24);
+				w->draw(pathSprite7);
+				++y;
+			}
+			else
+				//no further path tiles found
+				connected = false;
+		}
+		else if (dir == 'w'){	//if heading west, check other directions
+			//path goes north
+			if (getTile(x - 1, y) == 1){
+				dir = 'n';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite6.setPosition(x * 24, y * 24);
+				w->draw(pathSprite6);
+				--x;
+			}
+			//path goes west
+			else if (getTile(x, y - 1) == 1) {
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite3.setPosition(x * 24, y * 24);
+				w->draw(pathSprite3);
+				++y;
+			}
+			//path goes south
+			else if (getTile(x + 1, y) == 1) {
+				dir = 's';
+				envSprite1.setPosition(x * 24, y * 24);
+				pathSprite8.setPosition(x * 24, y * 24);
+				w->draw(pathSprite8);
+				++x;
+			}
+			else
+				//no further path tiles found
+				connected = false;
+		}
+	} while (connected);	//checks if there are still path tiles
 }

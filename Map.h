@@ -25,14 +25,20 @@ public:
 
 	void setTile(int x, int y, TILE_TYPE t);
 	void setTile(int x, int y, int val);
+	int* getStart();
+	int* getEnd();
 	int getCols() const;
 	int getRows() const;
 	int getTile(int x, int y) const;
 	void printMap() const;
+	void drawPath(sf::RenderWindow* w);
 
 	void drawMap(sf::RenderWindow* w);
-private:
 
+	void pathTest();
+private:
+	int start[2];
+	int end[2];
 	int cols;
 	int rows;
 	std::vector<std::vector<int> > map;
@@ -40,8 +46,8 @@ private:
 	TextureManager* texManager;
 
 	sf::Sprite envSprite1; // solid green
-	sf::Sprite envSprite2; //green with "grass"
-	sf::Sprite pathSprite1; // verticle solid
+	sf::Sprite envSprite2; // green with "grass"
+	sf::Sprite pathSprite1;// verticle solid
 	sf::Sprite pathSprite2;// vertical with variety
 	sf::Sprite pathSprite3;// horizontal solid
 	sf::Sprite pathSprite4;// horizontal with variety
@@ -50,7 +56,7 @@ private:
 	sf::Sprite pathSprite7;// bottom right
 	sf::Sprite pathSprite8;// bottom left
 	sf::Sprite startSprite;// start
-	sf::Sprite endSprite;// end
+	sf::Sprite endSprite;  // end
 
 };
 

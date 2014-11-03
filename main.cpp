@@ -15,23 +15,29 @@ int main()
 
 	TextureManager* tm = new TextureManager();
 
-	Menu* menu = new Menu(tm, &window);
+	//Menu* menu = new Menu(tm, &window);
 	
-	Map* m = new Map(20, 20, tm);
+	Map* m = new Map(8, 8, tm);
 
 	CreepSquad* creepSquad = new CreepSquad(m, tm);
 	creepSquad->resetCreepSquad(1);
 
 	Player* player = new Player();
 
+	/*
 	for (int i = 0; i < 20; ++i)
 		for (int j = 0; j < 20; ++j)
 			m->setTile(i, j, Map::TILE_TYPE::ENV);
-
+	
 	m->setTile(5, 10, Map::TILE_TYPE::PATH);
 
 	m->setTile(0, 4, Map::TILE_TYPE::START);
 	m->setTile(15, 11, Map::TILE_TYPE::END);
+	*/
+	m->pathTest();
+
+	cout << "start: " << "[" << m->getStart()[0] << ", " << m->getStart()[1] << "]" << endl;
+	cout << "end: " << "[" << m->getEnd()[0] << ", " << m->getEnd()[1] << "]" << endl;
 
 	double elapsedTime = 0;
 	double timePerFrame = 1 / 60; //60 frames per second
@@ -57,9 +63,9 @@ int main()
 			//update logic
 
 			window.clear();
-			//m->drawMap(&window);
+			m->drawMap(&window);
 			//creepSquad->move(player, &window);
-			menu->update();
+			//menu->update();
 			window.display();
 
 			//reset clock
@@ -70,8 +76,8 @@ int main()
 
 	}
 	
-	delete menu;
-	menu = NULL;
+	//delete menu;
+	//menu = NULL;
 	
 	delete tm;
 	tm = NULL;
