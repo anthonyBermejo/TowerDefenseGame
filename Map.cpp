@@ -46,6 +46,9 @@ Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols)
 
 	endSprite.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
 	endSprite.setTextureRect(sf::IntRect(24 * 10, 0, 24, 24));
+
+	blockSprite.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
+	blockSprite.setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
 }
 
 Map::Map()
@@ -148,9 +151,9 @@ void Map::drawMap(sf::RenderWindow* w){
 
 	int randNum;
 
-	for (int i = 0; i < (int)map.size(); ++i)
-		for (int j = 0; j < (int)map[i].size(); ++j){ 
-		switch (map[i][j]){
+	for (int i = 0; i < getCols(); ++i)
+		for (int j = 0; j < getRows(); ++j){
+		switch (map[j][i]){
 			case TILE_TYPE::ENV:
 				/*randNum = rand() % 100;
 				if (randNum <= 50){
@@ -165,8 +168,12 @@ void Map::drawMap(sf::RenderWindow* w){
 				w->draw(envSprite1);
 
 				break;
+			case TILE_TYPE::PATH:
+				blockSprite.setPosition(i * 24, j * 24);
+				w->draw(blockSprite);
+				break;
 			case TILE_TYPE::START:
-				drawPath(w);
+				//drawPath(w);
 				envSprite1.setPosition(i * 24, j * 24);
 				startSprite.setPosition(i * 24, j * 24);
 				w->draw(envSprite1);

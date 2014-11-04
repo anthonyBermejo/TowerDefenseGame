@@ -17,7 +17,7 @@ int main()
 
 	//Menu* menu = new Menu(tm, &window);
 	
-	Map* m = new Map(8, 8, tm);
+	Map* m = new Map(7, 8, tm);
 
 	CreepSquad* creepSquad = new CreepSquad(m, tm);
 	//creepSquad->resetCreepSquad(1);

@@ -57,6 +57,6 @@ private:
 	sf::Sprite pathSprite8;// bottom left
 	sf::Sprite startSprite;// start
 	sf::Sprite endSprite;  // end
-
+	sf::Sprite blockSprite;// block path
 };
 
