@@ -33,4 +33,5 @@ private:
 
 	void checkInput();
 
+	std::string getFilePath();
 };

@@ -351,3 +351,7 @@ void Map::drawPath(sf::RenderWindow* w){
 		}
 	} while (connected);	//checks if there are still path tiles
 }
+
+void Map::setTextureManager(TextureManager* tm){
+	this->texManager = tm;
+}

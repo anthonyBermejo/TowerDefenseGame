@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "rapidxml.hpp"
 #include "TextureManager.h"
 
 using namespace std;
+using namespace rapidxml;
 
 class Map
 {
@@ -14,6 +16,7 @@ public:
 	Map();
 	Map(int rows, int cols, TextureManager* texManager);
 	Map(int rows, int cols);
+	Map(std::string path, TextureManager* textureManager);
 	~Map();
 
 	const static int MAX_MAP_WIDTH = 64;
@@ -34,7 +37,7 @@ public:
 	void drawPath(sf::RenderWindow* w);
 
 	void drawMap(sf::RenderWindow* w);
-
+	void setTextureManager(TextureManager* tm);
 	void pathTest();
 private:
 	int start[2];

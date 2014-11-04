@@ -75,10 +75,6 @@ void MapEditor::loadMapFile(std::string mapDir){
 		if (y >= rows)
 			y = 0;
 	}
-
-	cout << "Loaded map: " << endl;
-	printMap();
-	cout << endl;
 }
 
 void MapEditor::saveMap(std::string path){
@@ -160,6 +156,10 @@ void MapEditor::createCustomMap(){
 
 void MapEditor::printMap() const{
 	map.printMap();
+}
+
+Map* MapEditor::getMap(){
+	return &map;
 }
 
 void MapEditor::setTile(int row, int col, int val){
@@ -245,13 +245,6 @@ bool MapEditor::validateMap() const{
 
 	if (startX != 0 || startY != 0)
 		connected = isConnected(startX, startY);
-
-	printMap();
-
-	//outputting validation values
-	cout << "Found start: " << start << endl;
-	cout << "Found end: " << end << endl;
-	cout << "Connected: " << connected << endl;
 
 	return (start && end && connected);
 }

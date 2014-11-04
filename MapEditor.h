@@ -18,6 +18,7 @@ public:
 	void saveMap(std::string saveDir);
 	void validityTest();
 	void setTile(int row, int col, int val);
+	Map* getMap();
 private:
 	Map map;
 	xml_document<> doc;

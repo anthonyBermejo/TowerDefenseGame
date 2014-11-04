@@ -1,4 +1,8 @@
 #include "Menu.h"
+#include "MapEditor.h"
+#include <iostream>
+#include <Windows.h>
+#include <commdlg.h>
 
 using namespace std;
 
@@ -16,6 +20,9 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win) :tm(tm), win(win){
 
 	menuLocation = location::START;
 	selection = 0;
+
+	this->tm = tm;
+	this->win = win;
 
 	keysPressed = new bool[5];//up,right,down,left,enter
 	for (int i = 0; i < 5; ++i)
@@ -74,6 +81,15 @@ void Menu::update(){
 			selection = 0;
 		}
 
+		/*	opens file selection dialog and instantiates map with map file selected
+		std::string path = getFilePath();
+		MapEditor editor(path);
+		Map* map = editor.getMap();
+		map->setTextureManager(tm);
+		map->drawMap(win);
+		*/
+
+
 		playGameMsg->drawMessage(win);
 		editorMsg->drawMessage(win);
 		break;
@@ -81,6 +97,28 @@ void Menu::update(){
 		break;
 
 	}
+}
+
+std::string Menu::getFilePath(){
+	OPENFILENAME ofn;
+	char szFile[100];
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFile;
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&ofn);
+
+	return ofn.lpstrFile;
 }
 
 void Menu::checkInput(){
