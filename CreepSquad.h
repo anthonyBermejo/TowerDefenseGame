@@ -18,11 +18,18 @@ public:
 
 	vector<Creep*> getCreeps();
 
+	void Update(Player* player, sf::RenderWindow* w, double elapsedTime);
+	void Draw(sf::RenderWindow* w);
+
 private:
 	vector<Creep*> creepSquad;
 	Map* map;
 	TextureManager* texManager;
 	queue<Creep*> creepQueue;
+	//sf::Time timeElapsed;
+	double timeElapsed;
+	int startLocationX;
+	int startLocationY;
 
 	void checkMove(Creep* creep);
 	bool checkEndTile(Creep* creep, Player* player);
