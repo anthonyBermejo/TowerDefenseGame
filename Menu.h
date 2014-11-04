@@ -32,6 +32,6 @@ private:
 	location menuLocation;
 
 	void checkInput();
-
+	void mapEditor();
 	std::string getFilePath();
 };

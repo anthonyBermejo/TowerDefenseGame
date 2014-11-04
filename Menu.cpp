@@ -13,10 +13,6 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win) :tm(tm), win(win){
 	playGameMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 	editorMsg = new TextMessage(tm, "Map Editor", sf::Vector2f(0, 150));
 	editorMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-	selectMapMsg = new TextMessage(tm, "Select map:", sf::Vector2f(0, 0));
-	loadMsg = new TextMessage(tm, "Load existing map", sf::Vector2f(0, 0));
-	createNewMsg = new TextMessage(tm, "Create new map", sf::Vector2f(0, 0));
-	dimensionsMsg = new TextMessage(tm, "Enter map dimensions", sf::Vector2f(0, 0));
 
 	menuLocation = location::START;
 	selection = 0;
@@ -51,8 +47,6 @@ Menu::~Menu(){
 	
 	//delete[] keysPressed;
 	//keysPressed = NULL;
-
-
 }
 
 void Menu::update(){
@@ -89,13 +83,14 @@ void Menu::update(){
 		map->drawMap(win);
 		*/
 
-
 		playGameMsg->drawMessage(win);
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
 		break;
-
+	case location::MAP_EDIT:
+		mapEditor();
+		break;
 	}
 }
 
@@ -148,3 +143,30 @@ void Menu::checkInput(){
 		keysPressed[5] = false;
 }
 
+void Menu::mapEditor(){
+	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, 50));
+	createNewMsg = new TextMessage(tm, "New", sf::Vector2f(0, 75));
+
+	loadMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	createNewMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+
+	//get user input for dimensions
+	int rows;
+	cout << "Enter number of rows: ";
+	cin >> rows;
+	int cols;
+	cout << "Enter number of columns: ";
+	cin >> cols;
+
+	//create and draw map
+	Map map(rows, cols, tm);
+	map.drawMap(win);
+
+	//set mouse action listeners
+	//button clicks
+	//if tile clicked is grass, set tile. If tile, set grass.
+
+	//drawing overlying menu options
+	loadMsg->drawMessage(win);
+	createNewMsg->drawMessage(win);
+}
