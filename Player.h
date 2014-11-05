@@ -7,7 +7,7 @@ class Player
 {
 public:
 	// constructor
-	Player(TextureManager* tm);
+	Player(TextureManager* tm, sf::RenderWindow* w);
 
 	// destructor
 	virtual ~Player();

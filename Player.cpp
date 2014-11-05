@@ -4,11 +4,11 @@
 using namespace std;
 
 // Constructors
-Player::Player(TextureManager* tm)
+Player::Player(TextureManager* tm, sf::RenderWindow* w)
 {
 	coins = 500;
 	this->tm = tm;
-	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(120, 10));
+	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(w->getSize().x - 100, 10));
 }
 
 // Destructors
