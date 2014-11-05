@@ -33,6 +33,8 @@ public:
 	int getUpgradeCost() const;
 	sf::Sprite getSprite() const;
 
+	static int getTowerTypeCost(TOWER_TYPE);
+
 	//setters
 	//----------------------------------------
 	void setUpgradeLevel(int level);

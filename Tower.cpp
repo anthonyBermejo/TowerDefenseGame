@@ -98,6 +98,20 @@ int Tower::getUpgradeCost() const{
 
 Tower::TOWER_TYPE Tower::getType() const{ return type; }
 
+
+int Tower::getTowerTypeCost(TOWER_TYPE t){
+	switch (t){
+	case REGULAR:
+		return 100;
+	case ICE:
+		return 150;
+	case CANNON:
+		return 200;
+	case SUPER:
+		return 500;
+	}
+}
+
 //setters
 //----------------------------------------------
 void Tower::setUpgradeLevel(int upgradeLevel){ this->upgradeLevel = upgradeLevel; }

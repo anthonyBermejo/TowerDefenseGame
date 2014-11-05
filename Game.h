@@ -35,4 +35,27 @@ private:
 	sf::Time frameLength; //time needed for 60 frames per second
 	sf::Clock programClock; //Clock to track time
 
+	//ui handling
+	Tower* selectedTower;
+	enum INPUT_STATE{SELECT_TOWER,TOWER_SELECTED,PLACE_TOWER};
+	INPUT_STATE currentInputState;
+	bool mouseClickedPrev;
+	Tower::TOWER_TYPE towerTypeToBuild;
+
+	sf::Vector2i getMousePosition();
+	void doInput();
+	bool mouseClicked();
+
+	sf::Vector2i buildRegLoc;
+	sf::Vector2i buildIceLoc;
+	sf::Vector2i buildCanLoc;
+	sf::Vector2i buildSupLoc;
+	sf::Vector2i upgradeTowerLoc;
+	sf::Vector2i destroyTowerLoc;
+
+
+	void drawUI();
+
+
+
 };
