@@ -7,8 +7,10 @@ using namespace std;
 Player::Player(TextureManager* tm, sf::RenderWindow* w)
 {
 	coins = 500;
+	health = 10;
 	this->tm = tm;
-	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(w->getSize().x - 100, 10));
+	healthText = new TextMessage(tm, "Health: " + to_string(health), sf::Vector2f(w->getSize().x - 100, 10));
+	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(w->getSize().x - 100, 20));
 }
 
 // Destructors
@@ -22,6 +24,11 @@ int Player::getCoins() const
 	return coins;
 }
 
+int Player::getHealth() const
+{
+	return health;
+}
+
 // Setters
 void Player::setCoins(int coins)
 {
@@ -29,9 +36,17 @@ void Player::setCoins(int coins)
 	coinsText->setMessage("Coins: " + to_string(coins));
 }
 
+void Player::setHealth(int health)
+{
+	this->health = health;
+	healthText->setMessage("Health: " + to_string(health));
+	
+}
+
 void Player::Draw(sf::RenderWindow* w)
 {
 	coinsText->drawMessage(w);
+	healthText->drawMessage(w);
 }
 
 // Custom methods
@@ -39,5 +54,6 @@ void Player::Draw(sf::RenderWindow* w)
 // Prints out the current attributes of a player
 void Player::printPlayer() const
 {
-	cout << "Coins: " << coins << endl << endl;
+	cout << "Coins: " << coins;
+	cout << "Health: " << health;
 }

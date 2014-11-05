@@ -14,9 +14,11 @@ public:
 
 	// getters
 	int getCoins() const;
+	int getHealth() const;
 
 	// setters
 	void setCoins(int coins);
+	void setHealth(int health);
 
 	// custom methods
 	void printPlayer() const;
@@ -25,7 +27,9 @@ public:
 
 private:
 	int coins;
+	int health;
 	TextMessage* coinsText;
+	TextMessage* healthText;
 	TextureManager* tm;
 };
 

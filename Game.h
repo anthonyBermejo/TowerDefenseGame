@@ -16,8 +16,8 @@ public:
 	void update();
 	void draw(sf::RenderWindow* w);
 
-	bool levelCleared(CreepSquad* creeps); // will probably need parameters
-	bool gameOver(CreepSquad* creeps); // will probably need parameters
+	bool isLevelCleared(); // will probably need parameters
+	bool isGameOver(); // will probably need parameters
 
 	void displayFinalScore(sf::RenderWindow* w);
 

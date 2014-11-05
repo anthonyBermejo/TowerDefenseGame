@@ -201,9 +201,7 @@ bool CreepSquad::checkEndTile(Creep* creep, Player* player)
 	// if the creep is at an end tile
 	if (creepAtEndTile) {
 		// remove coins from player according to value of creep's strength
-		player->setCoins(player->getCoins() - creep->getStrength());
-
-		cout << "player now has " << player->getCoins() << endl;
+		player->setHealth(player->getHealth() - 1);
 
 		// set tile creep was on back to path
 		map->setTile(locationX, locationY, Map::TILE_TYPE::PATH);

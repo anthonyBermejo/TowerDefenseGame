@@ -36,14 +36,13 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	destroyTowerLoc = sf::Vector2i(map->getRows() - 1, map->getCols() + 3);
 	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 1);
 
+	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
 	iceTowerText = new TextMessage(tm, "Ice", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
 	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
 	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
 	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x, upgradeTowerLoc.y * 24 + 10));
 	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x, destroyTowerLoc.y * 24 + 10));
-
-
 	towerTypeText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 5));
 	towerUpgradeLevelText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 10));
 	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 15));
@@ -60,19 +59,17 @@ void Game::update() {
 	while (isRunning) {
 		timeElapsed += programClock.restart();
 
-		if (timeElapsed >= frameLength){//restrict to 60fps
+		if (timeElapsed >= frameLength){ //restrict to 60fps
 			//process input
 			doInput();
-
 
 			//clear window
 			gameWindow->clear();
 
-
 			//draw map
 			map->drawMap(gameWindow);
 
-			//update logic
+			/**********update logic********/
 
 			//creeps
 			creeps->Update(player, gameWindow, timeElapsed);
@@ -84,14 +81,16 @@ void Game::update() {
 				towers[i]->Draw(gameWindow);
 			}
 
-
 			// show everything!
 			draw(gameWindow);
 			isRunning = gameWindow->isOpen();
-			if (gameOver(creeps)) {
+
+
+			if (isGameOver()) {
 				isRunning = false;
 			}
-			else if (levelCleared(creeps))
+			
+			if (isLevelCleared())
 				++level;
 
 			//reset timeElapsed
@@ -106,7 +105,9 @@ void Game::draw(sf::RenderWindow* w) {
 	if (isRunning) {
 		w->clear();
 		map->drawMap(w);
-		//creeps->move(player, w);
+
+		drawUI();
+
 		if (towers.size() > 0) {
 			// tower stuff
 		}
@@ -118,27 +119,28 @@ void Game::draw(sf::RenderWindow* w) {
 	}
 }
 
-bool Game::levelCleared(CreepSquad* creeps) {
+bool Game::isLevelCleared() {
 	//if level was cleared
-	// return true;
-	return false;
+	if (creeps->getCreeps().size() == 0)
+		return true;
+	else
+		return false;
 }
 
-bool Game::gameOver(CreepSquad* creeps) {
+bool Game::isGameOver() {
 
-	//if game is over
-	// return true;
-	return false;
+	// if player's health is 0, return true
+	if (player->getHealth() == 0)
+		return true;
+	else
+		return false;
 }
 
 void Game::displayFinalScore(sf::RenderWindow* w) {
 	string playerScore = "You made it to level " + std::to_string(level) + "!";
 	// need to figure out coordinates for center of window
-	TextMessage* finalScore = new TextMessage(tm, playerScore, sf::Vector2f(25.0f, 25.0f));
-
-	w->clear();
+	TextMessage* finalScore = new TextMessage(tm, playerScore, sf::Vector2f(w->getSize().x / 2, w->getSize().y / 2));
 	finalScore->drawMessage(w);
-	w->display();
 }
 
 sf::Vector2i Game::getMousePosition(){
