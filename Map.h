@@ -16,7 +16,6 @@ public:
 	Map();
 	Map(int rows, int cols, TextureManager* texManager);
 	Map(int rows, int cols);
-	Map(std::string path, TextureManager* textureManager);
 	~Map();
 
 	const static int MAX_MAP_WIDTH = 64;

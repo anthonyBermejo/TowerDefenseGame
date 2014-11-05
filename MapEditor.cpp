@@ -24,6 +24,8 @@ MapEditor::MapEditor(std::string path){
 
 MapEditor::~MapEditor()
 {
+	delete this;
+	//this = NULL;
 }
 
 void MapEditor::loadMapFile(std::string mapDir){

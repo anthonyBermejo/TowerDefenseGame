@@ -53,6 +53,12 @@ void Menu::update(){
 	titleMsg->drawMessage(win);
 	checkInput();
 
+	/*
+	std::string path;
+	MapEditor* editor;
+	Map* map;
+	*/
+
 	switch (menuLocation){
 	case location::START:
 		if (keysPressed[0] && !keysPressed[2]){//select play game
@@ -74,20 +80,18 @@ void Menu::update(){
 				menuLocation = location::MAP_EDIT;
 			selection = 0;
 		}
-
-		/*	opens file selection dialog and instantiates map with map file selected
-		std::string path = getFilePath();
-		MapEditor editor(path);
-		Map* map = editor.getMap();
-		map->setTextureManager(tm);
-		map->drawMap(win);
-		*/
-
 		playGameMsg->drawMessage(win);
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
+		/*
+		path = getFilePath();
+		editor = new MapEditor(path);
+		map = editor->getMap();
+		map->setTextureManager(tm);
+		map->drawMap(win);
 		break;
+		*/
 	case location::MAP_EDIT:
 		mapEditor();
 		break;
@@ -105,7 +109,7 @@ std::string Menu::getFilePath(){
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = sizeof(szFile);
 	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+	ofn.lpstrFilter = "XML Map File\0*.xml\00";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;
@@ -117,6 +121,10 @@ std::string Menu::getFilePath(){
 }
 
 void Menu::checkInput(){
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+		cout << "Clicked at: [" << sf::Mouse::getPosition(*win).x/24 << ", " << sf::Mouse::getPosition(*win).y/24 << "]" << endl;
+	}
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 		keysPressed[0] = true;
 	else
@@ -160,8 +168,10 @@ void Menu::mapEditor(){
 
 	//create and draw map
 	Map map(rows, cols, tm);
+	
+	//win->setSize(sf::Vector2u(rows * 24, cols * 24));
 	map.drawMap(win);
-
+	
 	//set mouse action listeners
 	//button clicks
 	//if tile clicked is grass, set tile. If tile, set grass.
