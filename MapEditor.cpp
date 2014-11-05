@@ -40,7 +40,7 @@ void MapEditor::loadMapFile(std::string mapDir){
 	int cols;
 
 	//reading in xml map file into xml_document<> doc
-	std::ifstream file("C:/XMLTestFile.xml");
+	std::ifstream file(mapDir);
 	std::stringstream buffer;
 	buffer << file.rdbuf();
 	file.close();
@@ -87,59 +87,61 @@ void MapEditor::loadMapFile(std::string mapDir){
 }
 
 void MapEditor::saveMap(std::string path){
-	//used as temp holding to convert c_str() to xml string
-	char* val;
+	//if (validateMap()){
+		//used as temp holding to convert c_str() to xml string
+		char* val;
 
-	int rows = map.getRows();
-	int cols = map.getCols();
+		int rows = map.getRows();
+		int cols = map.getCols();
 
-	//creating and setting xml header tag
-	xml_document<> output;
-	xml_node<>* header = output.allocate_node(node_declaration);
-	header->append_attribute(output.allocate_attribute("version", "1.0"));
-	header->append_attribute(output.allocate_attribute("encoding", "UTF-8"));
-	output.append_node(header);
+		//creating and setting xml header tag
+		xml_document<> output;
+		xml_node<>* header = output.allocate_node(node_declaration);
+		header->append_attribute(output.allocate_attribute("version", "1.0"));
+		header->append_attribute(output.allocate_attribute("encoding", "UTF-8"));
+		output.append_node(header);
 
-	//creating and setting map root
-	xml_node<>* root = output.allocate_node(node_element, "map");
+		//creating and setting map root
+		xml_node<>* root = output.allocate_node(node_element, "map");
 
-	//creating and setting root rows attribute
-	val = doc.allocate_string(std::to_string(rows).c_str());
-	xml_attribute<> *heightAttr = output.allocate_attribute("rows", val);
+		//creating and setting root rows attribute
+		val = doc.allocate_string(std::to_string(rows).c_str());
+		xml_attribute<> *heightAttr = output.allocate_attribute("rows", val);
 
-	//creating and setting root cols attribute
-	val = doc.allocate_string(std::to_string(cols).c_str());
-	xml_attribute<> *widthAttr = output.allocate_attribute("cols", val);
+		//creating and setting root cols attribute
+		val = doc.allocate_string(std::to_string(cols).c_str());
+		xml_attribute<> *widthAttr = output.allocate_attribute("cols", val);
 
-	//adding rows and cols attributes to root
-	root->append_attribute(heightAttr);
-	root->append_attribute(widthAttr);
+		//adding rows and cols attributes to root
+		root->append_attribute(heightAttr);
+		root->append_attribute(widthAttr);
 
-	//instantiating map components
-	xml_node<> *tileNode;
-	xml_attribute<> *tileValue;
-	xml_node<> *row;
-	output.append_node(root);
+		//instantiating map components
+		xml_node<> *tileNode;
+		xml_attribute<> *tileValue;
+		xml_node<> *row;
+		output.append_node(root);
 
-	//populating xml file with map data
-	for (int i = 0; i < rows; i++) {
-		row = output.allocate_node(node_element, "row");
-		root->append_node(row);
-		for (int j = 0; j < cols; j++) {
-			tileNode = output.allocate_node(node_element, "tile");
-			val = doc.allocate_string(std::to_string(map.getTile(i, j)).c_str());
-			tileValue = output.allocate_attribute("access", val);
-			tileNode->append_attribute(tileValue);
-			row->append_node(tileNode);
+		//populating xml file with map data
+		for (int i = 0; i < rows; i++) {
+			row = output.allocate_node(node_element, "row");
+			root->append_node(row);
+			for (int j = 0; j < cols; j++) {
+				tileNode = output.allocate_node(node_element, "tile");
+				val = doc.allocate_string(std::to_string(map.getTile(i, j)).c_str());
+				tileValue = output.allocate_attribute("access", val);
+				tileNode->append_attribute(tileValue);
+				row->append_node(tileNode);
+			}
 		}
-	}
-	cout << "content: " << output << endl;
 
-	//outputting xml data to file
-	std::ofstream outputFile;
-	outputFile.open(path);
-	outputFile << output;
-	outputFile.close();
+		//outputting xml data to file
+		std::ofstream outputFile;
+		outputFile.open(path + ".tdm");
+		outputFile << output;
+		outputFile.close();
+	//} else
+		//cout << "Failed to save map: Map is not valid.";
 }
 
 void MapEditor::createNewMap(int rows, int cols){

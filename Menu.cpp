@@ -82,11 +82,17 @@ void Menu::update(){
 	case location::SELECT_MAP:
 		if (!mapSelected){
 			path = getFilePath();
-			editor = new MapEditor(path);
-			map = editor->getMap();
-			map->setTextureManager(tm);
-			map->drawMap(win);
-			mapSelected = true;
+			cout << "path compare: " << path.compare("") << endl;
+			if (path.compare("") != 0) {
+				editor = new MapEditor(path);
+				map = editor->getMap();
+				map->printMap();
+				map->setTextureManager(tm);
+				map->drawMap(win);
+				mapSelected = true;
+			}
+			else
+				menuLocation = location::START;
 		}
 		break;
 	case location::MAP_EDIT:
@@ -105,12 +111,12 @@ std::string Menu::getFilePath(){
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFile;
 	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFile = szFile;
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = sizeof(szFile);
 	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFilter = "XML Map File\0*.xml\00";
+	ofn.lpstrFilter = "Tower Defence Map File\0*.tdm\00";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;
@@ -215,11 +221,11 @@ void Menu::mapEditor(){
 	customCreated = true;
 	win->setSize(sf::Vector2u(cols * 24, rows * 24));
 	map->drawMap(win);
-
-	/* saves map sent in
+	
+	//Use a window dialog to select where to save the file
+	//saves map sent in
 	MapEditor editor(map);
-	editor.saveMap("C:\\hurrdurr.xml");
-	*/
+	editor.saveMap("C:\\hurrdurr");
 
 	//set mouse action listeners
 	//button clicks
