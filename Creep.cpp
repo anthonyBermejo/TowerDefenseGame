@@ -146,7 +146,8 @@ void Creep::move(Map *map)
 	int mapLocationY = this->locationY;
 
 	// creep's location back to path tile
-	map->setTile(mapLocationX, mapLocationY, Map::TILE_TYPE::PATH);
+	if (map->getTile(mapLocationX, mapLocationY) != Map::TILE_TYPE::START && map->getTile(mapLocationX, mapLocationY) != Map::TILE_TYPE::END)
+		map->setTile(mapLocationX, mapLocationY, Map::TILE_TYPE::PATH);
 
 	// change x,y coordinates of an alien according to movement direction
 	if (direction == Direction::LEFT)
@@ -167,7 +168,8 @@ void Creep::move(Map *map)
 	}
 
 	// set new map location to enemy position
-	map->setTile(this->locationX, this->locationY, Map::TILE_TYPE::CREEP);
+	if (map->getTile(locationX, locationY) != Map::TILE_TYPE::END)
+		map->setTile(locationX, locationY, Map::TILE_TYPE::CREEP);
 }
 
 void Creep::damageCreep(Player *player, int damage)

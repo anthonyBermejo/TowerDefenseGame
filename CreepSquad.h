@@ -25,7 +25,7 @@ private:
 	vector<Creep*> creepSquad;
 	Map* map;
 	TextureManager* texManager;
-	queue<Creep*> creepQueue;
+	vector<Creep*> startingCreepList;
 	//sf::Time timeElapsed;
 	double timeElapsed;
 	int startLocationX;

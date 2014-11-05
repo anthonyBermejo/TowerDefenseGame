@@ -17,19 +17,11 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
 	//removeDeadCreeps(); // this code BREAKS
 
-	if (!creepQueue.empty()) {
-		creepSquad.push_back(creepQueue.front());
-
-		sf::Sprite creepSprite = creepQueue.front()->getSprite();
-		creepSprite.setPosition(startLocationY * 24.0f, startLocationX * 24.0f);
-		w->draw(creepSprite);
-
-		map->setTile(startLocationX, startLocationY, Map::TILE_TYPE::CREEP);
-
-		creepQueue.pop();
+	if (!startingCreepList.empty()) {
+		Creep* creep = startingCreepList.back();
+		creepSquad.push_back(creep);
+		startingCreepList.pop_back();
 	}
-	else
-		map->setTile(startLocationX, startLocationY, Map::TILE_TYPE::START);
 
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 
@@ -65,32 +57,32 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	switch (level)
 	{
 	case 1:
-		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		creepQueue.push(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
 		break;
 	case 2:
-		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		creepQueue.push(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
 		break;
 	case 3:
-		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		creepQueue.push(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
 		break;
 	case 4:
-		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		creepQueue.push(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
 		break;
 	}
 }
@@ -108,11 +100,11 @@ void CreepSquad::checkMove(Creep* creep)
 	if (creepDirection == Direction::LEFT)
 	{
 		if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::ENV) {
-			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::DOWN);
 			}
 
-			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::UP);
 			}
 		}
@@ -122,11 +114,11 @@ void CreepSquad::checkMove(Creep* creep)
 		if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::ENV)
 		{
 
-			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::DOWN);
 			}
 
-			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::UP);
 			}
 		}
@@ -135,11 +127,11 @@ void CreepSquad::checkMove(Creep* creep)
 	{
 		if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::ENV)
 		{
-			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::LEFT);
 			}
 
-			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::RIGHT);
 			}
 		}
@@ -148,19 +140,17 @@ void CreepSquad::checkMove(Creep* creep)
 	{
 		if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::ENV)
 		{
-			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::LEFT);
 			}
 
-			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH) {
+			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::RIGHT);
 			}
 		}
 	}
 
 	creep->move(map);
-	map->setTile(creep->getLocationX(), creep->getLocationY(), Map::TILE_TYPE::CREEP);
-	map->setTile(locationX, locationY, Map::TILE_TYPE::PATH);
 }
 
 // Checks if a creep has entered an end tile
@@ -173,16 +163,38 @@ bool CreepSquad::checkEndTile(Creep* creep, Player* player)
 	bool creepAtEndTile = false;
 
 	// if the direction the creep is going in has an end tile, set boolean to true
-	if ((direction == Direction::LEFT && map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) ||
-		(direction == Direction::RIGHT && map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) ||
-		(direction == Direction::UP && map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) ||
-		(direction == Direction::DOWN && map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END))
-		creepAtEndTile = true;
+	if (direction == Direction::LEFT)
+	{
+		if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
+			creepAtEndTile = true;
+		}
+	}
+	else if (direction == Direction::RIGHT)
+	{
+		if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) {
+			creepAtEndTile = true;
+		}
+	}
+	else if (direction == Direction::UP)
+	{
+		if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
+			creepAtEndTile = true;
+		}
+	}
+	else
+	{
+		if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
+			creepAtEndTile = true;
+		}
+	}
 
-	// if the creep is at an end tile 
+	// if the creep is at an end tile
 	if (creepAtEndTile) {
 		// remove coins from player according to value of creep's strength
 		player->setCoins(player->getCoins() - creep->getStrength());
+
+		// set tile creep was on back to path
+		map->setTile(locationX, locationY, Map::TILE_TYPE::PATH);
 	}
 
 	// return if a creep has landed on the end tile

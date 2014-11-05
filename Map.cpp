@@ -185,6 +185,10 @@ void Map::drawMap(sf::RenderWindow* w){
 				w->draw(envSprite1);
 				w->draw(endSprite);
 				break;
+			case TILE_TYPE::CREEP:
+				blockSprite.setPosition(i * 24, j * 24);
+				w->draw(blockSprite);
+				break;
 			}
 		}
 }
