@@ -117,8 +117,8 @@ int* Map::getEnd(){
 
 //printing map for testing
 void Map::printMap() const {
-	for (int i = 0; i < (int)map.size(); i++){
-		for (int j = 0; j < (int)map[i].size(); j++)
+	for (int i = 0; i < getRows(); i++){
+		for (int j = 0; j < getCols(); j++)
 			cout << "|" << map[i][j] << "|";
 		cout << "\n";
 	}

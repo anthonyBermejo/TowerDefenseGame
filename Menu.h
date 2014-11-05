@@ -1,6 +1,8 @@
 #pragma once
 #include "TextureManager.h";
 #include "TextMessage.h";
+#include "Map.h"
+#include "MapEditor.h"
 #include "SFML/Graphics.hpp"
 
 
@@ -26,6 +28,11 @@ private:
 
 	TextureManager* tm;
 	sf::RenderWindow* win;
+	MapEditor* editor;
+	Map* map;
+	bool startSet;
+	bool endSet;
+	bool customCreated;
 
 	int selection;
 	enum location{START,SELECT_MAP,MAP_EDIT,LOAD_MAP,CREATE_MAP};

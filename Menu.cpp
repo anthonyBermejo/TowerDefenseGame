@@ -52,12 +52,10 @@ Menu::~Menu(){
 void Menu::update(){
 	titleMsg->drawMessage(win);
 	checkInput();
-
-	/*
+	
 	std::string path;
 	MapEditor* editor;
 	Map* map;
-	*/
 
 	switch (menuLocation){
 	case location::START:
@@ -84,14 +82,12 @@ void Menu::update(){
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
-		/*
 		path = getFilePath();
 		editor = new MapEditor(path);
 		map = editor->getMap();
 		map->setTextureManager(tm);
 		map->drawMap(win);
 		break;
-		*/
 	case location::MAP_EDIT:
 		mapEditor();
 		break;
@@ -121,8 +117,50 @@ std::string Menu::getFilePath(){
 }
 
 void Menu::checkInput(){
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-		cout << "Clicked at: [" << sf::Mouse::getPosition(*win).x/24 << ", " << sf::Mouse::getPosition(*win).y/24 << "]" << endl;
+	bool prevClick = false;
+
+	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+		int x = sf::Mouse::getPosition(*win).y / 24;
+		int y = sf::Mouse::getPosition(*win).x / 24;
+		if (map != NULL){
+			if (map->getTile(x, y) == 0)
+				map->setTile(x, y, 1);
+			else if (map->getTile(x, y) == 1)
+				map->setTile(x, y, 0);
+			map->drawMap(win);
+		}
+		prevClick = true;
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+		int x = sf::Mouse::getPosition(*win).y / 24;
+		int y = sf::Mouse::getPosition(*win).x / 24;
+
+		if (map != NULL){
+			//sets start tile if on edge and not already set
+			if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1)){
+				cout << "start set" << endl;
+				map->setTile(x, y, 2);
+				startSet = true;
+			}
+			else if (startSet && map->getTile(x, y) == Map::START){
+				//removes start tile if right clicked on
+				cout << "start removed" << endl;
+				map->setTile(x, y, Map::ENV);
+				startSet = false;
+			}
+			else if (startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::START){
+				cout << "end set" << endl;
+				map->setTile(x, y, Map::END);
+				endSet = true;
+			}
+			else if (endSet && map->getTile(x, y) == Map::END){
+				//removes end tile if right clicked on
+				cout << "end removed" << endl;
+				map->setTile(x, y, Map::ENV);
+				endSet = false;
+			}
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
@@ -158,19 +196,24 @@ void Menu::mapEditor(){
 	loadMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 	createNewMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 
-	//get user input for dimensions
-	int rows;
-	cout << "Enter number of rows: ";
-	cin >> rows;
-	int cols;
-	cout << "Enter number of columns: ";
-	cin >> cols;
+	int rows = 0;
+	int cols = 0;
 
-	//create and draw map
-	Map map(rows, cols, tm);
-	
-	//win->setSize(sf::Vector2u(rows * 24, cols * 24));
-	map.drawMap(win);
+	if (!customCreated){
+		//get user input for dimensions
+		cout << "Enter number of rows: ";
+		cin >> rows;
+		cout << "Enter number of columns: ";
+		cin >> cols;
+	}
+
+	if (rows != 0 && cols != 0){
+		//create and draw map
+		map = new Map(rows, cols, tm);
+		customCreated = true;
+		win->setSize(sf::Vector2u(cols * 24, rows * 24));
+		map->drawMap(win);
+	}
 	
 	//set mouse action listeners
 	//button clicks
