@@ -22,10 +22,17 @@ MapEditor::MapEditor(std::string path){
 	validateMap();
 }
 
+MapEditor::MapEditor(Map* map){
+	createNewMap(map->getRows(), map->getCols());
+	for (int i = 0; i < map->getRows(); ++i)
+		for (int j = 0; j < map->getCols(); ++j)
+			this->map.setTile(i, j, map->getTile(i, j));
+}
+
 MapEditor::~MapEditor()
 {
-	delete this;
-	//this = NULL;
+	//delete this;
+	//this->map = NULL;
 }
 
 void MapEditor::loadMapFile(std::string mapDir){
@@ -126,6 +133,7 @@ void MapEditor::saveMap(std::string path){
 			row->append_node(tileNode);
 		}
 	}
+	cout << "content: " << output << endl;
 
 	//outputting xml data to file
 	std::ofstream outputFile;

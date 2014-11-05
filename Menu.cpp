@@ -140,31 +140,24 @@ void Menu::checkInput(){
 		int y = sf::Mouse::getPosition(*win).x / 24;
 
 		if (map != NULL){
-			//sets start tile if on edge and not already set
 			if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1)){
-				cout << "start set" << endl;
 				map->setTile(x, y, Map::START);
 				startSet = true;
 			}
 			else if (startSet && map->getTile(x, y) == Map::START){
-				//removes start tile if right clicked on
-				cout << "start removed" << endl;
 				map->setTile(x, y, Map::ENV);
 				startSet = false;
 			}
-			else if (startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::START){
-				cout << "end set" << endl;
+			else if (!endSet && startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::START){
 				map->setTile(x, y, Map::END);
 				endSet = true;
 			}
 			else if (endSet && map->getTile(x, y) == Map::END){
-				//removes end tile if right clicked on
-				cout << "end removed" << endl;
 				map->setTile(x, y, Map::ENV);
 				endSet = false;
 			}
-			prevClick = true;
 		}
+		prevClick = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
@@ -192,7 +185,7 @@ void Menu::checkInput(){
 	else
 		keysPressed[5] = false;
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)){
 		if (!prevClick)
 			prevClick = true;
 	}
@@ -217,12 +210,16 @@ void Menu::mapEditor(){
 	cout << "Enter number of columns: ";
 	cin >> cols;
 	
-
 	//create and draw map
 	map = new Map(rows, cols, tm);
 	customCreated = true;
 	win->setSize(sf::Vector2u(cols * 24, rows * 24));
 	map->drawMap(win);
+
+	/* saves map sent in
+	MapEditor editor(map);
+	editor.saveMap("C:\\hurrdurr.xml");
+	*/
 
 	//set mouse action listeners
 	//button clicks

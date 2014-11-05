@@ -12,6 +12,7 @@ public:
 	MapEditor();
 	MapEditor(std::string mapDir);
 	MapEditor(int rows, int cols);
+	MapEditor(Map* map);
 
 	~MapEditor();
 
