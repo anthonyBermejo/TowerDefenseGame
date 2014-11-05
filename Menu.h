@@ -29,10 +29,12 @@ private:
 	TextureManager* tm;
 	sf::RenderWindow* win;
 	MapEditor* editor;
-	Map* map;
+	Map* map = NULL;
 	bool startSet;
 	bool endSet;
 	bool customCreated;
+	bool mapSelected;
+	bool prevClick;
 
 	int selection;
 	enum location{START,SELECT_MAP,MAP_EDIT,LOAD_MAP,CREATE_MAP};

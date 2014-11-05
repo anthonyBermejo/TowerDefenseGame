@@ -54,8 +54,6 @@ void Menu::update(){
 	checkInput();
 	
 	std::string path;
-	MapEditor* editor;
-	Map* map;
 
 	switch (menuLocation){
 	case location::START:
@@ -72,7 +70,7 @@ void Menu::update(){
 		}
 
 		if (keysPressed[4]){
-			if (selection = 0)
+			if (selection == 0)
 				menuLocation = location::SELECT_MAP;
 			else
 				menuLocation = location::MAP_EDIT;
@@ -82,15 +80,22 @@ void Menu::update(){
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
-		path = getFilePath();
-		editor = new MapEditor(path);
-		map = editor->getMap();
-		map->setTextureManager(tm);
-		map->drawMap(win);
+		if (!mapSelected){
+			path = getFilePath();
+			editor = new MapEditor(path);
+			map = editor->getMap();
+			map->setTextureManager(tm);
+			map->drawMap(win);
+			mapSelected = true;
+		}
 		break;
 	case location::MAP_EDIT:
-		mapEditor();
+		if (!customCreated)
+			mapEditor();
 		break;
+	}
+	if (map != NULL){		//print custom map, not loaded map
+		map->drawMap(win);
 	}
 }
 
@@ -117,8 +122,6 @@ std::string Menu::getFilePath(){
 }
 
 void Menu::checkInput(){
-	bool prevClick = false;
-
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
@@ -132,7 +135,7 @@ void Menu::checkInput(){
 		prevClick = true;
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
 
@@ -140,7 +143,7 @@ void Menu::checkInput(){
 			//sets start tile if on edge and not already set
 			if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1)){
 				cout << "start set" << endl;
-				map->setTile(x, y, 2);
+				map->setTile(x, y, Map::START);
 				startSet = true;
 			}
 			else if (startSet && map->getTile(x, y) == Map::START){
@@ -160,6 +163,7 @@ void Menu::checkInput(){
 				map->setTile(x, y, Map::ENV);
 				endSet = false;
 			}
+			prevClick = true;
 		}
 	}
 
@@ -187,6 +191,13 @@ void Menu::checkInput(){
 		keysPressed[4] = true;
 	else
 		keysPressed[5] = false;
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+		if (!prevClick)
+			prevClick = true;
+	}
+	else
+		prevClick = false;
 }
 
 void Menu::mapEditor(){
@@ -199,22 +210,20 @@ void Menu::mapEditor(){
 	int rows = 0;
 	int cols = 0;
 
-	if (!customCreated){
-		//get user input for dimensions
-		cout << "Enter number of rows: ";
-		cin >> rows;
-		cout << "Enter number of columns: ";
-		cin >> cols;
-	}
-
-	if (rows != 0 && cols != 0){
-		//create and draw map
-		map = new Map(rows, cols, tm);
-		customCreated = true;
-		win->setSize(sf::Vector2u(cols * 24, rows * 24));
-		map->drawMap(win);
-	}
 	
+	//get user input for dimensions
+	cout << "Enter number of rows: ";
+	cin >> rows;
+	cout << "Enter number of columns: ";
+	cin >> cols;
+	
+
+	//create and draw map
+	map = new Map(rows, cols, tm);
+	customCreated = true;
+	win->setSize(sf::Vector2u(cols * 24, rows * 24));
+	map->drawMap(win);
+
 	//set mouse action listeners
 	//button clicks
 	//if tile clicked is grass, set tile. If tile, set grass.
