@@ -185,19 +185,19 @@ void Creep::loadCreepSprites()
 {
 	switch (spriteType)
 	{
-	case SPRITE_TYPE::ELF:
+	case SPRITE_TYPE::BLOB:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(0, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite2.setTextureRect(sf::IntRect(24, 0, 24, 24));
 		break;
-	case SPRITE_TYPE::WOLF:
+	case SPRITE_TYPE::MAGE:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(24*2, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite2.setTextureRect(sf::IntRect(24*3, 0, 24, 24));
 		break;
-	case SPRITE_TYPE::BULL:
+	case SPRITE_TYPE::SKELETON:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(24*4, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
@@ -209,19 +209,19 @@ void Creep::loadCreepSprites()
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite2.setTextureRect(sf::IntRect(24 * 7, 0, 24, 24));
 		break;
-	case SPRITE_TYPE::SKELETON:
+	case SPRITE_TYPE::BULL:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(24 * 8, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite2.setTextureRect(sf::IntRect(24 * 9, 0, 24, 24));
 		break;
-	case SPRITE_TYPE::MAGE:
+	case SPRITE_TYPE::WOLF:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(24 * 10, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite2.setTextureRect(sf::IntRect(24 * 11, 0, 24, 24));
 		break;
-	case SPRITE_TYPE::BLOB:
+	case SPRITE_TYPE::ELF:
 		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1.setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
 		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
