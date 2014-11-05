@@ -7,8 +7,7 @@ CreepSquad::CreepSquad(Map* map, TextureManager* texManager)
 	this->creepSquad = vector<Creep*>(MAX_NUMBER_OF_CREEPS);
 	this->map = map;
 	this->texManager = texManager;
-	//timeElapsed = sf::Time::Zero;
-	timeElapsed = 0;
+	timeElapsed = sf::Time::Zero;
 }
 
 vector<Creep*> CreepSquad::getCreeps(){ return creepSquad; }
@@ -25,23 +24,24 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 
-		// if creep reaches the endtile, delete the object and remove coins from player
-		if (checkEndTile(creepSquad[i], player)) {
+		
+		checkMove(creepSquad[i]);
 
+		if (!checkEndTile(creepSquad[i], player)) {
+			creepSquad[i]->move(map);
+
+			/* Prints out multiple sprites, not removing the one before it */
+			sf::Sprite creepSprite = creepSquad[i]->getSprite();
+			creepSprite.setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+			w->draw(creepSprite);
+		}
+		else {
 			// delete creep object and remove from vector of creeps
 			delete creepSquad[i];
 			creepSquad[i] = NULL;
 			creepSquad.erase(creepSquad.begin() + i);
 			i--;
 		}
-		else
-			// move creep on map
-			checkMove(creepSquad[i]);
-
-		/* Prints out multiple sprites, not removing the one before it */
-		sf::Sprite creepSprite = creepSquad[i]->getSprite();
-		creepSprite.setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
-		w->draw(creepSprite);
 	}
 
 }
@@ -149,8 +149,6 @@ void CreepSquad::checkMove(Creep* creep)
 			}
 		}
 	}
-
-	creep->move(map);
 }
 
 // Checks if a creep has entered an end tile
@@ -193,6 +191,8 @@ bool CreepSquad::checkEndTile(Creep* creep, Player* player)
 		// remove coins from player according to value of creep's strength
 		player->setCoins(player->getCoins() - creep->getStrength());
 
+		cout << "player now has " << player->getCoins() << endl;
+
 		// set tile creep was on back to path
 		map->setTile(locationX, locationY, Map::TILE_TYPE::PATH);
 	}
@@ -215,17 +215,17 @@ void CreepSquad::removeDeadCreeps()
 }
 
 
-void CreepSquad::Update(Player* player, sf::RenderWindow* w, double elapsedTime)
+void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime)
 {
 	timeElapsed += elapsedTime;
 
-	if (timeElapsed >= 2500) {
+	if (timeElapsed >= sf::milliseconds(2500)) {
 		for (int i = 0; i < (int)creepSquad.size(); ++i) {
 			move(player, w);
 		}
 
-		//timeElapsed = sf::Time::Zero;
-		timeElapsed = 0;
+		timeElapsed = sf::Time::Zero;
+
 	}
 }
 

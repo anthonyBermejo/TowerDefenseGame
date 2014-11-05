@@ -18,7 +18,7 @@ public:
 
 	vector<Creep*> getCreeps();
 
-	void Update(Player* player, sf::RenderWindow* w, double elapsedTime);
+	void Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime);
 	void Draw(sf::RenderWindow* w);
 
 private:
@@ -26,8 +26,8 @@ private:
 	Map* map;
 	TextureManager* texManager;
 	vector<Creep*> startingCreepList;
-	//sf::Time timeElapsed;
-	double timeElapsed;
+	sf::Time timeElapsed;
+
 	int startLocationX;
 	int startLocationY;
 

@@ -6,7 +6,7 @@ using namespace std;
 // Constructors
 Player::Player()
 {
-	coins = 0;
+	coins = 500;
 }
 
 // Destructors
