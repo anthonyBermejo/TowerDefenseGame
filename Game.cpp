@@ -11,7 +11,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	this->tm = tm;
 
 	creeps = new CreepSquad(map, tm);
-	player = new Player(tm);
+	player = new Player(tm, gameWindow);
 	towers = vector<Tower*>();
 
 	isRunning = false;
@@ -20,7 +20,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	//reset window size to match that of the map
-	sf::Vector2u windowSize(map->getCols()*24, map->getRows()*24);
+	sf::Vector2u windowSize(map->getCols() * 24, map->getRows() * 24);
 	gameWindow->setSize(windowSize);
 
 	//ui stuff
@@ -28,12 +28,27 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	selectedTower = NULL;
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 	towerTypeToBuild = Tower::TOWER_TYPE::REGULAR;
-	buildRegLoc = sf::Vector2i(10, 10);
-	buildIceLoc = sf::Vector2i(10, 10);
-	buildCanLoc = sf::Vector2i(10, 10);
-	buildSupLoc = sf::Vector2i(10, 10);
-	upgradeTowerLoc = sf::Vector2i(10, 10);
-	destroyTowerLoc = sf::Vector2i(10, 10);
+	buildRegLoc = sf::Vector2i(1, map->getCols() + 1);
+	buildIceLoc = sf::Vector2i(3, map->getCols() + 1);
+	buildCanLoc = sf::Vector2i(1, map->getCols() + 3);
+	buildSupLoc = sf::Vector2i(3, map->getCols() + 3);
+	upgradeTowerLoc = sf::Vector2i(map->getRows() - 3, map->getCols() + 3);
+	destroyTowerLoc = sf::Vector2i(map->getRows() - 1, map->getCols() + 3);
+	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 1);
+
+	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
+	iceTowerText = new TextMessage(tm, "Ice", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
+	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
+	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
+	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x, upgradeTowerLoc.y * 24 + 10));
+	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x, destroyTowerLoc.y * 24 + 10));
+
+
+	towerTypeText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 5));
+	towerUpgradeLevelText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 10));
+	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 15));
+	towerUpgradeCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 20));
+	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 25));
 }
 
 void Game::run() {
@@ -48,8 +63,8 @@ void Game::update() {
 		if (timeElapsed >= frameLength){//restrict to 60fps
 			//process input
 			doInput();
-			
-			
+
+
 			//clear window
 			gameWindow->clear();
 
@@ -57,9 +72,11 @@ void Game::update() {
 			//draw map
 			map->drawMap(gameWindow);
 
-			//update
+			//update logic
+
 			//creeps
-			creeps->move(player, gameWindow);
+			creeps->Update(player, gameWindow, timeElapsed);
+			creeps->Draw(gameWindow);
 
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
@@ -85,11 +102,11 @@ void Game::update() {
 }
 
 void Game::draw(sf::RenderWindow* w) {
-// I don't know, maybe?
+	// I don't know, maybe?
 	if (isRunning) {
 		w->clear();
 		map->drawMap(w);
-		creeps->move(player, w);
+		//creeps->move(player, w);
 		if (towers.size() > 0) {
 			// tower stuff
 		}
@@ -103,14 +120,14 @@ void Game::draw(sf::RenderWindow* w) {
 
 bool Game::levelCleared(CreepSquad* creeps) {
 	//if level was cleared
-		// return true;
+	// return true;
 	return false;
 }
 
 bool Game::gameOver(CreepSquad* creeps) {
-	
+
 	//if game is over
-		// return true;
+	// return true;
 	return false;
 }
 
@@ -127,7 +144,7 @@ void Game::displayFinalScore(sf::RenderWindow* w) {
 sf::Vector2i Game::getMousePosition(){
 	//returns the "tile" position within the game screen
 	//note - each tile is 24/24 pixels
-	
+
 	sf::Vector2i pos = sf::Mouse::getPosition(*gameWindow);
 
 	int xPos = (pos.x / 24) * 24;
@@ -141,7 +158,7 @@ void Game::doInput(){
 	case SELECT_TOWER:
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
-			
+
 			//check if selected tower
 			for (int i = 0; i < towers.size(); ++i){
 				if ((towers[i]->getMapPosition()) == mPos){
@@ -186,6 +203,26 @@ void Game::doInput(){
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
 
+			switch (selectedTower->getType()){
+			case Tower::CANNON:
+				towerTypeText->setMessage("Type: Cannon");
+				break;
+			case Tower::ICE:
+				towerTypeText->setMessage("Type: Ice");
+				break;
+			case Tower::REGULAR:
+				towerTypeText->setMessage("Type: Regular");
+				break;
+			case Tower::SUPER:
+				towerTypeText->setMessage("Type: Super");
+				break;
+			}
+
+			towerUpgradeLevelText->setMessage("Tower Level: " + to_string(selectedTower->getUpgradeLevel()));
+			towerDamageText->setMessage("Damage: " + to_string(selectedTower->getDamage()));
+			towerUpgradeCostText->setMessage("Upgrade Cost: " + to_string(selectedTower->getUpgradeCost()));
+			towerRefundCostText->setMessage("Refund Cost: " + to_string(selectedTower->getRefund()));
+
 			//upgrade tower
 			if (mPos == upgradeTowerLoc && (player->getCoins() - selectedTower->getUpgradeCost()) >= 0){
 				player->setCoins(player->getCoins() - selectedTower->getUpgradeCost());
@@ -213,12 +250,12 @@ void Game::doInput(){
 			sf::Vector2i mPos = getMousePosition();
 			if (map->getTile(mPos.x, mPos.y) == Map::ENV &&
 				(player->getCoins() - Tower::getTowerTypeCost(towerTypeToBuild)) >= 0){
-				
+
 				//search if tower already exists in that place
 				bool found = false;
 				for (int i = 0; !found && i < towers.size(); ++i)
-					if (mPos == towers[i]->getMapPosition())
-						found = true;
+				if (mPos == towers[i]->getMapPosition())
+					found = true;
 
 				if (!found){//YOU CAN BUILD IT :D
 					Tower* t = new Tower(towerTypeToBuild, 1, mPos, creeps, player, tm);
@@ -243,7 +280,7 @@ void Game::doInput(){
 		break;
 
 	}
-	
+
 	//set prevMouseClicked
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
 		if (!mouseClickedPrev)
@@ -259,7 +296,23 @@ bool Game::mouseClicked(){
 }
 
 void Game::drawUI(){
+
+	regTowerText->drawMessage(gameWindow);
+	iceTowerText->drawMessage(gameWindow);
+	cannonTowerText->drawMessage(gameWindow);
+	superTowerText->drawMessage(gameWindow);
+
 	switch (currentInputState){
-		
+	case SELECT_TOWER: // state to create a tower
+		break;
+	case TOWER_SELECTED: // state when a tower is selected
+		towerTypeText->drawMessage(gameWindow);
+		towerUpgradeLevelText->drawMessage(gameWindow);
+		towerDamageText->drawMessage(gameWindow);
+		towerUpgradeCostText->drawMessage(gameWindow);
+		towerRefundCostText->drawMessage(gameWindow);
+		upgradeText->drawMessage(gameWindow);
+		destroyText->drawMessage(gameWindow);
+		break;
 	}
 }

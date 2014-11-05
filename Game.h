@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "CreepSquad.h"
 #include "Tower.h"
+#include "TextMessage.h"
 #include <vector>
 
 class Game {
@@ -37,7 +38,7 @@ private:
 
 	//ui handling
 	Tower* selectedTower;
-	enum INPUT_STATE{SELECT_TOWER,TOWER_SELECTED,PLACE_TOWER};
+	enum INPUT_STATE{ SELECT_TOWER, TOWER_SELECTED, PLACE_TOWER };
 	INPUT_STATE currentInputState;
 	bool mouseClickedPrev;
 	Tower::TOWER_TYPE towerTypeToBuild;
@@ -52,10 +53,22 @@ private:
 	sf::Vector2i buildSupLoc;
 	sf::Vector2i upgradeTowerLoc;
 	sf::Vector2i destroyTowerLoc;
-
+	sf::Vector2i displayTowerSpriteLoc;
 
 	void drawUI();
 
+	// text for panel to build towers
+	TextMessage *regTowerText;
+	TextMessage *iceTowerText;
+	TextMessage *cannonTowerText;
+	TextMessage *superTowerText;
 
-
+	// text for panel when tower is selected
+	TextMessage *towerTypeText;
+	TextMessage *towerDamageText;
+	TextMessage *towerUpgradeCostText;
+	TextMessage *towerRefundCostText;
+	TextMessage *towerUpgradeLevelText;
+	TextMessage *upgradeText;
+	TextMessage *destroyText;
 };
