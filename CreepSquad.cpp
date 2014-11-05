@@ -34,7 +34,17 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 			// set position of the sprite and draw it
 			sf::Sprite creepSprite = creepSquad[i]->getSprite();
 			creepSprite.setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+
+			// draw health bar of creep
+			sf::RectangleShape healthBar;
+			healthBar.setSize(sf::Vector2f(creepSquad[i]->getHitPoints() / 3, 5));
+			healthBar.setFillColor(sf::Color::Red);
+			healthBar.setOutlineColor(sf::Color::Black);
+			healthBar.setPosition(creepSprite.getPosition().x, creepSprite.getPosition().y - 5);
+
+			w->draw(healthBar);
 			w->draw(creepSprite);
+
 		}
 		else {
 			// delete creep object and remove from vector of creeps
