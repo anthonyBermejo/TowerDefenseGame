@@ -4,9 +4,11 @@
 using namespace std;
 
 // Constructors
-Player::Player()
+Player::Player(TextureManager* tm)
 {
 	coins = 500;
+	this->tm = tm;
+	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(120, 10));
 }
 
 // Destructors
@@ -24,6 +26,12 @@ int Player::getCoins() const
 void Player::setCoins(int coins)
 {
 	this->coins = coins;
+	coinsText->setMessage("Coins: " + to_string(coins));
+}
+
+void Player::Draw(sf::RenderWindow* w)
+{
+	coinsText->drawMessage(w);
 }
 
 // Custom methods

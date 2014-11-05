@@ -1,10 +1,13 @@
 #pragma once
 
+#include "TextMessage.h"
+#include "TextureManager.h"
+
 class Player
 {
 public:
 	// constructor
-	Player();
+	Player(TextureManager* tm);
 
 	// destructor
 	virtual ~Player();
@@ -18,7 +21,11 @@ public:
 	// custom methods
 	void printPlayer() const;
 
+	void Draw(sf::RenderWindow* w);
+
 private:
 	int coins;
+	TextMessage* coinsText;
+	TextureManager* tm;
 };
 
