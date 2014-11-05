@@ -14,8 +14,8 @@ vector<Creep*> CreepSquad::getCreeps(){ return creepSquad; }
 
 void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
-	//removeDeadCreeps(); // this code BREAKS
 
+	// remove creeps one at a time from a container list to enter game
 	if (!startingCreepList.empty()) {
 		Creep* creep = startingCreepList.back();
 		creepSquad.push_back(creep);
@@ -24,13 +24,14 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 
-		
+		// check if creep can move, change it's direction
 		checkMove(creepSquad[i]);
 
 		if (!checkEndTile(creepSquad[i], player)) {
+			// move creep along the internal amp
 			creepSquad[i]->move(map);
 
-			/* Prints out multiple sprites, not removing the one before it */
+			// set position of the sprite and draw it
 			sf::Sprite creepSprite = creepSquad[i]->getSprite();
 			creepSprite.setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
 			w->draw(creepSprite);
@@ -54,6 +55,7 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	startLocationX = map->getStart()[0];
 	startLocationY = map->getStart()[1];
 
+	// spawn creeps according to the level
 	switch (level)
 	{
 	case 1:
@@ -220,12 +222,14 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 	timeElapsed += elapsedTime;
 
 	if (timeElapsed >= sf::milliseconds(2500)) {
+
+		removeDeadCreeps();
+
 		for (int i = 0; i < (int)creepSquad.size(); ++i) {
 			move(player, w);
 		}
 
 		timeElapsed = sf::Time::Zero;
-
 	}
 }
 
