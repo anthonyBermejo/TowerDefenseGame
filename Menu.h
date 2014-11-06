@@ -17,8 +17,6 @@ private:
 	TextMessage* playGameMsg;
 	TextMessage* editorMsg;
 	TextMessage* selectMapMsg;
-	TextMessage* loadMsg;
-	TextMessage* createNewMsg;
 	TextMessage* dimensionsMsg;
 
 	TextMessage* userInput;
@@ -29,9 +27,7 @@ private:
 	TextureManager* tm;
 	sf::RenderWindow* win;
 	MapEditor* editor;
-	Map* map = NULL;
-	bool startSet;
-	bool endSet;
+
 	bool customCreated;
 	bool mapSelected;
 	bool prevClick;
@@ -41,6 +37,5 @@ private:
 	location menuLocation;
 
 	void checkInput();
-	void mapEditor();
 	std::string getFilePath();
 };

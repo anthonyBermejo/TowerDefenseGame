@@ -63,7 +63,8 @@ Map::Map(int rows, int cols)
 
 Map::~Map()
 {
-
+	//delete this;
+	//this = NULL;
 }
 
 void Map::setTile(int x, int y, int val){

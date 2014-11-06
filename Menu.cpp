@@ -30,16 +30,12 @@ Menu::~Menu(){
 	delete playGameMsg;
 	delete editorMsg;
 	delete selectMapMsg;
-	delete loadMsg;
-	delete createNewMsg;
 	delete dimensionsMsg;
 
 	titleMsg = NULL;
 	playGameMsg = NULL;
 	editorMsg = NULL;
 	selectMapMsg = NULL;
-	loadMsg = NULL;
-	createNewMsg = NULL;
 	dimensionsMsg = NULL;
 
 	tm = NULL;
@@ -60,7 +56,7 @@ void Menu::update(){
 		if (keysPressed[0] && !keysPressed[2]){//select play game
 			selection = 0;
 			playGameMsg->setMessage("PLAY GAME");
-			editorMsg->setMessage("Map Editor");		
+			editorMsg->setMessage("Map Editor");
 		}
 
 		if (keysPressed[2] && !keysPressed[0]){
@@ -84,24 +80,23 @@ void Menu::update(){
 			path = getFilePath();
 			cout << "path compare: " << path.compare("") << endl;
 			if (path.compare("") != 0) {
+				/*
 				editor = new MapEditor(path);
 				map = editor->getMap();
 				map->printMap();
 				map->setTextureManager(tm);
 				map->drawMap(win);
 				mapSelected = true;
+				*/
 			}
 			else
 				menuLocation = location::START;
 		}
 		break;
 	case location::MAP_EDIT:
-		if (!customCreated)
-			mapEditor();
+		MapEditor editor(tm, win);
+		editor.createCustomMap();
 		break;
-	}
-	if (map != NULL){		//print custom map, not loaded map
-		map->drawMap(win);
 	}
 }
 
@@ -131,12 +126,8 @@ void Menu::checkInput(){
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
-		if (map != NULL){
-			if (map->getTile(x, y) == 0)
-				map->setTile(x, y, 1);
-			else if (map->getTile(x, y) == 1)
-				map->setTile(x, y, 0);
-			map->drawMap(win);
+		if (editor != NULL && x >= 0 && y>= 0){
+			editor->setPath(x, y);
 		}
 		prevClick = true;
 	}
@@ -145,23 +136,8 @@ void Menu::checkInput(){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
 
-		if (map != NULL){
-			if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1)){
-				map->setTile(x, y, Map::START);
-				startSet = true;
-			}
-			else if (startSet && map->getTile(x, y) == Map::START){
-				map->setTile(x, y, Map::ENV);
-				startSet = false;
-			}
-			else if (!endSet && startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::START){
-				map->setTile(x, y, Map::END);
-				endSet = true;
-			}
-			else if (endSet && map->getTile(x, y) == Map::END){
-				map->setTile(x, y, Map::ENV);
-				endSet = false;
-			}
+		if (editor != NULL && x >= 0 && y >= 0){
+			editor->setStartAndEnd(x, y);
 		}
 		prevClick = true;
 	}
@@ -197,41 +173,4 @@ void Menu::checkInput(){
 	}
 	else
 		prevClick = false;
-}
-
-void Menu::mapEditor(){
-	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, 50));
-	createNewMsg = new TextMessage(tm, "New", sf::Vector2f(0, 75));
-
-	loadMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-	createNewMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-
-	int rows = 0;
-	int cols = 0;
-
-	
-	//get user input for dimensions
-	cout << "Enter number of rows: ";
-	cin >> rows;
-	cout << "Enter number of columns: ";
-	cin >> cols;
-	
-	//create and draw map
-	map = new Map(rows, cols, tm);
-	customCreated = true;
-	win->setSize(sf::Vector2u(cols * 24, rows * 24));
-	map->drawMap(win);
-	
-	//Use a window dialog to select where to save the file
-	//saves map sent in
-	MapEditor editor(map);
-	editor.saveMap("C:\\hurrdurr");
-
-	//set mouse action listeners
-	//button clicks
-	//if tile clicked is grass, set tile. If tile, set grass.
-
-	//drawing overlying menu options
-	loadMsg->drawMessage(win);
-	createNewMsg->drawMessage(win);
 }
