@@ -16,7 +16,7 @@ Creep::Creep(TextureManager* texManager)
 	locationY = 0;
 	direction = Direction::RIGHT;
 	spriteType = SPRITE_TYPE::BLOB;
-	texManager = texManager;
+	this->texManager = texManager;
 }
 
 Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction, TextureManager* texManager, SPRITE_TYPE spriteType)

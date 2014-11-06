@@ -71,4 +71,13 @@ private:
 	TextMessage *towerUpgradeLevelText;
 	TextMessage *upgradeText;
 	TextMessage *destroyText;
+	TextMessage *levelText;
+
+	// sprites
+	sf::Sprite* regTowerSprite;
+	sf::Sprite* iceTowerSprite;
+	sf::Sprite* cannonTowerSprite;
+	sf::Sprite* superTowerSprite;
+	sf::Sprite* destroyTowerIcon;
+	sf::Sprite* upgradeTowerIcon;
 };
