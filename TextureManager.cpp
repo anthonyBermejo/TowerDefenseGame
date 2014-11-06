@@ -6,7 +6,7 @@ using namespace std;
 
 const string TextureManager::ENV_TEX_LOC = "test.png";
 const string TextureManager::SPRITE_TEX_LOC = "creeps.png";
-const string TextureManager::UI_TEX_LOC = "white-tower.png";
+const string TextureManager::UI_TEX_LOC = "towerIcons.png";
 const string TextureManager::FONT_TEX_LOC = "thickFont.png";
 const string TextureManager::TOWER_TEX_LOC = "towers.png";
 
