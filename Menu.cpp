@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "MapEditor.h"
+#include "Game.h"
 #include <iostream>
 #include <Windows.h>
 #include <commdlg.h>
@@ -76,19 +77,14 @@ void Menu::update(){
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
-		if (!mapSelected){
-			path = getFilePath();
-			cout << "path compare: " << path.compare("") << endl;
-			if (path.compare("") != 0) {
-				MapEditor editor(path, tm);
-				map = editor.getMap();
-				map->printMap();
-				map->setTextureManager(tm);
-				map->drawMap(win);
-				mapSelected = true;
-			}
-			else
-				menuLocation = location::START;
+		path = getFilePath();
+		cout << "path compare: " << path.compare("") << endl;
+		if (path.compare("") != 0) {
+			MapEditor editor(path, tm);
+			map = editor.getMap();
+			map->printMap();
+			map->setTextureManager(tm);
+			Game game(win, map, tm);
 		}
 		break;
 	case location::MAP_EDIT:
