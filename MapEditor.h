@@ -11,7 +11,7 @@ class MapEditor
 {
 public:
 	MapEditor();
-	MapEditor(std::string mapDir);
+	MapEditor(std::string path, TextureManager* tm);
 	MapEditor(int rows, int cols);
 	MapEditor(Map* map);
 	MapEditor(TextureManager* tm,sf::RenderWindow* win);

@@ -27,6 +27,7 @@ private:
 	TextureManager* tm;
 	sf::RenderWindow* win;
 	MapEditor* editor;
+	Map* map;
 
 	bool customCreated;
 	bool mapSelected;

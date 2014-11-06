@@ -80,14 +80,12 @@ void Menu::update(){
 			path = getFilePath();
 			cout << "path compare: " << path.compare("") << endl;
 			if (path.compare("") != 0) {
-				/*
-				editor = new MapEditor(path);
-				map = editor->getMap();
+				MapEditor editor(path, tm);
+				map = editor.getMap();
 				map->printMap();
 				map->setTextureManager(tm);
 				map->drawMap(win);
 				mapSelected = true;
-				*/
 			}
 			else
 				menuLocation = location::START;

@@ -17,9 +17,15 @@ MapEditor::MapEditor(int rows, int cols){
 	createNewMap(rows, cols);
 }
 
-MapEditor::MapEditor(std::string path){
+MapEditor::MapEditor(std::string path, TextureManager* tm){
+	this->tm = tm;
 	loadMapFile(path);
 	validateMap();
+}
+
+MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win){
+	this->tm = tm;
+	this->win = win;
 }
 
 MapEditor::MapEditor(Map* map){
@@ -27,6 +33,32 @@ MapEditor::MapEditor(Map* map){
 	for (int i = 0; i < map->getRows(); ++i)
 		for (int j = 0; j < map->getCols(); ++j)
 			this->map.setTile(i, j, map->getTile(i, j));
+}
+
+void MapEditor::setPath(int x, int y){
+	if (map.getTile(x, y) == 0)
+		map.setTile(x, y, 1);
+	else if (map.getTile(x, y) == 1)
+		map.setTile(x, y, 0);
+}
+
+void MapEditor::setStartAndEnd(int x, int y){
+	if (!startSet && (x == 0 || y == 0 || x == map.getRows() - 1 || y == map.getCols() - 1)){
+		map.setTile(x, y, Map::START);
+		startSet = true;
+	}
+	else if (startSet && map.getTile(x, y) == Map::START){
+		map.setTile(x, y, Map::ENV);
+		startSet = false;
+	}
+	else if (!endSet && startSet && (x == 0 || y == 0 || x == map.getRows() - 1 || y == map.getCols() - 1) && map.getTile(x, y) != Map::START){
+		map.setTile(x, y, Map::END);
+		endSet = true;
+	}
+	else if (endSet && map.getTile(x, y) == Map::END){
+		map.setTile(x, y, Map::ENV);
+		endSet = false;
+	}
 }
 
 MapEditor::~MapEditor()
@@ -145,7 +177,7 @@ void MapEditor::saveMap(std::string path){
 }
 
 void MapEditor::createNewMap(int rows, int cols){
-	this->map = Map(rows, cols);
+	this->map = Map(rows, cols, tm);
 }
 
 void MapEditor::createCustomMap(){
@@ -162,6 +194,25 @@ void MapEditor::createCustomMap(){
 	if (rows <= Map::MAX_MAP_HEIGHT && rows >= Map::MIN_MAP_HEIGHT &&
 		cols <= Map::MAX_MAP_WIDTH && cols >= Map::MIN_MAP_WIDTH)
 		createNewMap(rows, cols);
+
+	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
+
+	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 48));
+	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f(cols/4, win->getSize().y - 48));
+	backMsg = new TextMessage(tm, "Back", sf::Vector2f(cols/2, win->getSize().y - 48));
+	createNewMsg = new TextMessage(tm, "New", sf::Vector2f((cols/4)*3, win->getSize().y - 48));
+
+	loadMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	saveMapMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	backMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	createNewMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+
+	map.drawMap(win);
+
+	loadMsg->drawMessage(win);
+	saveMapMsg->drawMessage(win);
+	backMsg->drawMessage(win);
+	createNewMsg->drawMessage(win);
 
 	printMap();
 }
