@@ -8,7 +8,7 @@ using namespace std;
 Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols), texManager(texManager)
 {
 	this->map = std::vector<std::vector<int> >(rows, std::vector<int>(cols, 0));
-
+	//pathTest();
 	//create sprites
 
 	envSprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));

@@ -12,9 +12,9 @@ class MapEditor
 public:
 	MapEditor();
 	MapEditor(std::string path, TextureManager* tm);
-	MapEditor(int rows, int cols);
+	//MapEditor(int rows, int cols);
 	MapEditor(Map* map);
-	MapEditor(TextureManager* tm,sf::RenderWindow* win);
+	MapEditor(TextureManager* tm, sf::RenderWindow* win);
 
 	~MapEditor();
 
@@ -23,6 +23,7 @@ public:
 	void setStartAndEnd(int x, int y);
 	void saveMap(std::string saveDir);
 	void validityTest();
+	void loadMapFile(std::string mapDir);
 	void setTile(int row, int col, int val);
 	Map* getMap();
 private:
@@ -41,7 +42,6 @@ private:
 	bool isConnected(int x, int y) const;
 	bool validateMap() const;
 	void createNewMap(int rows, int cols);
-	void loadMapFile(std::string mapDir);
 	void importMap() const;
 	void printMap() const;
 };

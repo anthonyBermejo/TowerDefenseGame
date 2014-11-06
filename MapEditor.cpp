@@ -13,9 +13,11 @@ MapEditor::MapEditor()
 	createCustomMap();
 }
 
+/*
 MapEditor::MapEditor(int rows, int cols){
-	createNewMap(rows, cols);
+createNewMap(rows, cols);
 }
+*/
 
 MapEditor::MapEditor(std::string path, TextureManager* tm){
 	this->tm = tm;
@@ -119,7 +121,7 @@ void MapEditor::loadMapFile(std::string mapDir){
 }
 
 void MapEditor::saveMap(std::string path){
-	//if (validateMap()){
+	if (validateMap()){
 		//used as temp holding to convert c_str() to xml string
 		char* val;
 
@@ -172,12 +174,14 @@ void MapEditor::saveMap(std::string path){
 		outputFile.open(path + ".tdm");
 		outputFile << output;
 		outputFile.close();
-	//} else
-		//cout << "Failed to save map: Map is not valid.";
+	}
+	else
+		cout << "Failed to save map: Map is not valid.\n";
 }
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = Map(rows, cols, tm);
+	//saveMap("C:\\hurr");
 }
 
 void MapEditor::createCustomMap(){
@@ -197,15 +201,19 @@ void MapEditor::createCustomMap(){
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 
-	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 48));
-	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f(cols/4, win->getSize().y - 48));
-	backMsg = new TextMessage(tm, "Back", sf::Vector2f(cols/2, win->getSize().y - 48));
-	createNewMsg = new TextMessage(tm, "New", sf::Vector2f((cols/4)*3, win->getSize().y - 48));
+	int margin = 0;
 
-	loadMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-	saveMapMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-	backMsg->setScale(sf::Vector2f(3.0f, 3.0f));
-	createNewMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 30));
+	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f((cols / 4) * 24, win->getSize().y - 30));
+	backMsg = new TextMessage(tm, "Back", sf::Vector2f((cols / 2) * 24, win->getSize().y - 30));
+	createNewMsg = new TextMessage(tm, "New", sf::Vector2f(((cols / 4) * 3) * 24, win->getSize().y - 30));
+
+	float scale = cols < 17 ? 1.0 : 2.0;
+
+	loadMsg->setScale(sf::Vector2f(scale, scale));
+	saveMapMsg->setScale(sf::Vector2f(scale, scale));
+	backMsg->setScale(sf::Vector2f(scale, scale));
+	createNewMsg->setScale(sf::Vector2f(scale, scale));
 
 	map.drawMap(win);
 
@@ -247,30 +255,30 @@ bool MapEditor::validateMap() const{
 	// checking top and bottom rows
 	for (int col = 1; col < map.getCols() - 1; col++){
 		if (map.getTile(0, col) == 3)
-		if (!start){
+			if (!start){
 			start = true;
 			startX = 0;
 			startY = col;
-		}
-		else
-			//if multiple starts are found
-			return false;
+			}
+			else
+				//if multiple starts are found
+				return false;
 		else if (map.getTile(map.getRows() - 1, col) == 3)
-		if (!start){
+			if (!start){
 			start = true;
 			startX = map.getRows() - 1;
 			startY = col;
-		}
-		else
-			//if multiple starts are found
-			return false;
+			}
+			else
+				//if multiple starts are found
+				return false;
 		if (map.getTile(0, col) == 4 || map.getTile(map.getRows() - 1, col) == 4)
-		if (!end) {
+			if (!end) {
 			end = true;
-		}
-		else { //if multiple ends are found
-			return false;
-		}
+			}
+			else { //if multiple ends are found
+				return false;
+			}
 	}
 	// checking first and last columns
 	for (int row = 1; row < map.getRows() - 1; row++){
@@ -297,13 +305,13 @@ bool MapEditor::validateMap() const{
 			}
 		}
 		if (map.getTile(row, 0) == 4 || map.getTile(row, map.getCols() - 1) == 4)
-		if (!end) {
+			if (!end) {
 			end = true;
-		}
-		else {
-			//if multiple ends are found
-			return false;
-		}
+			}
+			else {
+				//if multiple ends are found
+				return false;
+			}
 	}
 
 	if (startX != 0 || startY != 0)

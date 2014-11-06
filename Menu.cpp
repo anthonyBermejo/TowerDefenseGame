@@ -1,6 +1,5 @@
 #include "Menu.h"
 #include "MapEditor.h"
-#include "Game.h"
 #include <iostream>
 #include <Windows.h>
 #include <commdlg.h>
@@ -10,7 +9,7 @@ using namespace std;
 Menu::Menu(TextureManager* tm, sf::RenderWindow* win) :tm(tm), win(win){
 	titleMsg = new TextMessage(tm, "Tower Defense", sf::Vector2f(0, 0));
 	titleMsg->setScale(sf::Vector2f(4.0f, 4.0f));
-	playGameMsg = new TextMessage(tm, "PLAY GAME", sf::Vector2f(0,100));
+	playGameMsg = new TextMessage(tm, "PLAY GAME", sf::Vector2f(0, 100));
 	playGameMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 	editorMsg = new TextMessage(tm, "Map Editor", sf::Vector2f(0, 150));
 	editorMsg->setScale(sf::Vector2f(3.0f, 3.0f));
@@ -41,7 +40,7 @@ Menu::~Menu(){
 
 	tm = NULL;
 	win = NULL;
-	
+
 	//delete[] keysPressed;
 	//keysPressed = NULL;
 }
@@ -49,7 +48,7 @@ Menu::~Menu(){
 void Menu::update(){
 	titleMsg->drawMessage(win);
 	checkInput();
-	
+
 	std::string path;
 
 	switch (menuLocation){
@@ -81,10 +80,8 @@ void Menu::update(){
 		cout << "path compare: " << path.compare("") << endl;
 		if (path.compare("") != 0) {
 			MapEditor editor(path, tm);
+			//here is you Map instance, my dear sir.
 			map = editor.getMap();
-			map->printMap();
-			map->setTextureManager(tm);
-			Game game(win, map, tm);
 		}
 		break;
 	case location::MAP_EDIT:
@@ -120,10 +117,45 @@ void Menu::checkInput(){
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
-		if (editor != NULL && x >= 0 && y>= 0){
-			editor->setPath(x, y);
+		if (editor != NULL && x >= 0 && y >= 0){
+			map = editor->getMap();
+			if (x >= 0 && y >= 0 && y <= map->getRows()){
+				cout << "clicking on map";
+				//clicking on map.
+				editor->setPath(x, y);
+			}
+			else if (y > map->getRows()){
+				//clicking on map editor buttons.
+				int margin = map->getCols() / 4;
+				if (x < margin){
+					//clicking on Load
+					cout << "clicking on load";
+					std::string path;
+					path = getFilePath();
+					if (path.compare("") != 0) {
+						editor->loadMapFile(path);
+					}
+				}
+				else if (x > margin){
+					//clicking on Save
+					std::string path;
+					cout << "Enter path and file name to save to: ";
+					cin >> path;
+					editor->saveMap(path);
+				}
+				else if (x > margin * 2){
+					cout << "clicking on back";
+					//return to menu via Alex's MainClass
+				}
+				else{
+					cout << "clicking on new";
+					editor->createCustomMap();
+				}
+			}
 		}
 		prevClick = true;
+
+
 	}
 
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
