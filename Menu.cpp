@@ -1,8 +1,6 @@
 #include "Menu.h"
 #include "MapEditor.h"
 #include <iostream>
-#include <Windows.h>
-#include <commdlg.h>
 
 using namespace std;
 
@@ -19,6 +17,8 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win) :tm(tm), win(win){
 
 	this->tm = tm;
 	this->win = win;
+	
+	editor = new MapEditor(tm, win);
 
 	keysPressed = new bool[5];//up,right,down,left,enter
 	for (int i = 0; i < 5; ++i)
@@ -76,98 +76,22 @@ void Menu::update(){
 		editorMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
-		path = getFilePath();
+		path = editor->getFilePath();
 		cout << "path compare: " << path.compare("") << endl;
 		if (path.compare("") != 0) {
-			MapEditor editor(path, tm);
-			//here is you Map instance, my dear sir.
-			map = editor.getMap();
+			editor->loadMapFile(path);
+			//here is your Map instance, my dear sir.
+			map = editor->getMap();
 		}
 		break;
 	case location::MAP_EDIT:
-		MapEditor editor(tm, win);
-		editor.createCustomMap();
+		editor->createCustomMap();
 		break;
 	}
-}
 
-std::string Menu::getFilePath(){
-	OPENFILENAME ofn;
-	char szFile[100];
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFile = szFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(szFile);
-	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFilter = "Tower Defence Map File\0*.tdm\00";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	GetOpenFileName(&ofn);
-
-	return ofn.lpstrFile;
 }
 
 void Menu::checkInput(){
-	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-		int x = sf::Mouse::getPosition(*win).y / 24;
-		int y = sf::Mouse::getPosition(*win).x / 24;
-		if (editor != NULL && x >= 0 && y >= 0){
-			map = editor->getMap();
-			if (x >= 0 && y >= 0 && y <= map->getRows()){
-				cout << "clicking on map";
-				//clicking on map.
-				editor->setPath(x, y);
-			}
-			else if (y > map->getRows()){
-				//clicking on map editor buttons.
-				int margin = map->getCols() / 4;
-				if (x < margin){
-					//clicking on Load
-					cout << "clicking on load";
-					std::string path;
-					path = getFilePath();
-					if (path.compare("") != 0) {
-						editor->loadMapFile(path);
-					}
-				}
-				else if (x > margin){
-					//clicking on Save
-					std::string path;
-					cout << "Enter path and file name to save to: ";
-					cin >> path;
-					editor->saveMap(path);
-				}
-				else if (x > margin * 2){
-					cout << "clicking on back";
-					//return to menu via Alex's MainClass
-				}
-				else{
-					cout << "clicking on new";
-					editor->createCustomMap();
-				}
-			}
-		}
-		prevClick = true;
-
-
-	}
-
-	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
-		int x = sf::Mouse::getPosition(*win).y / 24;
-		int y = sf::Mouse::getPosition(*win).x / 24;
-
-		if (editor != NULL && x >= 0 && y >= 0){
-			editor->setStartAndEnd(x, y);
-		}
-		prevClick = true;
-	}
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
 		keysPressed[0] = true;
 	else

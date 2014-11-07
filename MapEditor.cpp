@@ -1,6 +1,8 @@
 #include "MapEditor.h"
 #include "rapidxml.hpp"
 #include "rapidxml_print.hpp"
+#include <Windows.h>
+#include <commdlg.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -61,12 +63,6 @@ void MapEditor::setStartAndEnd(int x, int y){
 		map.setTile(x, y, Map::ENV);
 		endSet = false;
 	}
-}
-
-MapEditor::~MapEditor()
-{
-	//delete this;
-	//this->map = NULL;
 }
 
 void MapEditor::loadMapFile(std::string mapDir){
@@ -452,4 +448,81 @@ void MapEditor::validityTest(){
 	map.setTile(5, 2, Map::END);
 
 	validateMap();
+}
+void MapEditor::update(){
+	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+		int x = sf::Mouse::getPosition(*win).y / 24;
+		int y = sf::Mouse::getPosition(*win).x / 24;
+		if (x >= 0 && y >= 0){
+			if (x >= 0 && y >= 0 && y <= map.getRows()){
+				cout << "clicking on map";
+				//clicking on map.
+				setPath(x, y);
+			}
+			else if (y > map.getRows()){
+				//clicking on map editor buttons.
+				int margin = map.getCols() / 4;
+				if (x < margin){
+					//clicking on Load
+					cout << "clicking on load";
+					std::string path;
+					path = getFilePath();
+					if (path.compare("") != 0) {
+						loadMapFile(path);
+					}
+				}
+				else if (x > margin){
+					//clicking on Save
+					std::string path;
+					cout << "Enter path and file name to save to: ";
+					cin >> path;
+					saveMap(path);
+				}
+				else if (x > margin * 2){
+					cout << "clicking on back";
+					//return to menu via Alex's MainClass
+				}
+				else{
+					cout << "clicking on new";
+					createCustomMap();
+				}
+			}
+		}
+		prevClick = true;
+
+
+	}
+
+	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+		int x = sf::Mouse::getPosition(*win).y / 24;
+		int y = sf::Mouse::getPosition(*win).x / 24;
+
+		if (x >= 0 && y >= 0){
+			setStartAndEnd(x, y);
+		}
+		prevClick = true;
+	}
+
+}
+
+std::string MapEditor::getFilePath(){
+	OPENFILENAME ofn;
+	char szFile[100];
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFile = szFile;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFilter = "Tower Defence Map File\0*.tdm\00";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&ofn);
+
+	return ofn.lpstrFile;
 }

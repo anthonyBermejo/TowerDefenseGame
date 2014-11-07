@@ -25,6 +25,8 @@ public:
 	void validityTest();
 	void loadMapFile(std::string mapDir);
 	void setTile(int row, int col, int val);
+	void update();
+	std::string getFilePath();
 	Map* getMap();
 private:
 	Map map;
@@ -37,6 +39,7 @@ private:
 	TextMessage* loadMsg;
 	TextMessage* createNewMsg;
 
+	bool prevClick;
 	bool startSet;
 	bool endSet;
 	bool isConnected(int x, int y) const;
