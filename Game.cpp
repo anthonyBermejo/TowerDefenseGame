@@ -22,22 +22,21 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	// create window according to the map size
-	gameWindow->create(sf::VideoMode(map->getCols() * 24 + 20, (map->getRows() + 5 )* 24), "Tower Defense");
+	gameWindow->create(sf::VideoMode((map->getCols() + 5) * 24, (map->getRows() + 8 )* 24), "Tower Defense");
 
 	// ui stuff
 	mouseClickedPrev = false;
 	selectedTower = NULL;
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 	towerTypeToBuild = Tower::TOWER_TYPE::REGULAR;
-	buildRegLoc = sf::Vector2i(1, map->getCols() + 1);
-	buildIceLoc = sf::Vector2i(4, map->getCols() + 1);
-	buildCanLoc = sf::Vector2i(1, map->getCols() + 3);
-	buildSupLoc = sf::Vector2i(4, map->getCols() + 3);
-	upgradeTowerLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 3);
-	destroyTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 3);
-	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 1);
+	buildRegLoc = sf::Vector2i(1, map->getCols() + 3);
+	buildIceLoc = sf::Vector2i(4, map->getCols() + 3);
+	buildCanLoc = sf::Vector2i(1, map->getCols() + 5);
+	buildSupLoc = sf::Vector2i(4, map->getCols() + 5);
+	upgradeTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 5);
+	destroyTowerLoc = sf::Vector2i(map->getRows() + 2, map->getCols() + 5);
+	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 3);
 
-	
 
 	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));

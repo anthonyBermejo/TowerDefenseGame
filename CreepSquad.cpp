@@ -70,32 +70,59 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	switch (level)
 	{
 	case 1:
-		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 10, 50, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
 		break;
 	case 2:
-		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
 		break;
 	case 3:
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
 		break;
 	case 4:
-		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		break;
+	case 5:
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		break;
+	case 6:
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		break;
+	case 7:
+		startingCreepList.push_back(new Creep(1000, 1, 25, 1000, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::OGRE));
 		break;
 	}
 
