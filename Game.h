@@ -75,6 +75,7 @@ private:
 	// constant texts drawn
 	TextMessage *levelText;
 	TextMessage *healthText;
+	TextMessage *coinsText;
 
 	// sprites
 	sf::Sprite* regTowerSprite;

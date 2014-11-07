@@ -22,7 +22,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	// create window according to the map size
-	gameWindow->create(sf::VideoMode(map->getCols() * 24, (map->getRows() + 5 )* 24), "Tower Defense");
+	gameWindow->create(sf::VideoMode(map->getCols() * 24 + 20, (map->getRows() + 5 )* 24), "Tower Defense");
 
 	// ui stuff
 	mouseClickedPrev = false;
@@ -53,6 +53,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 25));
 	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
 	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
+	coinsText = new TextMessage(tm, "Coins " + to_string(player->getCoins()), sf::Vector2f(map->getRows() * 24 + 5, 30));
 
 	// sprites to be displayed on screen
 	regTowerSprite = new sf::Sprite();
@@ -107,6 +108,7 @@ void Game::update() {
 			creeps->Update(player, gameWindow, timeElapsed);
 
 			healthText->setMessage("HP " + to_string(player->getHealth()));
+			coinsText->setMessage("Coins " + to_string(player->getCoins()));
 
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
@@ -352,6 +354,7 @@ void Game::drawUI(){
 	superTowerText->drawMessage(gameWindow);
 	levelText->drawMessage(gameWindow);
 	healthText->drawMessage(gameWindow);
+	coinsText->drawMessage(gameWindow);
 
 	switch (currentInputState){
 	case SELECT_TOWER: // state to create a tower

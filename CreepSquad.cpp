@@ -219,6 +219,8 @@ void CreepSquad::removeDeadCreeps()
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 		if (creepSquad[i]->getHitPoints() <= 0) {
 			// delete creep object and remove from vector of creeps
+			map->setTile(creepSquad[i]->getLocationX(), creepSquad[i]->getLocationY(), Map::PATH);
+
 			delete creepSquad[i];
 			creepSquad[i] = NULL;
 			creepSquad.erase(creepSquad.begin() + i);
