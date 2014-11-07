@@ -37,7 +37,8 @@ public:
 
 	void drawMap(sf::RenderWindow* w);
 	void setTextureManager(TextureManager* tm);
-	void pathTest();
+	
+	
 private:
 	int start[2];
 	int end[2];
@@ -60,5 +61,10 @@ private:
 	sf::Sprite startSprite;// start
 	sf::Sprite endSprite;  // end
 	sf::Sprite blockSprite;// block path
+
+	void startTest();
+	void endTest();
+	void brokenTest();
+	void pathTest();
 };
 

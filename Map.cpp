@@ -8,7 +8,18 @@ using namespace std;
 Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols), texManager(texManager)
 {
 	this->map = std::vector<std::vector<int> >(rows, std::vector<int>(cols, 0));
-	//pathTest();
+	
+	//Test cases to demonstrate map validation
+	if (rows == 11 && cols == 11)
+		startTest();
+	else if (rows == 10 && cols == 10)
+		endTest();
+	else if (rows == 9 && cols == 9)
+		brokenTest();
+	else if (rows == 8 && cols == 8)
+		pathTest();
+
+
 	//create sprites
 
 	envSprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
@@ -175,15 +186,15 @@ void Map::drawMap(sf::RenderWindow* w){
 				break;
 			case TILE_TYPE::START:
 				//drawPath(w);
-				envSprite1.setPosition(i * 24, j * 24);
+				blockSprite.setPosition(i * 24, j * 24);
 				startSprite.setPosition(i * 24, j * 24);
-				w->draw(envSprite1);
+				w->draw(blockSprite);
 				w->draw(startSprite);
 				break;
 			case TILE_TYPE::END:
-				envSprite1.setPosition(i * 24, j * 24);
+				blockSprite.setPosition(i * 24, j * 24);
 				endSprite.setPosition(i * 24, j * 24);
-				w->draw(envSprite1);
+				w->draw(blockSprite);
 				w->draw(endSprite);
 				break;
 			case TILE_TYPE::CREEP:
@@ -217,7 +228,82 @@ void Map::pathTest(){
 	setTile(2, 6, Map::PATH);
 	setTile(3, 6, Map::PATH);
 	setTile(4, 6, Map::PATH);
+}
 
+void Map::startTest(){
+	//setting start and end
+	setTile(4, 10, Map::END);
+
+	//creating path
+	setTile(1, 1, Map::PATH);
+	setTile(1, 2, Map::PATH);
+	setTile(2, 2, Map::PATH);
+	setTile(3, 2, Map::PATH);
+	setTile(3, 1, Map::PATH);
+	setTile(4, 1, Map::PATH);
+	setTile(5, 1, Map::PATH);
+	setTile(5, 2, Map::PATH);
+	setTile(5, 3, Map::PATH);
+	setTile(4, 3, Map::PATH);
+	setTile(4, 4, Map::PATH);
+	setTile(3, 4, Map::PATH);
+	setTile(2, 4, Map::PATH);
+	setTile(2, 5, Map::PATH);
+	setTile(2, 6, Map::PATH);
+	setTile(3, 6, Map::PATH);
+	setTile(4, 6, Map::PATH);
+	setTile(4, 7, Map::PATH);
+	setTile(4, 8, Map::PATH);
+	setTile(4, 9, Map::PATH);
+}
+
+void Map::endTest(){
+	//setting start and end
+	setTile(1, 0, Map::START);
+
+	//creating path
+	setTile(1, 1, Map::PATH);
+	setTile(1, 2, Map::PATH);
+	setTile(2, 2, Map::PATH);
+	setTile(3, 2, Map::PATH);
+	setTile(3, 1, Map::PATH);
+	setTile(4, 1, Map::PATH);
+	setTile(5, 1, Map::PATH);
+	setTile(5, 2, Map::PATH);
+	setTile(5, 3, Map::PATH);
+	setTile(4, 3, Map::PATH);
+	setTile(4, 4, Map::PATH);
+	setTile(3, 4, Map::PATH);
+	setTile(2, 4, Map::PATH);
+	setTile(2, 5, Map::PATH);
+	setTile(2, 6, Map::PATH);
+	setTile(3, 6, Map::PATH);
+	setTile(4, 6, Map::PATH);
+	setTile(4, 7, Map::PATH);
+	setTile(4, 8, Map::PATH);
+}
+
+void Map::brokenTest(){
+	//setting start and end
+	setTile(1, 0, Map::START);
+	setTile(2, 8, Map::END);
+
+	//creating path
+	setTile(1, 1, Map::PATH);
+	setTile(1, 2, Map::PATH);
+	setTile(2, 2, Map::PATH);
+	setTile(3, 2, Map::PATH);
+	setTile(3, 1, Map::PATH);
+	setTile(4, 1, Map::PATH);
+	setTile(5, 1, Map::PATH);
+	setTile(5, 2, Map::PATH);
+	setTile(5, 3, Map::PATH);
+	setTile(4, 3, Map::PATH);
+	setTile(4, 4, Map::PATH);
+	setTile(3, 4, Map::PATH);
+	setTile(2, 4, Map::PATH);
+	setTile(2, 5, Map::PATH);
+	setTile(2, 7, Map::PATH);
 }
 
 void Map::drawPath(sf::RenderWindow* w){
