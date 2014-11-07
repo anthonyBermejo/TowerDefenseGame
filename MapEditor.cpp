@@ -181,7 +181,7 @@ void MapEditor::saveMap(std::string path){
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = Map(rows, cols, tm);
-	//saveMap("C:\\hurr");
+	saveMap("C:\\hurr");
 }
 
 void MapEditor::createCustomMap(){
@@ -254,7 +254,7 @@ bool MapEditor::validateMap() const{
 	//find start and end and setting x and y of start
 	// checking top and bottom rows
 	for (int col = 1; col < map.getCols() - 1; col++){
-		if (map.getTile(0, col) == 3)
+		if (map.getTile(0, col) == Map::START)
 			if (!start){
 			start = true;
 			startX = 0;
@@ -263,7 +263,7 @@ bool MapEditor::validateMap() const{
 			else
 				//if multiple starts are found
 				return false;
-		else if (map.getTile(map.getRows() - 1, col) == 3)
+		else if (map.getTile(map.getRows() - 1, col) == Map::START)
 			if (!start){
 			start = true;
 			startX = map.getRows() - 1;
@@ -272,7 +272,7 @@ bool MapEditor::validateMap() const{
 			else
 				//if multiple starts are found
 				return false;
-		if (map.getTile(0, col) == 4 || map.getTile(map.getRows() - 1, col) == 4)
+		if (map.getTile(0, col) == Map::END || map.getTile(map.getRows() - 1, col) == Map::END)
 			if (!end) {
 			end = true;
 			}
@@ -282,7 +282,7 @@ bool MapEditor::validateMap() const{
 	}
 	// checking first and last columns
 	for (int row = 1; row < map.getRows() - 1; row++){
-		if (map.getTile(row, 0) == 3){
+		if (map.getTile(row, 0) == Map::START){
 			if (!start){
 				start = true;
 				startX = row;
@@ -293,7 +293,7 @@ bool MapEditor::validateMap() const{
 				return false;
 			}
 		}
-		else if (map.getTile(row, map.getCols() - 1) == 3){
+		else if (map.getTile(row, map.getCols() - 1) == Map::START){
 			if (!start){
 				start = true;
 				startX = row;
@@ -304,7 +304,7 @@ bool MapEditor::validateMap() const{
 				return false;
 			}
 		}
-		if (map.getTile(row, 0) == 4 || map.getTile(row, map.getCols() - 1) == 4)
+		if (map.getTile(row, 0) == Map::END || map.getTile(row, map.getCols() - 1) == Map::END)
 			if (!end) {
 			end = true;
 			}
@@ -337,21 +337,21 @@ bool MapEditor::isConnected(int x, int y) const{
 	//moves along the path, identifying path tiles to the north, east, south, and west, depending on the current (x, y) position.
 	do {
 		//checking is path ending is next
-		if (map.getTile(x + 1, y) == 4 || map.getTile(x - 1, y) == 4 || map.getTile(x, y + 1) == 4 || map.getTile(x, y - 1) == 4){
+		if (map.getTile(x + 1, y) == Map::END || map.getTile(x - 1, y) == Map::END || map.getTile(x, y + 1) == Map::END || map.getTile(x, y - 1) == Map::END){
 			break;
 		}
 		else if (dir == 'n'){		//if heading north, check other directions
 			//path goes east
-			if (map.getTile(x, y + 1) == 1){
+			if (map.getTile(x, y + 1) == Map::PATH){
 				dir = 'e';
 				++y;
 			}
 			//path goes north
-			else if (map.getTile(x - 1, y) == 1) {
+			else if (map.getTile(x - 1, y) == Map::PATH) {
 				--x;
 			}
 			//path goes west
-			else if (map.getTile(x, y - 1) == 1){
+			else if (map.getTile(x, y - 1) == Map::PATH){
 				dir = 'w';
 				--y;
 			}
@@ -361,16 +361,16 @@ bool MapEditor::isConnected(int x, int y) const{
 		}
 		else if (dir == 'e'){		//if heading east, check other directions
 			//path goes south
-			if (map.getTile(x + 1, y) == 1) {
+			if (map.getTile(x + 1, y) == Map::PATH) {
 				dir = 's';
 				++x;
 			}
 			//path goes east
-			else if (map.getTile(x, y + 1) == 1) {
+			else if (map.getTile(x, y + 1) == Map::PATH) {
 				++y;
 			}
 			//path goes north
-			else if (map.getTile(x - 1, y) == 1) {
+			else if (map.getTile(x - 1, y) == Map::PATH) {
 				dir = 'n';
 				--x;
 			}
@@ -380,16 +380,16 @@ bool MapEditor::isConnected(int x, int y) const{
 		}
 		else if (dir == 's'){	//if heading south, check other directions
 			//path goes west
-			if (map.getTile(x, y - 1) == 1) {
+			if (map.getTile(x, y - 1) == Map::PATH) {
 				dir = 'w';
 				--y;
 			}
 			//path goes south
-			else if (map.getTile(x + 1, y) == 1){
+			else if (map.getTile(x + 1, y) == Map::PATH){
 				++x;
 			}
 			//path goes east
-			else if (map.getTile(x, y + 1) == 1) {
+			else if (map.getTile(x, y + 1) == Map::PATH) {
 				dir = 'e';
 				++y;
 			}
@@ -399,16 +399,16 @@ bool MapEditor::isConnected(int x, int y) const{
 		}
 		else if (dir == 'w'){	//if heading west, check other directions
 			//path goes north
-			if (map.getTile(x - 1, y) == 1){
+			if (map.getTile(x - 1, y) == Map::PATH){
 				dir = 'n';
 				--x;
 			}
 			//path goes west
-			else if (map.getTile(x, y - 1) == 1) {
+			else if (map.getTile(x, y - 1) == Map::PATH) {
 				++y;
 			}
 			//path goes south
-			else if (map.getTile(x + 1, y) == 1) {
+			else if (map.getTile(x + 1, y) == Map::PATH) {
 				dir = 's';
 				++x;
 			}
@@ -424,32 +424,32 @@ bool MapEditor::isConnected(int x, int y) const{
 //For testing only
 void MapEditor::validityTest(){
 	//setting start and end
-	map.setTile(1, 0, 3);
-	map.setTile(4, 7, 4);
+	map.setTile(1, 0, Map::START);
+	map.setTile(4, 7, Map::END);
 
 	//creating path
-	map.setTile(1, 1, 1);
-	map.setTile(1, 2, 1);
-	map.setTile(2, 2, 1);
-	map.setTile(3, 2, 1);
-	map.setTile(3, 1, 1);
-	map.setTile(4, 1, 1);
-	map.setTile(5, 1, 1);
-	map.setTile(5, 2, 1);
-	map.setTile(5, 3, 1);
-	map.setTile(4, 3, 1);
-	map.setTile(4, 4, 1);
-	map.setTile(3, 4, 1);
-	map.setTile(2, 4, 1);
-	map.setTile(2, 5, 1);
-	map.setTile(2, 6, 1);
-	map.setTile(3, 6, 1);
-	map.setTile(4, 6, 1);
+	map.setTile(1, 1, Map::PATH);
+	map.setTile(1, 2, Map::PATH);
+	map.setTile(2, 2, Map::PATH);
+	map.setTile(3, 2, Map::PATH);
+	map.setTile(3, 1, Map::PATH);
+	map.setTile(4, 1, Map::PATH);
+	map.setTile(5, 1, Map::PATH);
+	map.setTile(5, 2, Map::PATH);
+	map.setTile(5, 3, Map::PATH);
+	map.setTile(4, 3, Map::PATH);
+	map.setTile(4, 4, Map::PATH);
+	map.setTile(3, 4, Map::PATH);
+	map.setTile(2, 4, Map::PATH);
+	map.setTile(2, 5, Map::PATH);
+	map.setTile(2, 6, Map::PATH);
+	map.setTile(3, 6, Map::PATH);
+	map.setTile(4, 6, Map::PATH);
 
 	validateMap();
 
 	//removing path tile to show detection of broken path
-	map.setTile(5, 2, 0);
+	map.setTile(5, 2, Map::END);
 
 	validateMap();
 }
