@@ -107,18 +107,19 @@ void MainClass::run(){
 				if (newMap){
 					mEdit->createCustomMap();
 				}
-				else
-					mEdit->loadMapFile(mEdit->getFilePath());
-
+				else{
+					std::string path = mEdit->getFilePath();
+					if (path.length() != 0) {
+						mEdit->loadMapFile(path);
+					}
+				}
 				//create the map editor with one of many constructors? :P
 				currentContext = MAPEDIT;
 			}
 		}
-
 		//reset switchContext since it has been done :D
 		switchContext = false;
 	}
-
 }
 
 void MainClass::switchToContext(MainClass::CONTEXT context){

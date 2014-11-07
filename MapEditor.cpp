@@ -129,6 +129,8 @@ void MapEditor::loadMapFile(std::string mapDir){
 		if (y >= rows)
 			y = 0;
 	}
+
+	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 }
 
 void MapEditor::saveMap(std::string path){
@@ -212,26 +214,7 @@ void MapEditor::createCustomMap(){
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 
-	int margin = 0;
 
-	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 30));
-	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f((cols / 4) * 24, win->getSize().y - 30));
-	backMsg = new TextMessage(tm, "Back", sf::Vector2f((cols / 2) * 24, win->getSize().y - 30));
-	createNewMsg = new TextMessage(tm, "New", sf::Vector2f(((cols / 4) * 3) * 24, win->getSize().y - 30));
-
-	float scale = cols < 17 ? 1.0 : 2.0;
-
-	loadMsg->setScale(sf::Vector2f(scale, scale));
-	saveMapMsg->setScale(sf::Vector2f(scale, scale));
-	backMsg->setScale(sf::Vector2f(scale, scale));
-	createNewMsg->setScale(sf::Vector2f(scale, scale));
-
-	map->drawMap(win);
-
-	loadMsg->drawMessage(win);
-	saveMapMsg->drawMessage(win);
-	backMsg->drawMessage(win);
-	createNewMsg->drawMessage(win);
 
 	printMap();
 }
@@ -469,45 +452,37 @@ void MapEditor::update(){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
 		if (x >= 0 && y >= 0){
-			if (x >= 0 && y >= 0 && y <= map->getRows()){
-				cout << "clicking on map";
-				//clicking on map.
+			if (x < map->getRows()){
 				setPath(x, y);
 			}
-			else if (y > map->getRows()){
+			else {
 				//clicking on map editor buttons.
 				int margin = map->getCols() / 4;
-				if (x < margin){
+				if (y < margin){
 					//clicking on Load
-					cout << "clicking on load";
 					std::string path;
 					path = getFilePath();
-					if (path.compare("") != 0) {
+					if (path.length() != 0) {
 						loadMapFile(path);
 					}
-				}
-				else if (x > margin){
+				} else if (y >= margin && y < margin * 2){
 					//clicking on Save
 					std::string path;
-					cout << "Enter path and file name to save to: ";
 					cin >> path;
 					saveMap(path);
 				}
-				else if (x > margin * 2){
-					cout << "clicking on back";
+				else if (y >= margin * 2 && y < margin * 3){
 					//return to menu via Alex's MainClass
 				}
 				else{
-					cout << "clicking on new";
 					createCustomMap();
 				}
 			}
 		}
-		prevClick = true;
-
-
+		//prevClick = true;
 	}
 
+	/*
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
@@ -516,8 +491,27 @@ void MapEditor::update(){
 			setStartAndEnd(x, y);
 		}
 		prevClick = true;
-	}
+	}*/
+	map->drawMap(win);
 
+	int margin = map->getCols()/4;
+
+	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 30));
+	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f(margin * 24, win->getSize().y - 30));
+	backMsg = new TextMessage(tm, "Back", sf::Vector2f(margin * 2 * 24, win->getSize().y - 30));
+	createNewMsg = new TextMessage(tm, "New", sf::Vector2f((margin * 3) * 24, win->getSize().y - 30));
+
+	float scale = map->getCols() < 17 ? 1.0 : 2.0;
+
+	loadMsg->setScale(sf::Vector2f(scale, scale));
+	saveMapMsg->setScale(sf::Vector2f(scale, scale));
+	backMsg->setScale(sf::Vector2f(scale, scale));
+	createNewMsg->setScale(sf::Vector2f(scale, scale));
+
+	loadMsg->drawMessage(win);
+	saveMapMsg->drawMessage(win);
+	backMsg->drawMessage(win);
+	createNewMsg->drawMessage(win);
 }
 
 std::string MapEditor::getFilePath(){

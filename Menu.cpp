@@ -120,8 +120,7 @@ void Menu::update(){
 		break;
 	case location::SELECT_MAP:
 		path = editor->getFilePath();
-		cout << "path compare: " << path.compare("") << endl;
-		if (path.compare("") != 0) {
+		if (path.length() != 0) {
 			editor->loadMapFile(path);
 			//here is your Map instance, my dear sir.
 			//
@@ -133,8 +132,8 @@ void Menu::update(){
 			map = NULL;
 			main->switchToContext(MainClass::CONTEXT::GAME);
 			break;
-
 		}
+		menuLocation = location::START;
 		break;
 	case location::MAP_EDIT:
 		//editor->createCustomMap();

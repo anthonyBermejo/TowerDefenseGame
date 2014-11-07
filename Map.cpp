@@ -19,7 +19,6 @@ Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols)
 	else if (rows == 8 && cols == 8)
 		pathTest();
 
-
 	//create sprites
 
 	envSprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
@@ -27,7 +26,7 @@ Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols)
 
 	envSprite2.setTexture(texManager->getTexture(TextureManager::ENV));
 	envSprite2.setTextureRect(sf::IntRect(24, 0, 24, 24));
-
+	
 	pathSprite1.setTexture(texManager->getTexture(TextureManager::ENV));
 	pathSprite1.setTextureRect(sf::IntRect(24 * 2, 0, 24, 24));
 
@@ -51,7 +50,7 @@ Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols)
 
 	pathSprite8.setTexture(texManager->getTexture(TextureManager::ENV));
 	pathSprite8.setTextureRect(sf::IntRect(24 * 9, 0, 24, 24));
-
+	
 	startSprite.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
 	startSprite.setTextureRect(sf::IntRect(24 * 11, 0, 24, 24));
 
@@ -161,7 +160,7 @@ int Map::getTile(int x, int y) const {
 
 void Map::drawMap(sf::RenderWindow* w){
 
-	int randNum;
+	//int randNum;
 
 	for (int i = 0; i < getCols(); ++i)
 		for (int j = 0; j < getRows(); ++j){
@@ -178,7 +177,6 @@ void Map::drawMap(sf::RenderWindow* w){
 				}*/
 				envSprite1.setPosition(i * 24, j * 24);
 				w->draw(envSprite1);
-
 				break;
 			case TILE_TYPE::PATH:
 				blockSprite.setPosition(i * 24, j * 24);
