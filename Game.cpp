@@ -51,7 +51,8 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 15));
 	towerUpgradeCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 20));
 	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 25));
-	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(gameWindow->getSize().x / 2, 30));
+	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
+	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
 
 	// sprites to be displayed on screen
 	regTowerSprite = new sf::Sprite();
@@ -105,6 +106,8 @@ void Game::update() {
 			//creeps
 			creeps->Update(player, gameWindow, timeElapsed);
 
+			healthText->setMessage("HP " + to_string(player->getHealth()));
+
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
 				towers[i]->Update(timeElapsed);
@@ -117,7 +120,7 @@ void Game::update() {
 			if (isGameOver()) 
 				isRunning = false;
 			
-			if (isLevelCleared()) {
+			if (isLevelCleared() && creeps->getStartingCreepList().empty()) {
 				++level;
 				levelText->setMessage("Level " + to_string(level));
 				creeps->resetCreepSquad(level, gameWindow);
@@ -347,6 +350,8 @@ void Game::drawUI(){
 	iceTowerText->drawMessage(gameWindow);
 	cannonTowerText->drawMessage(gameWindow);
 	superTowerText->drawMessage(gameWindow);
+	levelText->drawMessage(gameWindow);
+	healthText->drawMessage(gameWindow);
 
 	switch (currentInputState){
 	case SELECT_TOWER: // state to create a tower

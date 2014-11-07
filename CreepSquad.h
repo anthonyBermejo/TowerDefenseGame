@@ -16,7 +16,8 @@ public:
 	void resetCreepSquad(int level, sf::RenderWindow* w);
 	virtual ~CreepSquad();
 
-	vector<Creep*> getCreeps();
+	vector<Creep*> getCreeps() const;
+	vector<Creep*> getStartingCreepList() const;
 
 	void Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime);
 	void Draw(sf::RenderWindow* w);
@@ -35,5 +36,6 @@ private:
 	bool checkEndTile(Creep* creep, Player* player);
 	void damageCreep(Player *player, int damage);
 	void removeDeadCreeps();
+	int creepSpeed;
 };
 

@@ -71,7 +71,10 @@ private:
 	TextMessage *towerUpgradeLevelText;
 	TextMessage *upgradeText;
 	TextMessage *destroyText;
+
+	// constant texts drawn
 	TextMessage *levelText;
+	TextMessage *healthText;
 
 	// sprites
 	sf::Sprite* regTowerSprite;

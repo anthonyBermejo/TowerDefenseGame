@@ -8,14 +8,14 @@ CreepSquad::CreepSquad(Map* map, TextureManager* texManager)
 	this->map = map;
 	this->texManager = texManager;
 	timeElapsed = sf::Time::Zero;
+	creepSpeed = 1;
 }
 
-vector<Creep*> CreepSquad::getCreeps(){ return creepSquad; }
+vector<Creep*> CreepSquad::getCreeps() const { return creepSquad; }
+vector<Creep*> CreepSquad::getStartingCreepList() const { return startingCreepList; }
 
 void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
-	cout << "in move" << endl;
-	cout << "creep #: " << creepSquad.size() << endl;
 	// remove creeps one at a time from a container list to enter game
 	if (!startingCreepList.empty()) {
 		Creep* creep = startingCreepList.back();
@@ -84,11 +84,11 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 		startingCreepList.push_back(new Creep(30, 1, 15, 60, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
 		break;
 	case 3:
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(new Creep(50, 1, 20, 80, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
 		break;
 	case 4:
 		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
@@ -98,6 +98,8 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 		startingCreepList.push_back(new Creep(40, 2, 25, 80, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
 		break;
 	}
+
+	creepSpeed = startingCreepList.front()->getSpeed();
 }
 
 // Check if a creep is able to move in a specific direction
@@ -230,7 +232,7 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 {
 	timeElapsed += elapsedTime;
 
-	if (timeElapsed >= sf::milliseconds(2500)) {
+	if (timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
 
 		removeDeadCreeps();
 
