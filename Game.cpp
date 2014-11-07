@@ -22,7 +22,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	// create window according to the map size
-	gameWindow->create(sf::VideoMode(map->getCols() * 24, (map->getRows() +5)* 24), "Tower Defense");
+	gameWindow->create(sf::VideoMode(map->getCols() * 24, (map->getRows() + 5 )* 24), "Tower Defense");
 
 	// ui stuff
 	mouseClickedPrev = false;
@@ -30,56 +30,58 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 	towerTypeToBuild = Tower::TOWER_TYPE::REGULAR;
 	buildRegLoc = sf::Vector2i(1, map->getCols() + 1);
-	buildIceLoc = sf::Vector2i(3, map->getCols() + 1);
+	buildIceLoc = sf::Vector2i(4, map->getCols() + 1);
 	buildCanLoc = sf::Vector2i(1, map->getCols() + 3);
-	buildSupLoc = sf::Vector2i(3, map->getCols() + 3);
-	upgradeTowerLoc = sf::Vector2i(map->getRows() - 3, map->getCols() + 3);
-	destroyTowerLoc = sf::Vector2i(map->getRows() - 1, map->getCols() + 3);
+	buildSupLoc = sf::Vector2i(4, map->getCols() + 3);
+	upgradeTowerLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 3);
+	destroyTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 3);
 	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 1);
 
+	
+
 	// text to be displayed on screen
-	regTowerText = new TextMessage(tm, "Regular\tCost: 100", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
-	iceTowerText = new TextMessage(tm, "Ice\tCost: 150", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
-	cannonTowerText = new TextMessage(tm, "Cannon\tCost: 200", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
-	superTowerText = new TextMessage(tm, "Super\tCost: 500", sf::Vector2f(buildRegLoc.x, buildRegLoc.y * 24 + 10));
-	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x, upgradeTowerLoc.y * 24 + 10));
-	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x, destroyTowerLoc.y * 24 + 10));
-	towerTypeText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 5));
-	towerUpgradeLevelText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 10));
-	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 15));
-	towerUpgradeCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 20));
-	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x, displayTowerSpriteLoc.y + 25));
-	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(gameWindow->getSize().x / 2, 10));
+	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));
+	iceTowerText = new TextMessage(tm, "Ice", sf::Vesctor2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 30));
+	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildCanLoc.x * 24, buildCanLoc.y * 24 + 30));
+	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 30));
+	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24 + 30));
+	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24, destroyTowerLoc.y * 24 + 30));
+	towerTypeText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 5));
+	towerUpgradeLevelText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 10));
+	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 15));
+	towerUpgradeCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 20));
+	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 25));
+	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(gameWindow->getSize().x / 2, 30));
 
 	// sprites to be displayed on screen
 	regTowerSprite = new sf::Sprite();
 	regTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
-	regTowerSprite->setTextureRect(sf::IntRect(24, 0, 24, 24));
+	regTowerSprite->setTextureRect(sf::IntRect(0, 0, 24, 24));
 	regTowerSprite->setPosition(buildRegLoc.x * 24, buildRegLoc.y * 24);
 
 	iceTowerSprite = new sf::Sprite();
 	iceTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
-	iceTowerSprite->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
+	iceTowerSprite->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	iceTowerSprite->setPosition(buildIceLoc.x * 24, buildIceLoc.y * 24);
 
 	cannonTowerSprite = new sf::Sprite();
 	cannonTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
-	cannonTowerSprite->setTextureRect(sf::IntRect(24*3, 0, 24, 24));
+	cannonTowerSprite->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
 	cannonTowerSprite->setPosition(buildCanLoc.x * 24, buildCanLoc.y * 24);
 
 	superTowerSprite = new sf::Sprite();
 	superTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
-	superTowerSprite->setTextureRect(sf::IntRect(24*4, 0, 24, 24));
+	superTowerSprite->setTextureRect(sf::IntRect(24*3, 0, 24, 24));
 	superTowerSprite->setPosition(buildSupLoc.x * 24, buildSupLoc.y * 24);
 
 	destroyTowerIcon = new sf::Sprite();
 	destroyTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
-	destroyTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
+	destroyTowerIcon->setTextureRect(sf::IntRect(0, 0, 24, 24));
 	destroyTowerIcon->setPosition(destroyTowerLoc.x * 24, destroyTowerLoc.y * 24);
 
 	upgradeTowerIcon = new sf::Sprite();
 	upgradeTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
-	upgradeTowerIcon->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
+	upgradeTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	upgradeTowerIcon->setPosition(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24);
 }
 
