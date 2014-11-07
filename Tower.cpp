@@ -132,10 +132,8 @@ void Tower::Update(sf::Time elapsedTime){
 		}
 	}
 	else{//ready to shoot
-		//shootAvailableCreeps(map);
-		//TODO - IMPLEMENT
+		shootAvailableCreeps();
 		coolingDown = true;
-		cout << "Fired\n";
 	}
 }
 
