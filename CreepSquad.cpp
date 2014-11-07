@@ -14,7 +14,8 @@ vector<Creep*> CreepSquad::getCreeps(){ return creepSquad; }
 
 void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
-
+	cout << "in move" << endl;
+	cout << "creep #: " << creepSquad.size() << endl;
 	// remove creeps one at a time from a container list to enter game
 	if (!startingCreepList.empty()) {
 		Creep* creep = startingCreepList.back();
@@ -233,9 +234,7 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 
 		removeDeadCreeps();
 
-		for (int i = 0; i < (int)creepSquad.size(); ++i) {
-			move(player, w);
-		}
+		move(player, w);
 
 		timeElapsed = sf::Time::Zero;
 	}
