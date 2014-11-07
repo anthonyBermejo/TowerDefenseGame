@@ -41,7 +41,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 
 	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));
-	iceTowerText = new TextMessage(tm, "Ice", sf::Vesctor2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 30));
+	iceTowerText = new TextMessage(tm, "Ice", sf::Vector2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 30));
 	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildCanLoc.x * 24, buildCanLoc.y * 24 + 30));
 	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 30));
 	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24 + 30));

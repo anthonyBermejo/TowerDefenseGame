@@ -15,6 +15,11 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win, MainClass* main) :tm(tm), 
 	exitMsg = new TextMessage(tm, "Exit", sf::Vector2f(0, 200));
 	exitMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 
+	newMapMsg = new TextMessage(tm, "NEW MAP", sf::Vector2f(0, 100));
+	newMapMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	loadMapMsg = new TextMessage(tm, "Load Map", sf::Vector2f(0, 150));
+	loadMapMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+
 	menuLocation = location::START;
 	selection = 0;
 	prevClick = false;
@@ -34,14 +39,14 @@ Menu::~Menu(){
 	delete titleMsg;
 	delete playGameMsg;
 	delete editorMsg;
-	delete selectMapMsg;
-	delete dimensionsMsg;
+	delete newMapMsg;
+	delete loadMapMsg;
 
 	titleMsg = NULL;
 	playGameMsg = NULL;
 	editorMsg = NULL;
-	selectMapMsg = NULL;
-	dimensionsMsg = NULL;
+	newMapMsg = NULL;
+	loadMapMsg = NULL;
 
 	tm = NULL;
 	win = NULL;
@@ -132,7 +137,43 @@ void Menu::update(){
 		}
 		break;
 	case location::MAP_EDIT:
-		editor->createCustomMap();
+		//editor->createCustomMap();
+		if (keysPressed[0] && !keysPressed[2]){//up
+			selection = 0;
+			newMapMsg->setMessage("NEW MAP");
+			loadMapMsg->setMessage("Load Map");
+			break;
+		}
+
+		if (keysPressed[2] && !keysPressed[0]){//down
+			selection = 1;
+			newMapMsg->setMessage("New Map");
+			loadMapMsg->setMessage("LOAD MAP");
+			break;
+		}
+
+		if (keysPressed[4]){//enter
+			switch (selection){
+			case 0://create map
+				menuLocation = CREATE_MAP;
+				break;
+			case 1:
+				menuLocation = LOAD_MAP;
+			}
+
+		}
+
+		newMapMsg->drawMessage(win);
+		loadMapMsg->drawMessage(win);
+		break;
+
+	case CREATE_MAP:
+		main->switchToContext(MainClass::CONTEXT::MAPEDIT, true);
+		break;
+
+	case LOAD_MAP:
+		//dito
+		main->switchToContext(MainClass::CONTEXT::MAPEDIT, false);
 		break;
 	}
 

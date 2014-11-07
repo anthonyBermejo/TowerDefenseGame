@@ -18,8 +18,8 @@ private:
 	TextMessage* titleMsg;
 	TextMessage* playGameMsg;
 	TextMessage* editorMsg;
-	TextMessage* selectMapMsg;
-	TextMessage* dimensionsMsg;
+	TextMessage* newMapMsg;
+	TextMessage* loadMapMsg;
 	TextMessage* exitMsg;
 
 	TextMessage* userInput;

@@ -61,7 +61,9 @@ void MainClass::run(){
 			game->update();
 			break;
 		case MAPEDIT:
-			//do map editor stuff
+			window->clear();
+			mEdit->update();
+			window->display();
 			break;
 		}
 
@@ -98,6 +100,16 @@ void MainClass::run(){
 				//the only place you should switch to map editor is from the MENU (no validation at this time)
 				delete menu;
 				menu = NULL;
+				
+				mEdit = new MapEditor(tm, window);
+
+				//creating new map
+				if (newMap){
+					mEdit->createCustomMap();
+				}
+				else
+					mEdit->loadMapFile(mEdit->getFilePath());
+
 				//create the map editor with one of many constructors? :P
 				currentContext = MAPEDIT;
 			}
@@ -112,6 +124,12 @@ void MainClass::run(){
 void MainClass::switchToContext(MainClass::CONTEXT context){
 	switchContext = true;
 	contextToSwitchTo = context;
+}
+
+void MainClass::switchToContext(MainClass::CONTEXT context, bool newMap){
+	switchContext = true;
+	contextToSwitchTo = context;
+	this->newMap = newMap;
 }
 
 void MainClass::setMapToPass(Map* m){

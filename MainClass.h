@@ -18,6 +18,7 @@ public:
 	virtual ~MainClass();
 
 	void switchToContext(CONTEXT context);
+	void switchToContext(CONTEXT context, bool newMap);
 
 	void run();
 
@@ -39,4 +40,5 @@ private:
 	Menu* menu;
 
 	Map* mapToPass;//used to hold map when switching between the menu and (map editor or game)
+	bool newMap;//used to determine if a new map is being created, or if a map is being loaded (when witching to map editor)
 };
