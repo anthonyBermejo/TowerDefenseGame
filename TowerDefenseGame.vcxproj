@@ -14,6 +14,7 @@
     <ClInclude Include="Creep.h" />
     <ClInclude Include="CreepSquad.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MainClass.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEditor.h" />
     <ClInclude Include="Menu.h" />
@@ -32,6 +33,7 @@
     <ClCompile Include="CreepSquad.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEditor.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -42,7 +44,7 @@
     <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{537E97C6-D356-49AF-BB83-B5A38DE79D7C}</ProjectGuid>
+    <ProjectGuid>{E46C5607-DA2A-4379-97FD-CB689FC8C081}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TowerDefenseGame</RootNamespace>
   </PropertyGroup>

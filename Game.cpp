@@ -16,11 +16,13 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 
 	isRunning = false;
 	level = 1;
+	creeps->resetCreepSquad(level, gameWindow);
+	currentInputState = INPUT_STATE::SELECT_TOWER;
 
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	// create window according to the map size
-	gameWindow->create(sf::VideoMode(map->getCols() * 24, map->getRows() * 24), "Tower Defense");
+	gameWindow->create(sf::VideoMode(map->getCols() * 24, (map->getRows() +5)* 24), "Tower Defense");
 
 	// ui stuff
 	mouseClickedPrev = false;
@@ -50,26 +52,32 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(gameWindow->getSize().x / 2, 10));
 
 	// sprites to be displayed on screen
+	regTowerSprite = new sf::Sprite();
 	regTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
 	regTowerSprite->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	regTowerSprite->setPosition(buildRegLoc.x * 24, buildRegLoc.y * 24);
 
+	iceTowerSprite = new sf::Sprite();
 	iceTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
 	iceTowerSprite->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
 	iceTowerSprite->setPosition(buildIceLoc.x * 24, buildIceLoc.y * 24);
 
+	cannonTowerSprite = new sf::Sprite();
 	cannonTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
 	cannonTowerSprite->setTextureRect(sf::IntRect(24*3, 0, 24, 24));
 	cannonTowerSprite->setPosition(buildCanLoc.x * 24, buildCanLoc.y * 24);
 
+	superTowerSprite = new sf::Sprite();
 	superTowerSprite->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
 	superTowerSprite->setTextureRect(sf::IntRect(24*4, 0, 24, 24));
 	superTowerSprite->setPosition(buildSupLoc.x * 24, buildSupLoc.y * 24);
 
+	destroyTowerIcon = new sf::Sprite();
 	destroyTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
 	destroyTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	destroyTowerIcon->setPosition(destroyTowerLoc.x * 24, destroyTowerLoc.y * 24);
 
+	upgradeTowerIcon = new sf::Sprite();
 	upgradeTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
 	upgradeTowerIcon->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
 	upgradeTowerIcon->setPosition(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24);
@@ -77,7 +85,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 
 void Game::run() {
 	isRunning = true;
-	update();
+	//update();
 }
 
 void Game::update() {
@@ -92,12 +100,8 @@ void Game::update() {
 			//clear window
 			gameWindow->clear();
 
-			//draw map
-			map->drawMap(gameWindow);
-
 			//creeps
 			creeps->Update(player, gameWindow, timeElapsed);
-			creeps->Draw(gameWindow);
 
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
@@ -175,13 +179,19 @@ sf::Vector2i Game::getMousePosition(){
 
 	sf::Vector2i pos = sf::Mouse::getPosition(*gameWindow);
 
-	int xPos = (pos.x / 24) * 24;
-	int yPos = (pos.y / 24) * 24;
+	int xPos = (pos.x / 24);
+	int yPos = (pos.y / 24);
 
 	return sf::Vector2i(xPos, yPos);
 }
 
 void Game::doInput(){
+	if (mouseClicked()){
+		sf::Vector2i mousePos = getMousePosition();
+		cout << "Clicked mouse!\n";
+		cout << mousePos.x << " " << mousePos.y << "\n";
+	}
+	
 	switch (currentInputState){
 	case SELECT_TOWER:
 		if (mouseClicked()){

@@ -17,6 +17,9 @@ Creep::Creep(TextureManager* texManager)
 	direction = Direction::RIGHT;
 	spriteType = SPRITE_TYPE::BLOB;
 	this->texManager = texManager;
+
+	sprite1 = new sf::Sprite();
+	sprite2 = new sf::Sprite();
 }
 
 Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction, TextureManager* texManager, SPRITE_TYPE spriteType)
@@ -78,7 +81,7 @@ Direction Creep::getDirection() const
 	return direction;
 }
 
-sf::Sprite Creep::getSprite() const
+sf::Sprite* Creep::getSprite() const
 {
 	return sprite1;
 }
@@ -183,49 +186,52 @@ void Creep::damageCreep(Player *player, int damage)
 
 void Creep::loadCreepSprites()
 {
+	sprite1 = new sf::Sprite();
+	sprite2 = new sf::Sprite();
+
 	switch (spriteType)
 	{
 	case SPRITE_TYPE::BLOB:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(0, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(0, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::MAGE:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24*2, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24*3, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24*3, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::SKELETON:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24*4, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24*5, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24*4, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24*5, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::OGRE:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24 * 6, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24 * 7, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24 * 6, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24 * 7, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::BULL:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24 * 8, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24 * 9, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24 * 8, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24 * 9, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::WOLF:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24 * 10, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24 * 11, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24 * 10, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24 * 11, 0, 24, 24));
 		break;
 	case SPRITE_TYPE::ELF:
-		sprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1.setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
-		sprite2.setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2.setTextureRect(sf::IntRect(24 * 13, 0, 24, 24));
+		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite1->setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
+		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
+		sprite2->setTextureRect(sf::IntRect(24 * 13, 0, 24, 24));
 		break;
 	}
 }

@@ -29,7 +29,7 @@ public:
 	std::string getFilePath();
 	Map* getMap();
 private:
-	Map map;
+	Map* map;
 	xml_document<> doc;
 	sf::RenderWindow* win;
 	TextureManager* tm;

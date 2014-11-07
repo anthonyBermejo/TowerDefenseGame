@@ -32,18 +32,18 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 			creepSquad[i]->move(map);
 
 			// set position of the sprite and draw it
-			sf::Sprite creepSprite = creepSquad[i]->getSprite();
-			creepSprite.setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+			sf::Sprite* creepSprite = creepSquad[i]->getSprite();
+			creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
 
 			// draw health bar of creep
 			sf::RectangleShape healthBar;
 			healthBar.setSize(sf::Vector2f(creepSquad[i]->getHitPoints() / 3, 5));
 			healthBar.setFillColor(sf::Color::Red);
 			healthBar.setOutlineColor(sf::Color::Black);
-			healthBar.setPosition(creepSprite.getPosition().x, creepSprite.getPosition().y - 5);
+			healthBar.setPosition(creepSprite->getPosition().x, creepSprite->getPosition().y - 5);
 
 			w->draw(healthBar);
-			w->draw(creepSprite);
+			w->draw(*creepSprite);
 
 		}
 		else {
@@ -244,7 +244,7 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 void CreepSquad::Draw(sf::RenderWindow* w)
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i)
-		w->draw(creepSquad[i]->getSprite());
+		w->draw(*(creepSquad[i]->getSprite()));
 }
 
 CreepSquad::~CreepSquad()

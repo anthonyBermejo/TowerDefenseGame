@@ -29,7 +29,7 @@ public:
 	int getLocationX() const;
 	int getLocationY() const;
 	Direction getDirection() const;
-	sf::Sprite getSprite() const;
+	sf::Sprite* getSprite() const;
 
 	// setters
 	void setHitPoints(int hp);
@@ -58,8 +58,8 @@ private:
 	SPRITE_TYPE spriteType;
 	TextureManager* texManager; 
 	
-	sf::Sprite sprite1;
-	sf::Sprite sprite2;
+	sf::Sprite* sprite1;
+	sf::Sprite* sprite2;
 
 	void loadCreepSprites();
 };

@@ -1,19 +1,24 @@
 #include "Menu.h"
 #include "MapEditor.h"
 #include <iostream>
+#include "MainClass.h"
 
 using namespace std;
 
-Menu::Menu(TextureManager* tm, sf::RenderWindow* win) :tm(tm), win(win){
+Menu::Menu(TextureManager* tm, sf::RenderWindow* win, MainClass* main) :tm(tm), win(win),main(main){
 	titleMsg = new TextMessage(tm, "Tower Defense", sf::Vector2f(0, 0));
 	titleMsg->setScale(sf::Vector2f(4.0f, 4.0f));
 	playGameMsg = new TextMessage(tm, "PLAY GAME", sf::Vector2f(0, 100));
 	playGameMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 	editorMsg = new TextMessage(tm, "Map Editor", sf::Vector2f(0, 150));
 	editorMsg->setScale(sf::Vector2f(3.0f, 3.0f));
+	exitMsg = new TextMessage(tm, "Exit", sf::Vector2f(0, 200));
+	exitMsg->setScale(sf::Vector2f(3.0f, 3.0f));
 
 	menuLocation = location::START;
 	selection = 0;
+	prevClick = false;
+	prevPress = false;
 
 	this->tm = tm;
 	this->win = win;
@@ -41,11 +46,15 @@ Menu::~Menu(){
 	tm = NULL;
 	win = NULL;
 
+	delete editor;
+	editor = NULL;
+
 	//delete[] keysPressed;
 	//keysPressed = NULL;
 }
 
 void Menu::update(){
+	
 	titleMsg->drawMessage(win);
 	checkInput();
 
@@ -53,27 +62,56 @@ void Menu::update(){
 
 	switch (menuLocation){
 	case location::START:
-		if (keysPressed[0] && !keysPressed[2]){//select play game
-			selection = 0;
-			playGameMsg->setMessage("PLAY GAME");
-			editorMsg->setMessage("Map Editor");
+		if (keysPressed[0] && !keysPressed[2]){//up
+
+			selection--;
+			if (selection < 0)selection = 0;
+			switch (selection){
+			case 0:
+				playGameMsg->setMessage("PLAY GAME");
+				editorMsg->setMessage("Map Editor");
+				break;
+			case 1:
+				editorMsg->setMessage("MAP EDITOR");
+				exitMsg->setMessage("Exit");
+				break;
+			}
 		}
 
-		if (keysPressed[2] && !keysPressed[0]){
-			selection = 1;
-			playGameMsg->setMessage("Play Game");
-			editorMsg->setMessage("MAP EDITOR");
+		if (keysPressed[2] && !keysPressed[0]){//down
+			
+			selection++;
+			if (selection > 2)selection = 2;
+			switch (selection){
+			case 1:
+				playGameMsg->setMessage("Play Game");
+				editorMsg->setMessage("MAP EDITOR");
+				break;
+			case 2:
+				editorMsg->setMessage("Map Editor");
+				exitMsg->setMessage("EXIT");
+				break;
+			}
 		}
 
 		if (keysPressed[4]){
-			if (selection == 0)
+			switch (selection){
+			case 0:
 				menuLocation = location::SELECT_MAP;
-			else
+				break;
+			case 1:
 				menuLocation = location::MAP_EDIT;
+				break;
+			case 2:
+				main->end();
+				break;
+			}
+			
 			selection = 0;
 		}
 		playGameMsg->drawMessage(win);
 		editorMsg->drawMessage(win);
+		exitMsg->drawMessage(win);
 		break;
 	case location::SELECT_MAP:
 		path = editor->getFilePath();
@@ -81,7 +119,16 @@ void Menu::update(){
 		if (path.compare("") != 0) {
 			editor->loadMapFile(path);
 			//here is your Map instance, my dear sir.
+			//
+			// :D
 			map = editor->getMap();
+			//pass map to MainClass
+			main->setMapToPass(map);
+			//get rid of pointer, then switch context
+			map = NULL;
+			main->switchToContext(MainClass::CONTEXT::GAME);
+			break;
+
 		}
 		break;
 	case location::MAP_EDIT:
@@ -89,33 +136,65 @@ void Menu::update(){
 		break;
 	}
 
+
 }
 
 void Menu::checkInput(){
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-		keysPressed[0] = true;
-	else
-		keysPressed[0] = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+	for (int i = 0; i < 5; ++i)
+		keysPressed[i] = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)){
+		if (!prevPress){
+			prevPress = true;
+			keysPressed[0] = true;
+		}
+		else
+			keysPressed[0] = false;
+
+		return;
+	}
+	else{
+		keysPressed[0] = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) && !prevPress)
 		keysPressed[1] = true;
 	else
 		keysPressed[1] = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-		keysPressed[2] = true;
-	else
-		keysPressed[2] = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)){
+		if (!prevPress){
+			prevPress = true;
+			keysPressed[2] = true;
+		}
+		else
+			keysPressed[2] = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+		return;
+	}
+	else{
+		keysPressed[2] = false;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) && !prevPress)
 		keysPressed[3] = true;
 	else
 		keysPressed[3] = false;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Return))
-		keysPressed[4] = true;
-	else
-		keysPressed[5] = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Return)){
+		if (!prevPress){
+			keysPressed[4] = true;
+			prevPress = true;
+		}
+		else
+			keysPressed[4] = false;
+
+		return;
+	}
+	else{
+		keysPressed[4] = false;
+	}
 
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)){
 		if (!prevClick)
@@ -123,4 +202,9 @@ void Menu::checkInput(){
 	}
 	else
 		prevClick = false;
+
+	
+	if (!keysPressed[0] && !keysPressed[2] && !keysPressed[4])
+		prevPress = false;
+
 }
