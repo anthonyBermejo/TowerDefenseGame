@@ -287,9 +287,11 @@ void Game::doInput(){
 			sf::Vector2i mPos = getMousePosition();
 
 			//upgrade tower
-			if (mPos == upgradeTowerLoc && (player->getCoins() - selectedTower->getUpgradeCost()) >= 0){
-				player->setCoins(player->getCoins() - selectedTower->getUpgradeCost());
-				selectedTower->setUpgradeLevel(selectedTower->getUpgradeLevel() + 1);
+			if (mPos == upgradeTowerLoc){
+				if ((player->getCoins() - selectedTower->getUpgradeCost()) >= 0){
+					player->setCoins(player->getCoins() - selectedTower->getUpgradeCost());
+					selectedTower->setUpgradeLevel(selectedTower->getUpgradeLevel() + 1);
+				}
 				break;
 			}
 
