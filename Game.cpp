@@ -204,13 +204,7 @@ sf::Vector2i Game::getMousePosition(){
 	return sf::Vector2i(xPos, yPos);
 }
 
-void Game::doInput(){
-	if (mouseClicked()){
-		sf::Vector2i mousePos = getMousePosition();
-		cout << "Clicked mouse!\n";
-		cout << mousePos.x << " " << mousePos.y << "\n";
-	}
-	
+void Game::doInput(){	
 	switch (currentInputState){
 	case SELECT_TOWER:
 		if (mouseClicked()){
@@ -289,7 +283,11 @@ void Game::doInput(){
 
 			//destroy tower
 			if (mPos == destroyTowerLoc){
+				player->setCoins(player->getCoins() + selectedTower->getRefund());
+				
 				towers.erase(std::remove(towers.begin(), towers.end(), selectedTower), towers.end());
+
+				delete selectedTower;
 				selectedTower = NULL;
 				currentInputState = INPUT_STATE::SELECT_TOWER;
 				break;
@@ -305,7 +303,11 @@ void Game::doInput(){
 	case PLACE_TOWER:
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
-			if (map->getTile(mPos.x, mPos.y) == Map::ENV &&
+
+			//Lots of stupidty involving getting the map coordinates
+			//for whatever reason, getTile has x and y inversed...
+			//for now, just switching the x and y when calling
+			if (map->getTile(mPos.y, mPos.x) == Map::ENV &&
 				(player->getCoins() - Tower::getTowerTypeCost(towerTypeToBuild)) >= 0){
 
 				//search if tower already exists in that place
