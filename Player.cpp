@@ -7,7 +7,7 @@ using namespace std;
 Player::Player(TextureManager* tm, sf::RenderWindow* w)
 {
 	coins = 500;
-	health = 10;
+	health = 20;
 	this->tm = tm;
 	healthText = new TextMessage(tm, "Health: " + to_string(health), sf::Vector2f(w->getSize().x - 100, 10));
 	coinsText = new TextMessage(tm, "Coins: " + to_string(coins), sf::Vector2f(w->getSize().x - 100, 20));
