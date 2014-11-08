@@ -31,13 +31,13 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	selectedTower = NULL;
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 	towerTypeToBuild = Tower::TOWER_TYPE::REGULAR;
-	buildRegLoc = sf::Vector2i(1, map->getCols() + 3);
-	buildIceLoc = sf::Vector2i(4, map->getCols() + 3);
-	buildCanLoc = sf::Vector2i(1, map->getCols() + 5);
-	buildSupLoc = sf::Vector2i(4, map->getCols() + 5);
+	buildRegLoc = sf::Vector2i(1, map->getCols() + 2);
+	buildIceLoc = sf::Vector2i(4, map->getCols() + 2);
+	buildCanLoc = sf::Vector2i(1, map->getCols() + 4);
+	buildSupLoc = sf::Vector2i(4, map->getCols() + 4);
 	upgradeTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 5);
-	destroyTowerLoc = sf::Vector2i(map->getRows() + 2, map->getCols() + 5);
-	displayTowerSpriteLoc = sf::Vector2i(map->getRows() - 2, map->getCols() + 3);
+	destroyTowerLoc = sf::Vector2i(map->getRows() + 3, map->getCols() + 5);
+	displayTowerSpriteLoc = sf::Vector2i(map->getRows() + 1, map->getCols() + 1);
 
 
 	// text to be displayed on screen
@@ -45,13 +45,15 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	iceTowerText = new TextMessage(tm, "Ice", sf::Vector2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 30));
 	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildCanLoc.x * 24, buildCanLoc.y * 24 + 30));
 	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 30));
-	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24 + 30));
-	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24, destroyTowerLoc.y * 24 + 30));
-	towerTypeText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 5));
-	towerUpgradeLevelText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 10));
-	towerDamageText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 15));
-	towerUpgradeCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 20));
-	towerRefundCostText = new TextMessage(tm, "", sf::Vector2f(displayTowerSpriteLoc.x * 24, displayTowerSpriteLoc.y * 24 + 25));
+	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24 - 20, upgradeTowerLoc.y * 24 + 30));
+	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24 - 20, destroyTowerLoc.y * 24 + 30));
+	
+	towerTypeText = new TextMessage(tm, "Hi", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 10));
+	towerUpgradeLevelText = new TextMessage(tm, "This", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 25));
+	towerDamageText = new TextMessage(tm, "Is", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 40));
+	towerUpgradeCostText = new TextMessage(tm, "Here", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 55));
+	towerRefundCostText = new TextMessage(tm, "!!!", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 70));
+	
 	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
 	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
 	coinsText = new TextMessage(tm, "Coins " + to_string(player->getCoins()), sf::Vector2f(map->getRows() * 24 + 5, 30));
@@ -95,6 +97,8 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	upgradeTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
 	upgradeTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	upgradeTowerIcon->setPosition(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24);
+
+	displayTowerIcon = new sf::Sprite();
 }
 
 void Game::run() {
@@ -251,28 +255,36 @@ void Game::doInput(){
 		break;
 
 	case TOWER_SELECTED:
+
+		displayTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
+		displayTowerIcon->setPosition(displayTowerSpriteLoc.x * 24 + 12, displayTowerSpriteLoc.y * 24);
+
+		switch (selectedTower->getType()){
+		case Tower::CANNON:
+			towerTypeText->setMessage("Type: Cannon");
+			displayTowerIcon->setTextureRect(sf::IntRect(0, 0, 24, 24));
+			break;
+		case Tower::ICE:
+			towerTypeText->setMessage("Type: Ice");
+			displayTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
+			break;
+		case Tower::REGULAR:
+			towerTypeText->setMessage("Type: Regular");
+			displayTowerIcon->setTextureRect(sf::IntRect(24 * 2, 0, 24, 24));
+			break;
+		case Tower::SUPER:
+			towerTypeText->setMessage("Type: Super");
+			displayTowerIcon->setTextureRect(sf::IntRect(24 * 3, 0, 24, 24));
+			break;
+		}
+
+		towerUpgradeLevelText->setMessage("Tower Level: " + to_string(selectedTower->getUpgradeLevel()));
+		towerDamageText->setMessage("Damage: " + to_string(selectedTower->getDamage()));
+		towerUpgradeCostText->setMessage("Upgrade Cost: " + to_string(selectedTower->getUpgradeCost()));
+		towerRefundCostText->setMessage("Refund Cost: " + to_string(selectedTower->getRefund()));
+
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
-
-			switch (selectedTower->getType()){
-			case Tower::CANNON:
-				towerTypeText->setMessage("Type: Cannon");
-				break;
-			case Tower::ICE:
-				towerTypeText->setMessage("Type: Ice");
-				break;
-			case Tower::REGULAR:
-				towerTypeText->setMessage("Type: Regular");
-				break;
-			case Tower::SUPER:
-				towerTypeText->setMessage("Type: Super");
-				break;
-			}
-
-			towerUpgradeLevelText->setMessage("Tower Level: " + to_string(selectedTower->getUpgradeLevel()));
-			towerDamageText->setMessage("Damage: " + to_string(selectedTower->getDamage()));
-			towerUpgradeCostText->setMessage("Upgrade Cost: " + to_string(selectedTower->getUpgradeCost()));
-			towerRefundCostText->setMessage("Refund Cost: " + to_string(selectedTower->getRefund()));
 
 			//upgrade tower
 			if (mPos == upgradeTowerLoc && (player->getCoins() - selectedTower->getUpgradeCost()) >= 0){
@@ -353,6 +365,20 @@ bool Game::mouseClicked(){
 
 void Game::drawUI(){
 
+	if (currentInputState == TOWER_SELECTED) {
+		// doesnt work
+		towerTypeText->drawMessage(gameWindow);
+		towerUpgradeLevelText->drawMessage(gameWindow);
+		towerDamageText->drawMessage(gameWindow);
+		towerUpgradeCostText->drawMessage(gameWindow);
+		towerRefundCostText->drawMessage(gameWindow);
+
+		//works
+		upgradeText->drawMessage(gameWindow);
+		destroyText->drawMessage(gameWindow);
+		//gameWindow->draw(*displayTowerIcon);
+	}
+
 	// draw sprites
 	gameWindow->draw(*regTowerSprite);
 	gameWindow->draw(*iceTowerSprite);
@@ -360,6 +386,7 @@ void Game::drawUI(){
 	gameWindow->draw(*superTowerSprite);
 	gameWindow->draw(*destroyTowerIcon);
 	gameWindow->draw(*upgradeTowerIcon);
+
 
 	// draw text
 	regTowerText->drawMessage(gameWindow);
@@ -370,17 +397,4 @@ void Game::drawUI(){
 	healthText->drawMessage(gameWindow);
 	coinsText->drawMessage(gameWindow);
 
-	switch (currentInputState){
-	case SELECT_TOWER: // state to create a tower
-		break;
-	case TOWER_SELECTED: // state when a tower is selected
-		towerTypeText->drawMessage(gameWindow);
-		towerUpgradeLevelText->drawMessage(gameWindow);
-		towerDamageText->drawMessage(gameWindow);
-		towerUpgradeCostText->drawMessage(gameWindow);
-		towerRefundCostText->drawMessage(gameWindow);
-		upgradeText->drawMessage(gameWindow);
-		destroyText->drawMessage(gameWindow);
-		break;
-	}
 }

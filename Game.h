@@ -95,4 +95,5 @@ private:
 	sf::Sprite* superTowerSprite;
 	sf::Sprite* destroyTowerIcon;
 	sf::Sprite* upgradeTowerIcon;
+	sf::Sprite* displayTowerIcon;
 };

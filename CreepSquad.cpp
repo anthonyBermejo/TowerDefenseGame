@@ -227,7 +227,7 @@ bool CreepSquad::checkEndTile(Creep* creep, Player* player)
 	}
 
 	// if the creep is at an end tile
-	if (creepAtEndTile) {
+	if (creepAtEndTile && creep->getHitPoints() > 0) {
 		// remove coins from player according to value of creep's strength
 		player->setHealth(player->getHealth() - 1);
 
@@ -261,7 +261,7 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 
 	if (timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
 
-		//removeDeadCreeps();
+		removeDeadCreeps();
 
 		move(player, w);
 
