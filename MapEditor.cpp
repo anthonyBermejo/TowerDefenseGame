@@ -7,6 +7,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "MainClass.h"
+
 using namespace std;
 using namespace rapidxml;
 
@@ -27,9 +29,10 @@ MapEditor::MapEditor(std::string path, TextureManager* tm){
 	validateMap();
 }
 
-MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win){
+MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win,MainClass* main){
 	this->tm = tm;
 	this->win = win;
+	this->main = main;
 }
 
 MapEditor::MapEditor(Map* map){
@@ -470,7 +473,7 @@ void MapEditor::update(){
 				}
 				else if (y >= margin * 2 && y < margin * 3){
 					//return to menu via Alex's MainClass
-					//context->switchToContext(MainClass::CONTEXT::MAPEDIT);
+					main->switchToContext(MainClass::CONTEXT::MENU);
 				}
 				else{
 					createCustomMap();

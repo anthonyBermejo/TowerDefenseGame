@@ -15,7 +15,7 @@ Creep::Creep(TextureManager* texManager)
 	locationX = 0;
 	locationY = 0;
 	direction = Direction::RIGHT;
-	spriteType = SPRITE_TYPE::BLOB;
+	spriteType = SPRITE_TYPE::SLIME;
 	this->texManager = texManager;
 
 	sprite1 = new sf::Sprite();
@@ -191,7 +191,7 @@ void Creep::loadCreepSprites()
 
 	switch (spriteType)
 	{
-	case SPRITE_TYPE::BLOB:
+	case SPRITE_TYPE::SLIME:
 		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
 		sprite1->setTextureRect(sf::IntRect(0, 0, 24, 24));
 		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));

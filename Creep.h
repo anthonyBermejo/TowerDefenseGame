@@ -3,14 +3,13 @@
 #include <vector>
 #include "Map.h"
 #include "Player.h"
-#include "Map.h"
 
 using namespace std;
 
 // Enum
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
-enum SPRITE_TYPE { ELF, WOLF, BULL, OGRE, SKELETON, MAGE, BLOB };
+enum SPRITE_TYPE { ELF, WOLF, BULL, OGRE, SKELETON, MAGE, SLIME };
 
 // class definition
 class Creep {

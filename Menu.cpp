@@ -28,7 +28,7 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win, MainClass* main) :tm(tm), 
 	this->tm = tm;
 	this->win = win;
 	
-	editor = new MapEditor(tm, win);
+	editor = new MapEditor(tm, win,main);
 
 	keysPressed = new bool[5];//up,right,down,left,enter
 	for (int i = 0; i < 5; ++i)

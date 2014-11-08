@@ -68,13 +68,13 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	switch (level)
 	{
 	case 1:
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BLOB));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
 		break;
 	case 2:
 		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));

@@ -7,6 +7,8 @@
 using namespace std;
 using namespace rapidxml;
 
+class MainClass;
+
 class MapEditor
 {
 public:
@@ -14,7 +16,7 @@ public:
 	MapEditor(std::string path, TextureManager* tm);
 	//MapEditor(int rows, int cols);
 	MapEditor(Map* map);
-	MapEditor(TextureManager* tm, sf::RenderWindow* win);
+	MapEditor(TextureManager* tm, sf::RenderWindow* win, MainClass* main);
 
 	~MapEditor();
 
@@ -33,6 +35,7 @@ private:
 	xml_document<> doc;
 	sf::RenderWindow* win;
 	TextureManager* tm;
+	MainClass* main;
 
 	TextMessage* saveMapMsg;
 	TextMessage* backMsg;

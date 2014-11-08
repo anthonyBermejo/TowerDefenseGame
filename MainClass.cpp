@@ -103,7 +103,7 @@ void MainClass::run(){
 				delete menu;
 				menu = NULL;
 				
-				mEdit = new MapEditor(tm, window);
+				mEdit = new MapEditor(tm, window,this);
 
 				//creating new map
 				if (newMap){
