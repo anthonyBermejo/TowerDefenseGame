@@ -64,7 +64,7 @@ void MapEditor::setPath(int x, int y){
 }
 
 void MapEditor::setStartAndEnd(int x, int y){
-	if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1)){
+	if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::END){
 		map->setTile(x, y, Map::START);
 		startSet = true;
 	}
@@ -193,10 +193,12 @@ void MapEditor::saveMap(std::string path){
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols, tm);
+	/*
 	if (validateMap()){
 		saveMap("C:\\hurr");
 	} else
 		cout << "Failed to save map: Map is not valid.\n";
+		*/
 }
 
 void MapEditor::createCustomMap(){
