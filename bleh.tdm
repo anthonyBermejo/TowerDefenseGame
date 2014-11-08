@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map rows="8" cols="8">
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="2"/>
+		<tile access="1"/>
+		<tile access="1"/>
+		<tile access="1"/>
+		<tile access="1"/>
+		<tile access="1"/>
+		<tile access="1"/>
+		<tile access="3"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+	<row>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+		<tile access="0"/>
+	</row>
+</map>
+

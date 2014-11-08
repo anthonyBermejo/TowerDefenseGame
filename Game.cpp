@@ -285,6 +285,7 @@ void Game::doInput(){
 
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
+			bool didSomething = false;
 
 			//upgrade tower
 			if (mPos == upgradeTowerLoc){
@@ -292,6 +293,7 @@ void Game::doInput(){
 					player->setCoins(player->getCoins() - selectedTower->getUpgradeCost());
 					selectedTower->setUpgradeLevel(selectedTower->getUpgradeLevel() + 1);
 				}
+				didSomething = true;
 				break;
 			}
 
@@ -304,13 +306,25 @@ void Game::doInput(){
 				delete selectedTower;
 				selectedTower = NULL;
 				currentInputState = INPUT_STATE::SELECT_TOWER;
+				didSomething = true;
 				break;
 			}
 
+			//click on another tower
+			for (int i = 0; i < towers.size(); ++i){
+				if ((towers[i]->getMapPosition()) == mPos){
+					selectedTower = towers[i];
+					didSomething = true;
+					break;
+				}
+			}
+
 			//clicked on environment
-			selectedTower = NULL;
-			currentInputState = INPUT_STATE::SELECT_TOWER;
-			break;
+			if (!didSomething){
+				selectedTower = NULL;
+				currentInputState = INPUT_STATE::SELECT_TOWER;
+				break;
+			}
 		}
 		break;
 
