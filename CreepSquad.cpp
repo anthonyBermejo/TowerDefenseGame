@@ -122,6 +122,12 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	case 7:
 		startingCreepList.push_back(new Creep(1000, 1, 25, 1000, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::OGRE));
 		break;
+	default:
+		//TEMPORARY FIX SO THAT THE GAME DOESNT CRASH AFTER LEVEL 7
+		for (int i = 0; i < level - 6; ++i){
+			startingCreepList.push_back(new Creep(1000, 1, 25, 1000, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::OGRE));
+		}
+		break;
 	}
 
 	creepSpeed = startingCreepList.front()->getSpeed();
