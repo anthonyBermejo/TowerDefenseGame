@@ -177,7 +177,7 @@ void Creep::move(Map *map)
 
 void Creep::damageCreep(Player *player, int damage)
 {
-	hitPoints = hitPoints - damage;
+	hitPoints = (hitPoints + defense) - damage;
 
 	if (hitPoints <= 0) {
 		player->setCoins(player->getCoins() + reward);
