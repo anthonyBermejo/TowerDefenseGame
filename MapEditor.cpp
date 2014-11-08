@@ -213,10 +213,6 @@ void MapEditor::createCustomMap(){
 		createNewMap(rows, cols);
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
-
-
-
-	printMap();
 }
 
 void MapEditor::printMap() const{
@@ -468,21 +464,22 @@ void MapEditor::update(){
 				} else if (y >= margin && y < margin * 2){
 					//clicking on Save
 					std::string path;
+					cout << "Enter path to save to: ";
 					cin >> path;
 					saveMap(path);
 				}
 				else if (y >= margin * 2 && y < margin * 3){
 					//return to menu via Alex's MainClass
+					//context->switchToContext(MainClass::CONTEXT::MAPEDIT);
 				}
 				else{
 					createCustomMap();
 				}
 			}
 		}
-		//prevClick = true;
+		prevClick = true;
 	}
 
-	/*
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
@@ -491,7 +488,15 @@ void MapEditor::update(){
 			setStartAndEnd(x, y);
 		}
 		prevClick = true;
-	}*/
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)){
+		if (!prevClick)
+			prevClick = true;
+	}
+	else
+		prevClick = false;
+
 	map->drawMap(win);
 
 	int margin = map->getCols()/4;

@@ -133,7 +133,6 @@ void Menu::update(){
 			main->switchToContext(MainClass::CONTEXT::GAME);
 			break;
 		}
-		menuLocation = location::START;
 		break;
 	case location::MAP_EDIT:
 		//editor->createCustomMap();

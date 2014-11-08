@@ -88,9 +88,21 @@ void Map::setTile(int x, int y, int val){
 	//checking that x and y are within map range and that value is valid
 	if (x >= 0 && x <= (getRows() - 1) &&
 		y >= 0 && y <= (getCols() - 1) &&
-		(val >= 0 && val <= 3))
-		map[x][y] = val;
+		(val >= 0 && val <= 3)){
+			if (val >= 0 && val <= 4){
+				if (val == Map::START){
+					start[0] = x;
+					start[1] = y;
+				}
+				else if (val == Map::END) {
+					end[0] = x;
+					end[1] = y;
+				}
+				map[x][y] = val;
+			}
+		}
 }
+
 
 void Map::setTile(int x, int y, TILE_TYPE val){
 	/* acceptable vals
