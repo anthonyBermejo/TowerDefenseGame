@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
 #include "MainClass.h"
 
 using namespace std;
@@ -29,7 +28,7 @@ MapEditor::MapEditor(std::string path, TextureManager* tm){
 	validateMap();
 }
 
-MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win,MainClass* main){
+MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win, MainClass* main){
 	this->tm = tm;
 	this->win = win;
 	this->main = main;
@@ -137,7 +136,6 @@ void MapEditor::loadMapFile(std::string mapDir){
 }
 
 void MapEditor::saveMap(std::string path){
-	if (validateMap()){
 		//used as temp holding to convert c_str() to xml string
 		char* val;
 
@@ -190,14 +188,15 @@ void MapEditor::saveMap(std::string path){
 		outputFile.open(path + ".tdm");
 		outputFile << output;
 		outputFile.close();
-	}
-	else
-		cout << "Failed to save map: Map is not valid.\n";
+		cout << "Map successfully saved!\n";
 }
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols, tm);
-	saveMap("C:\\hurr");
+	if (validateMap()){
+		saveMap("C:\\hurr");
+	} else
+		cout << "Failed to save map: Map is not valid.\n";
 }
 
 void MapEditor::createCustomMap(){
@@ -465,11 +464,15 @@ void MapEditor::update(){
 						loadMapFile(path);
 					}
 				} else if (y >= margin && y < margin * 2){
-					//clicking on Save
-					std::string path;
-					cout << "Enter path to save to: ";
-					cin >> path;
-					saveMap(path);
+					if (validateMap()){
+						//clicking on Save
+						std::string path;
+						cout << "Enter path to save to: ";
+						cin >> path;
+						saveMap(path);
+					}
+					else
+						cout << "Failed to save map: Map is not valid.\n";
 				}
 				else if (y >= margin * 2 && y < margin * 3){
 					//return to menu via Alex's MainClass
