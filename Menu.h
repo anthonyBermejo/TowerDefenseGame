@@ -24,8 +24,6 @@ private:
 	TextMessage* loadMapMsg;
 	TextMessage* exitMsg;
 
-	TextMessage* userInput;
-
 	bool* keysPressed;
 	void saveInput();
 
@@ -34,6 +32,7 @@ private:
 	MapEditor* editor;
 	Map* map;
 	MainClass* main;
+	sf::Sprite* background;
 
 	bool customCreated;
 	bool mapSelected;

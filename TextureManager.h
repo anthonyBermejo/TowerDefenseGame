@@ -7,7 +7,7 @@ using namespace std;
 
 class TextureManager{
 public:
-	enum TEXTURE{ENV,SPRITE,UI,FONT,TOWER};
+	enum TEXTURE{ENV,SPRITE,UI,FONT,TOWER,BACKGROUND};
 
 
 	TextureManager();
@@ -23,6 +23,7 @@ private:
 	const static string UI_TEX_LOC;
 	const static string FONT_TEX_LOC;
 	const static string TOWER_TEX_LOC;
+	const static string BACKGROUND_TEX_LOC;
 
 };
 #endif

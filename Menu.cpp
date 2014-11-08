@@ -30,6 +30,10 @@ Menu::Menu(TextureManager* tm, sf::RenderWindow* win, MainClass* main) :tm(tm), 
 	
 	editor = new MapEditor(tm, win,main);
 
+	background = new sf::Sprite();
+	background->setTexture(tm->getTexture(TextureManager::TEXTURE::BACKGROUND));
+	background->setPosition(sf::Vector2f(288, 100));
+
 	keysPressed = new bool[5];//up,right,down,left,enter
 	for (int i = 0; i < 5; ++i)
 		keysPressed[i] = false;
@@ -41,6 +45,7 @@ Menu::~Menu(){
 	delete editorMsg;
 	delete newMapMsg;
 	delete loadMapMsg;
+	delete background;
 
 	titleMsg = NULL;
 	playGameMsg = NULL;
@@ -50,6 +55,7 @@ Menu::~Menu(){
 
 	tm = NULL;
 	win = NULL;
+	background = NULL;
 
 	delete editor;
 	editor = NULL;
@@ -61,6 +67,7 @@ Menu::~Menu(){
 void Menu::update(){
 	
 	titleMsg->drawMessage(win);
+	win->draw(*background);
 	checkInput();
 
 	std::string path;
