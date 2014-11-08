@@ -9,18 +9,6 @@ Map::Map(int rows, int cols, TextureManager* texManager) :rows(rows), cols(cols)
 {
 	this->map = std::vector<std::vector<int> >(rows, std::vector<int>(cols, 0));
 	
-	//Test cases to demonstrate map validation
-	//WHY IS THIS IN THE CONSTRUCTOR???
-	/*
-	if (rows == 11 && cols == 11)
-		startTest();
-	else if (rows == 10 && cols == 10)
-		endTest();
-	else if (rows == 9 && cols == 9)
-		brokenTest();
-	else if (rows == 8 && cols == 8)
-		pathTest();*/
-
 	//create sprites
 
 	envSprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));

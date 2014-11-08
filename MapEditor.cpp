@@ -193,12 +193,6 @@ void MapEditor::saveMap(std::string path){
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols, tm);
-	/*
-	if (validateMap()){
-		saveMap("C:\\hurr");
-	} else
-		cout << "Failed to save map: Map is not valid.\n";
-		*/
 }
 
 void MapEditor::createCustomMap(){
