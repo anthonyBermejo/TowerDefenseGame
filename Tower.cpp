@@ -150,6 +150,22 @@ void Tower::shootAvailableCreeps(){
 	for (int i = 0; i < creeps.size(); ++i){
 		if (abs(mapPosition.x - creeps[i]->getLocationX()) <= range &&
 			abs(mapPosition.y - creeps[i]->getLocationY()) <= range){
+			//AOE damage - for now, all AOE has 3 block radius 
+			if (type == TOWER_TYPE::CANNON || type == TOWER_TYPE::SUPER){
+				int xOrigin = creeps[i]->getLocationX();
+				int yOrigin = creeps[i]->getLocationY();
+				for (int j = 0; i < creeps.size(); ++i){
+					if (abs(xOrigin - creeps[j]->getLocationX()) <= 2 &&
+						abs(yOrigin - creeps[j]->getLocationY()) <= 2){
+						if (creeps[j]->getHitPoints() > 0){
+							creeps[j]->damageCreep(p, getDamage());
+							cout << "Fired!\n";
+						}
+					}
+				}
+				break;
+			}
+			
 			if (creeps[i]->getHitPoints() > 0){
 				creeps[i]->damageCreep(p, getDamage());
 				cout << "Fired!\n";
