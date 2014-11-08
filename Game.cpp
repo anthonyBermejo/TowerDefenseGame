@@ -1,14 +1,16 @@
 #include "Game.h"
 #include "TextMessage.h"
+#include "MainClass.h"
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
+Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass* m) {
 	this->gameWindow = gameWindow;
 	this->map = map;
 	this->tm = tm;
+	main = m;
 
 	creeps = new CreepSquad(map, tm);
 	player = new Player(tm, gameWindow);
@@ -53,6 +55,15 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm) {
 	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
 	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
 	coinsText = new TextMessage(tm, "Coins " + to_string(player->getCoins()), sf::Vector2f(map->getRows() * 24 + 5, 30));
+
+	gameOverText = new TextMessage(tm, "Game Over! :(", sf::Vector2f(0, 0));
+	gameOverText->setScale(sf::Vector2f(2.0f, 3.0f));
+	moreGameOverText = new TextMessage(tm, "You made it to level " + std::to_string(level), sf::Vector2f(0, 100));
+	evenMoreGameOverText = new TextMessage(tm, "Press ENTER to return to menu...", sf::Vector2f(0, 150));
+
+	overlay = new sf::RectangleShape(sf::Vector2f(gameWindow->getSize().x,gameWindow->getSize().y));
+	overlay->setFillColor(sf::Color::Color(0, 0, 0, 200));
+
 
 	// sprites to be displayed on screen
 	regTowerSprite = new sf::Sprite();
@@ -118,8 +129,10 @@ void Game::update() {
 			draw(gameWindow);
 			//isRunning = gameWindow->isOpen();
 
-			if (isGameOver()) 
+			if (isGameOver()){
 				isRunning = false;
+				moreGameOverText->setMessage("You made it to level " + std::to_string(level));
+			}
 			
 			if (isLevelCleared() && creeps->getStartingCreepList().empty()) {
 				++level;
@@ -136,23 +149,19 @@ void Game::update() {
 }
 
 void Game::draw(sf::RenderWindow* w) {
+	w->clear();
+	map->drawMap(w);
+	creeps->Draw(w);
 
-	if (isRunning) 
-	{
-		w->clear();
-		map->drawMap(w);
-		creeps->Draw(w);
+	for (int i = 0; i < towers.size(); ++i)
+		towers[i]->Draw(gameWindow);
+	drawUI();
+	
+	if (!isRunning)
+		displayFinalScore(w);	// Display final score and return to menu
 
-		for (int i = 0; i < towers.size(); ++i)
-			towers[i]->Draw(gameWindow);
-		drawUI();
-
-		w->display();
-	}
-	else {
-		displayFinalScore(w);
-		// ask if user wants to play again, go back to menu, or exit
-	}
+	w->display();
+	
 }
 
 bool Game::isLevelCleared() {
@@ -173,10 +182,14 @@ bool Game::isGameOver() {
 }
 
 void Game::displayFinalScore(sf::RenderWindow* w) {
-	string playerScore = "You made it to level " + std::to_string(level) + "!";
-	// need to figure out coordinates for center of window
-	TextMessage* finalScore = new TextMessage(tm, playerScore, sf::Vector2f(w->getSize().x / 2, w->getSize().y / 2));
-	finalScore->drawMessage(w);
+	gameWindow->draw(*overlay);
+	gameOverText->drawMessage(gameWindow);
+	moreGameOverText->drawMessage(gameWindow);
+	evenMoreGameOverText->drawMessage(gameWindow);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		main->switchToContext(MainClass::MENU);
+
 }
 
 sf::Vector2i Game::getMousePosition(){

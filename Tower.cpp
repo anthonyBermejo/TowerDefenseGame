@@ -150,8 +150,10 @@ void Tower::shootAvailableCreeps(){
 	for (int i = 0; i < creeps.size(); ++i){
 		if (abs(mapPosition.x - creeps[i]->getLocationX()) <= range &&
 			abs(mapPosition.y - creeps[i]->getLocationY()) <= range){
-			creeps[i]->damageCreep(p, getDamage());
-			cout << "Fired!\n";
+			if (creeps[i]->getHitPoints() > 0){
+				creeps[i]->damageCreep(p, getDamage());
+				cout << "Fired!\n";
+			}
 			break;
 		}
 	}

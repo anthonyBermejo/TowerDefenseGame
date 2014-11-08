@@ -8,9 +8,11 @@
 #include "TextMessage.h"
 #include <vector>
 
+class MainClass;
+
 class Game {
 public:
-	Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm);
+	Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass* m);
 
 	void run();
 	void update();
@@ -30,6 +32,8 @@ private:
 	vector<Tower*> towers;
 	bool isRunning;
 	int level;
+	MainClass* main;
+
 
 	//time variables
 	sf::Time timeElapsed; //Keeps track of the time elapsed between update/draw calls
@@ -57,6 +61,13 @@ private:
 
 	void drawUI();
 
+	//game over text
+	TextMessage* gameOverText;
+	TextMessage* moreGameOverText;
+	TextMessage* evenMoreGameOverText;
+	sf::RectangleShape* overlay;
+
+	
 	// text for panel to build towers
 	TextMessage *regTowerText;
 	TextMessage *iceTowerText;

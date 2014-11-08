@@ -14,6 +14,8 @@ public:
 	virtual ~Menu();
 	void update();
 
+	void setPrevPress(bool press);
+
 private:
 	TextMessage* titleMsg;
 	TextMessage* playGameMsg;

@@ -85,6 +85,8 @@ void MainClass::run(){
 
 				//switch to menu
 				menu = new Menu(tm, window,this);
+				menu->setPrevPress(true);
+				window->create(sf::VideoMode(800, 600), "Tower Defense");
 				currentContext = MENU;
 				break;
 
@@ -92,7 +94,7 @@ void MainClass::run(){
 				//The only place you should switch to game is from the MENU (no validation at this time)
 				delete menu;
 				menu = NULL;
-				game = new Game(window, mapToPass, tm);
+				game = new Game(window, mapToPass, tm,this);
 				game->run();
 				currentContext = GAME;
 				break;

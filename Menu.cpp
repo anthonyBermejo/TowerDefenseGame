@@ -248,3 +248,8 @@ void Menu::checkInput(){
 		prevPress = false;
 
 }
+
+void Menu::setPrevPress(bool b){
+	prevPress = b; //Should only be used when returning from game. Since you return from game by pressing enter
+	//when you return to the Menu, on the first iteration of the update loop it's likely the enter key will be pressed
+}
