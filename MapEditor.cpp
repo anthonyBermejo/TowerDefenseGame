@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
 #include "MainClass.h"
 
 using namespace std;
@@ -189,11 +188,15 @@ void MapEditor::saveMap(std::string path){
 		outputFile.open(path + ".tdm");
 		outputFile << output;
 		outputFile.close();
+		cout << "Map successfully saved!\n";
 }
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols, tm);
-	saveMap("C:\\hurr");
+	if (validateMap()){
+		saveMap("C:\\hurr");
+	} else
+		cout << "Failed to save map: Map is not valid.\n";
 }
 
 void MapEditor::createCustomMap(){
@@ -467,7 +470,6 @@ void MapEditor::update(){
 						cout << "Enter path to save to: ";
 						cin >> path;
 						saveMap(path);
-						cout << "Map successfully saved!";
 					}
 					else
 						cout << "Failed to save map: Map is not valid.\n";
