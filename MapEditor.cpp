@@ -123,16 +123,18 @@ void MapEditor::loadMapFile(std::string mapDir){
 	//populating map with map data from xml
 	for (xml_node<> *row = mapHead->first_node("row"); row; row = row->next_sibling()){
 		for (xml_node<> *tile = row->first_node("tile"); tile; tile = tile->next_sibling("tile")){
+			cout << "row: " << x << " col: " << y << " has value: " << atoi(tile->first_attribute()->value()) << endl;
 			map->setTile(x, y++, atoi(tile->first_attribute()->value()));
+			if (y >= cols)
+				y = 0;
 		}
 		++x;
-		if (x >= cols)
+		if (x >= rows)
 			x = 0;
-		if (y >= rows)
-			y = 0;
 	}
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
+	map->printMap();
 }
 
 void MapEditor::saveMap(std::string path){
