@@ -53,7 +53,6 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 			i--;
 		}
 	}
-
 }
 
 void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
@@ -145,52 +144,52 @@ void CreepSquad::checkMove(Creep* creep)
 	// else, move along the current direction
 	if (creepDirection == Direction::LEFT)
 	{
-		if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::ENV) {
-			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
+		if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::ENV || locationY == 0) {
+			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::DOWN);
 			}
 
-			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::UP);
 			}
 		}
 	}
 	else if (creepDirection == Direction::RIGHT)
 	{
-		if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::ENV)
+		if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::ENV || locationY == map->getCols() - 1)
 		{
 
-			if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX+1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX+1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::DOWN);
 			}
 
-			if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX-1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX-1, locationY) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::UP);
 			}
 		}
 	}
 	else if (creepDirection == Direction::UP)
 	{
-		if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::ENV)
+		if (map->getTile(locationX-1, locationY) == Map::TILE_TYPE::ENV || locationX == 0)
 		{
-			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX, locationY-1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY-1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::LEFT);
 			}
 
-			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX, locationY+1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY+1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::RIGHT);
 			}
 		}
 	}
-	else
+	else if (creepDirection == Direction::DOWN)
 	{
-		if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::ENV)
+		if (map->getTile(locationX+1, locationY) == Map::TILE_TYPE::ENV || locationX == map->getRows()-1)
 		{
-			if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX, locationY-1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY-1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::LEFT);
 			}
 
-			if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::PATH || map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
+			if (map->getTile(locationX, locationY+1) == Map::TILE_TYPE::PATH || map->getTile(locationX, locationY+1) == Map::TILE_TYPE::END) {
 				creep->setDirection(Direction::RIGHT);
 			}
 		}
@@ -209,25 +208,25 @@ bool CreepSquad::checkEndTile(Creep* creep, Player* player)
 	// if the direction the creep is going in has an end tile, set boolean to true
 	if (direction == Direction::LEFT)
 	{
-		if (map->getTile(locationX - 1, locationY) == Map::TILE_TYPE::END) {
+		if (map->getTile(locationX, locationY-1) == Map::TILE_TYPE::END) {
 			creepAtEndTile = true;
 		}
 	}
 	else if (direction == Direction::RIGHT)
 	{
-		if (map->getTile(locationX + 1, locationY) == Map::TILE_TYPE::END) {
+		if (map->getTile(locationX, locationY+1) == Map::TILE_TYPE::END) {
 			creepAtEndTile = true;
 		}
 	}
 	else if (direction == Direction::UP)
 	{
-		if (map->getTile(locationX, locationY + 1) == Map::TILE_TYPE::END) {
+		if (map->getTile(locationX-1, locationY) == Map::TILE_TYPE::END) {
 			creepAtEndTile = true;
 		}
 	}
 	else
 	{
-		if (map->getTile(locationX, locationY - 1) == Map::TILE_TYPE::END) {
+		if (map->getTile(locationX+1, locationY) == Map::TILE_TYPE::END) {
 			creepAtEndTile = true;
 		}
 	}

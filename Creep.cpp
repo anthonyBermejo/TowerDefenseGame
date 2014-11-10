@@ -155,19 +155,19 @@ void Creep::move(Map *map)
 	// change x,y coordinates of an alien according to movement direction
 	if (direction == Direction::LEFT)
 	{
-		this->locationX = mapLocationX - 1;
+		this->locationY = mapLocationY - 1;
 	}
 	else if (direction == Direction::RIGHT)
 	{
-		this->locationX = mapLocationX + 1;
+		this->locationY = mapLocationY + 1;
 	}
 	else if (direction == Direction::UP)
 	{
-		this->locationY = mapLocationY + 1;
+		this->locationX = mapLocationX - 1;
 	}
 	else
 	{
-		this->locationY = mapLocationY - 1;
+		this->locationX = mapLocationX + 1;
 	}
 
 	// set new map location to enemy position
