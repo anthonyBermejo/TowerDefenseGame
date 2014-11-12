@@ -142,7 +142,7 @@ void Tower::Draw(sf::RenderWindow* w){
 }
 
 void Tower::shootAvailableCreeps(){
-	vector<Creep*> creeps = squad->getCreeps();
+	vector<DrawableCreep*> creeps = squad->getCreeps();
 
 	//loop through creeps and find closest creep, then damage it and pop out
 	//

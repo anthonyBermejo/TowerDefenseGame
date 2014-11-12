@@ -5,6 +5,8 @@
 #include "Creep.h"
 #include "Map.h"
 #include <queue>
+#include "CreepFactory.h"
+#include "DrawableCreep.h"
 
 using namespace std;
 
@@ -16,26 +18,28 @@ public:
 	void resetCreepSquad(int level, sf::RenderWindow* w);
 	virtual ~CreepSquad();
 
-	vector<Creep*> getCreeps() const;
-	vector<Creep*> getStartingCreepList() const;
+	vector<DrawableCreep*> getCreeps() const;
+	vector<DrawableCreep*> getStartingCreepList() const;
 
 	void Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime);
 	void Draw(sf::RenderWindow* w);
 
 private:
-	vector<Creep*> creepSquad;
+	vector<DrawableCreep*> creepSquad;
 	Map* map;
 	TextureManager* texManager;
-	vector<Creep*> startingCreepList;
+	vector<DrawableCreep*> startingCreepList;
 	sf::Time timeElapsed;
 
 	int startLocationX;
 	int startLocationY;
 
-	void checkMove(Creep* creep);
-	bool checkEndTile(Creep* creep, Player* player);
+	void checkMove(DrawableCreep* creep);
+	bool checkEndTile(DrawableCreep* creep, Player* player);
 	void damageCreep(Player *player, int damage);
 	void removeDeadCreeps();
 	int creepSpeed;
+
+	CreepFactory* creepFactory;
 };
 

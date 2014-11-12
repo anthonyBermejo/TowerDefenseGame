@@ -5,7 +5,7 @@
 using namespace std;
 
 // Constructors
-Creep::Creep(TextureManager* texManager)
+Creep::Creep()
 {
 	hitPoints = 50;
 	speed = 1;
@@ -15,14 +15,9 @@ Creep::Creep(TextureManager* texManager)
 	locationX = 0;
 	locationY = 0;
 	direction = Direction::RIGHT;
-	spriteType = SPRITE_TYPE::SLIME;
-	this->texManager = texManager;
-
-	sprite1 = new sf::Sprite();
-	sprite2 = new sf::Sprite();
 }
 
-Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction, TextureManager* texManager, SPRITE_TYPE spriteType)
+Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction)
 {
 	this->hitPoints = hp;
 	this->speed = speed;
@@ -32,11 +27,6 @@ Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locat
 	this->locationX = locationX;
 	this->locationY = locationY;
 	this->direction = direction;
-	this->texManager = texManager;
-	this->spriteType = spriteType;
-
-	// load sprites according to the type of the creep
-	loadCreepSprites();
 }
 
 
@@ -79,11 +69,6 @@ int Creep::getLocationY() const
 Direction Creep::getDirection() const
 {
 	return direction;
-}
-
-sf::Sprite* Creep::getSprite() const
-{
-	return sprite1;
 }
 
 // Setters
@@ -177,62 +162,10 @@ void Creep::move(Map *map)
 
 void Creep::damageCreep(Player *player, int damage)
 {
-	hitPoints = (hitPoints + defense) - damage;
+	hitPoints = hitPoints - damage;
 
 	if (hitPoints <= 0) {
 		player->setCoins(player->getCoins() + reward);
-	}
-}
-
-void Creep::loadCreepSprites()
-{
-	sprite1 = new sf::Sprite();
-	sprite2 = new sf::Sprite();
-
-	switch (spriteType)
-	{
-	case SPRITE_TYPE::SLIME:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(0, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::MAGE:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24*2, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24*3, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::SKELETON:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24*4, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24*5, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::OGRE:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24 * 6, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24 * 7, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::BULL:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24 * 8, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24 * 9, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::WOLF:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24 * 10, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24 * 11, 0, 24, 24));
-		break;
-	case SPRITE_TYPE::ELF:
-		sprite1->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite1->setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
-		sprite2->setTexture(texManager->getTexture(TextureManager::TEXTURE::SPRITE));
-		sprite2->setTextureRect(sf::IntRect(24 * 13, 0, 24, 24));
-		break;
 	}
 }
 

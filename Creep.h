@@ -9,14 +9,12 @@ using namespace std;
 // Enum
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
-enum SPRITE_TYPE { ELF, WOLF, BULL, OGRE, SKELETON, MAGE, SLIME };
-
 // class definition
 class Creep {
 
 public:
-	Creep(TextureManager* texManager);
-	Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction dir, TextureManager* tex, SPRITE_TYPE spriteType);
+	Creep();
+	Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction dir);
 	virtual ~Creep();
 
 	// getters
@@ -28,7 +26,6 @@ public:
 	int getLocationX() const;
 	int getLocationY() const;
 	Direction getDirection() const;
-	sf::Sprite* getSprite() const;
 
 	// setters
 	void setHitPoints(int hp);
@@ -54,11 +51,4 @@ private:
 	int locationX;
 	int locationY;
 	Direction direction;
-	SPRITE_TYPE spriteType;
-	TextureManager* texManager; 
-	
-	sf::Sprite* sprite1;
-	sf::Sprite* sprite2;
-
-	void loadCreepSprites();
 };

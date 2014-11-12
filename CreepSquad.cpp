@@ -4,21 +4,27 @@ const int MAX_NUMBER_OF_CREEPS = 10;
 
 CreepSquad::CreepSquad(Map* map, TextureManager* texManager)
 {
-	this->creepSquad = vector<Creep*>(MAX_NUMBER_OF_CREEPS);
+	this->creepSquad = vector<DrawableCreep*>(MAX_NUMBER_OF_CREEPS);
 	this->map = map;
 	this->texManager = texManager;
 	timeElapsed = sf::Time::Zero;
 	creepSpeed = 1;
+	creepFactory = new CreepFactory(texManager);
 }
 
-vector<Creep*> CreepSquad::getCreeps() const { return creepSquad; }
-vector<Creep*> CreepSquad::getStartingCreepList() const { return startingCreepList; }
+vector<DrawableCreep*> CreepSquad::getCreeps() const { return creepSquad; }
+vector<DrawableCreep*> CreepSquad::getStartingCreepList() const { return startingCreepList; }
 
 void CreepSquad::move(Player* player, sf::RenderWindow* w)
 {
 	// remove creeps one at a time from a container list to enter game
 	if (!startingCreepList.empty()) {
-		Creep* creep = startingCreepList.back();
+		DrawableCreep* creep = startingCreepList.back();
+
+		// get x,y position of start tile of the map
+		creep->setLocationX(map->getStart()[0]);
+		creep->setLocationY(map->getStart()[1]);
+
 		creepSquad.push_back(creep);
 		startingCreepList.pop_back();
 	}
@@ -59,72 +65,69 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 {
 	creepSquad.clear();
 
-	// get x,y position of start tile of the map
-	startLocationX = map->getStart()[0];
-	startLocationY = map->getStart()[1];
-
 	// spawn creeps according to the level
 	switch (level)
 	{
 	case 1:
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
-		startingCreepList.push_back(new Creep(20, 1, 5, 5, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SLIME));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 2:
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
-		startingCreepList.push_back(new Creep(30, 1, 10, 10, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::SKELETON));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 3:
-		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
-		startingCreepList.push_back(new Creep(100, 1, 5, 15, 50, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::BULL));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 4:
-		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
-		startingCreepList.push_back(new Creep(40, 2, 10, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::MAGE));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 5:
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
-		startingCreepList.push_back(new Creep(40, 1, 25, 20, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::ELF));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 6:
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
-		startingCreepList.push_back(new Creep(50, 3, 25, 30, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::WOLF));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	case 7:
-		startingCreepList.push_back(new Creep(1000, 1, 25, 1000, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::OGRE));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		break;
 	default:
 		//TEMPORARY FIX SO THAT THE GAME DOESNT CRASH AFTER LEVEL 7
 		for (int i = 0; i < level - 6; ++i){
-			startingCreepList.push_back(new Creep(1000, 1, 25, 1000, 60, startLocationX, startLocationY, Direction::RIGHT, texManager, SPRITE_TYPE::OGRE));
+			startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
 		}
 		break;
 	}
@@ -133,7 +136,7 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 }
 
 // Check if a creep is able to move in a specific direction
-void CreepSquad::checkMove(Creep* creep)
+void CreepSquad::checkMove(DrawableCreep* creep)
 {
 	Direction creepDirection = creep->getDirection();
 	int locationX = creep->getLocationX();
@@ -197,7 +200,7 @@ void CreepSquad::checkMove(Creep* creep)
 }
 
 // Checks if a creep has entered an end tile
-bool CreepSquad::checkEndTile(Creep* creep, Player* player)
+bool CreepSquad::checkEndTile(DrawableCreep* creep, Player* player)
 {
 	Direction direction = creep->getDirection();
 	int locationX = creep->getLocationX();
