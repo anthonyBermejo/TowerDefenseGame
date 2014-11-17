@@ -3,6 +3,7 @@
 #include <vector>
 #include "Map.h"
 #include "Player.h"
+#include "Observable.h"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ using namespace std;
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
 // class definition
-class Creep {
+class Creep : public Observable {
 
 public:
 	Creep();

@@ -8,7 +8,9 @@ public:
 	DrawableCreep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction dir, sf::Sprite* sprite);
 	virtual ~DrawableCreep();
 	sf::Sprite* getSprite() const;
+	sf::RectangleShape* getHealthBar() const;
 private:
 	sf::Sprite* sprite;
+	sf::RectangleShape* healthBar;
 };
 

@@ -2,7 +2,7 @@
 
 const int MAX_NUMBER_OF_CREEPS = 10;
 
-CreepSquad::CreepSquad(Map* map, TextureManager* texManager)
+CreepSquad::CreepSquad(Map* map, TextureManager* texManager) : Observer()
 {
 	this->creepSquad = vector<DrawableCreep*>(MAX_NUMBER_OF_CREEPS);
 	this->map = map;
@@ -42,14 +42,11 @@ void CreepSquad::move(Player* player, sf::RenderWindow* w)
 			if (creepSquad[i]->getHitPoints() > 0) {
 				sf::Sprite* creepSprite = creepSquad[i]->getSprite();
 				creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+
+				// display health bar
+				displayHealthBar(creepSquad[i]);
 			}
 
-			// draw health bar of creep
-			//sf::RectangleShape healthBar;
-			//healthBar.setSize(sf::Vector2f(creepSquad[i]->getHitPoints() / 3, 5));
-			//healthBar.setFillColor(sf::Color::Red);
-			//healthBar.setPosition(creepSprite->getPosition().x, creepSprite->getPosition().y - 5);
-			//w->draw(healthBar);
 		}
 		else {
 			// delete creep object and remove from vector of creeps
@@ -133,6 +130,11 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 	}
 
 	creepSpeed = startingCreepList.front()->getSpeed();
+	creepTotalHP = startingCreepList.front()->getHitPoints();
+
+	for (int i = 0; i < startingCreepList.size(); ++i) {
+		startingCreepList[i]->addObserver(this);
+	}
 }
 
 // Check if a creep is able to move in a specific direction
@@ -262,6 +264,13 @@ void CreepSquad::removeDeadCreeps()
 	}
 }
 
+void CreepSquad::update()
+{
+	for (int i = 0; i < (int)creepSquad.size(); ++i) {
+			// draw health bar of creep
+			displayHealthBar(creepSquad[i]);
+	}
+}
 
 void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime)
 {
@@ -277,17 +286,39 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 	}
 }
 
+void CreepSquad::displayHealthBar(DrawableCreep* creep)
+{
+	sf::RectangleShape* healthBar = creep->getHealthBar();
+	healthBar->setSize(sf::Vector2f(((float)creep->getHitPoints() / (float)creepTotalHP) * 24, 5));
+	healthBar->setFillColor(sf::Color::Red);
+	healthBar->setOutlineColor(sf::Color::Black);
+	healthBar->setOutlineThickness(0.5);
+	healthBar->setPosition(creep->getSprite()->getPosition().x, creep->getSprite()->getPosition().y - 5);
+
+}
+
 void CreepSquad::Draw(sf::RenderWindow* w)
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i)
 	{
-		if (creepSquad[i]->getHitPoints() > 0)
+		if (creepSquad[i]->getHitPoints() > 0) {
 			w->draw(*(creepSquad[i]->getSprite()));
+		}
+	}
+
+	// need 2nd for loop or else health bars will be hidden under creeps
+	for (int i = 0; i < (int)creepSquad.size(); ++i)
+	{
+		if (creepSquad[i]->getHitPoints() > 0) {
+			w->draw(*(creepSquad[i]->getHealthBar()));
+		}
 	}
 }
 
 CreepSquad::~CreepSquad()
 {
-	for (int i = 0; i < (int)creepSquad.size(); ++i)
+	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 		delete creepSquad[i];
+		creepSquad[i] = NULL;
+	}
 }

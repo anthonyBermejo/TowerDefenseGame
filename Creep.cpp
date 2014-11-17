@@ -5,7 +5,7 @@
 using namespace std;
 
 // Constructors
-Creep::Creep()
+Creep::Creep() : Observable()
 {
 	hitPoints = 50;
 	speed = 1;
@@ -17,7 +17,7 @@ Creep::Creep()
 	direction = Direction::RIGHT;
 }
 
-Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction)
+Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction) : Observable()
 {
 	this->hitPoints = hp;
 	this->speed = speed;
@@ -158,6 +158,8 @@ void Creep::move(Map *map)
 	// set new map location to enemy position
 	if (map->getTile(locationX, locationY) != Map::TILE_TYPE::END)
 		map->setTile(locationX, locationY, Map::TILE_TYPE::CREEP);
+
+	notify();
 }
 
 void Creep::damageCreep(Player *player, int damage)
@@ -167,6 +169,8 @@ void Creep::damageCreep(Player *player, int damage)
 	if (hitPoints <= 0) {
 		player->setCoins(player->getCoins() + reward);
 	}
+	
+	notify();
 }
 
 // Destructor

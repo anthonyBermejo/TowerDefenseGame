@@ -1,11 +1,3 @@
-// **********************
-//
-//	Observable.cpp
-//	Created by: Anthony-Virgil Bermejo
-//
-// **********************
-
-#include "stdafx.h"
 #include "Observable.h"
 
 const int Observable::MAX_OBSERVERS = 10;
@@ -14,10 +6,6 @@ const int Observable::MAX_OBSERVERS = 10;
 Observable::Observable()
 {
 	observers = new Observer*[MAX_OBSERVERS];
-
-	for (int i = 0; i < MAX_OBSERVERS; ++i)
-		observers[i] = NULL;
-
 	numObservers = 0;
 }
 

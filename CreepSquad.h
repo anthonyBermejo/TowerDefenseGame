@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class CreepSquad
+class CreepSquad : public Observer
 {
 public:
 	CreepSquad(Map* map, TextureManager* texManager);
@@ -21,6 +21,7 @@ public:
 	vector<DrawableCreep*> getCreeps() const;
 	vector<DrawableCreep*> getStartingCreepList() const;
 
+	void update();
 	void Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime);
 	void Draw(sf::RenderWindow* w);
 
@@ -36,9 +37,10 @@ private:
 
 	void checkMove(DrawableCreep* creep);
 	bool checkEndTile(DrawableCreep* creep, Player* player);
-	void damageCreep(Player *player, int damage);
 	void removeDeadCreeps();
+	void displayHealthBar(DrawableCreep* creep);
 	int creepSpeed;
+	int creepTotalHP;
 
 	CreepFactory* creepFactory;
 };

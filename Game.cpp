@@ -393,6 +393,8 @@ void Game::drawUI(){
 		upgradeText->drawMessage(gameWindow);
 		destroyText->drawMessage(gameWindow);
 		//gameWindow->draw(*displayTowerIcon);
+		gameWindow->draw(*destroyTowerIcon);
+		gameWindow->draw(*upgradeTowerIcon);
 	}
 
 	// draw sprites
@@ -400,9 +402,6 @@ void Game::drawUI(){
 	gameWindow->draw(*iceTowerSprite);
 	gameWindow->draw(*cannonTowerSprite);
 	gameWindow->draw(*superTowerSprite);
-	gameWindow->draw(*destroyTowerIcon);
-	gameWindow->draw(*upgradeTowerIcon);
-
 
 	// draw text
 	regTowerText->drawMessage(gameWindow);
