@@ -49,8 +49,19 @@ MainClass::~MainClass(){
 }
 
 void MainClass::run(){
+	sf::Event event;
+	
 	//keep running until it's time to close the program (ie, pop out of this method)
 	while (!gtfo){
+		while (window->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed){
+				window->close();
+				exit(0);
+			}
+		}
+
+
 		switch (currentContext){
 		case MENU:
 			window->clear();
