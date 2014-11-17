@@ -15,19 +15,8 @@ CreepSquad::CreepSquad(Map* map, TextureManager* texManager) : Observer()
 vector<DrawableCreep*> CreepSquad::getCreeps() const { return creepSquad; }
 vector<DrawableCreep*> CreepSquad::getStartingCreepList() const { return startingCreepList; }
 
-void CreepSquad::move(Player* player, sf::RenderWindow* w)
+void CreepSquad::move(Player* player, sf::Time elapsedTime, sf::RenderWindow* w)
 {
-	// remove creeps one at a time from a container list to enter game
-	if (!startingCreepList.empty()) {
-		DrawableCreep* creep = startingCreepList.back();
-
-		// get x,y position of start tile of the map
-		creep->setLocationX(map->getStart()[0]);
-		creep->setLocationY(map->getStart()[1]);
-
-		creepSquad.push_back(creep);
-		startingCreepList.pop_back();
-	}
 
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 
@@ -62,69 +51,73 @@ void CreepSquad::resetCreepSquad(int level, sf::RenderWindow* w)
 {
 	creepSquad.clear();
 
+	// get x,y position of start tile of the map
+	int startLocationX = map->getStart()[0];
+	int startLocationY = map->getStart()[1];
+
 	// spawn creeps according to the level
 	switch (level)
 	{
 	case 1:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 2:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 3:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 4:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 5:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 6:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	case 7:
-		startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+		startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		break;
 	default:
 		//TEMPORARY FIX SO THAT THE GAME DOESNT CRASH AFTER LEVEL 7
 		for (int i = 0; i < level - 6; ++i){
-			startingCreepList.push_back(creepFactory->getCreepAtLevel(level));
+			startingCreepList.push_back(creepFactory->getCreepAtLevel(level, startLocationX, startLocationY));
 		}
 		break;
 	}
@@ -275,12 +268,30 @@ void CreepSquad::update()
 void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime)
 {
 	timeElapsed += elapsedTime;
+	spawnElapsedTime += elapsedTime;
+
+	if (spawnElapsedTime >= sf::milliseconds(2500) && timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
+		// remove creeps one at a time from a container list to enter game
+		if (!startingCreepList.empty()) {
+			DrawableCreep* creep = startingCreepList.back();
+
+			creepSquad.push_back(creep);
+			startingCreepList.pop_back();
+
+			sf::Sprite* creepSprite = creep->getSprite();
+			creepSprite->setPosition(creep->getLocationY() * 24.0f, creep->getLocationX() * 24.0f);
+
+			displayHealthBar(creep);
+
+			spawnElapsedTime = sf::Time::Zero;
+		}
+	}
 
 	if (timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
 
 		removeDeadCreeps();
 
-		move(player, w);
+		move(player, elapsedTime, w);
 
 		timeElapsed = sf::Time::Zero;
 	}

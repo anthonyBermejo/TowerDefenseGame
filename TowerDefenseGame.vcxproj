@@ -11,37 +11,59 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Blob.h" />
+    <ClInclude Include="Bull.h" />
     <ClInclude Include="Creep.h" />
+    <ClInclude Include="CreepFactory.h" />
     <ClInclude Include="CreepSquad.h" />
+    <ClInclude Include="DrawableCreep.h" />
+    <ClInclude Include="Elf.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Mage.h" />
     <ClInclude Include="MainClass.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEditor.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Observable.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Ogre.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="rapidxml.hpp" />
     <ClInclude Include="rapidxml_iterators.hpp" />
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="TextMessage.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Blob.cpp" />
+    <ClCompile Include="Bull.cpp" />
     <ClCompile Include="Creep.cpp" />
+    <ClCompile Include="CreepFactory.cpp" />
     <ClCompile Include="CreepSquad.cpp" />
+    <ClCompile Include="DrawableCreep.cpp" />
+    <ClCompile Include="Elf.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Mage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainClass.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEditor.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Ogre.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="TextMessage.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{537E97C6-D356-49AF-BB83-B5A38DE79D7C}</ProjectGuid>

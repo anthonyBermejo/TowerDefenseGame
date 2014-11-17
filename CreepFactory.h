@@ -16,7 +16,7 @@ public:
 	CreepFactory(TextureManager* textureManager);
 	~CreepFactory();
 
-	DrawableCreep* getCreepAtLevel(int level);
+	DrawableCreep* getCreepAtLevel(int, int, int);
 
 private:
 	TextureManager * texManager;
