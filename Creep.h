@@ -27,6 +27,7 @@ public:
 	int getLocationX() const;
 	int getLocationY() const;
 	Direction getDirection() const;
+	sf::Time getMovementTime() const;
 
 	// setters
 	void setHitPoints(int hp);
@@ -37,6 +38,7 @@ public:
 	void setLocationX(int locationX);
 	void setLocationY(int locationY);
 	void setDirection(Direction direction);
+	void setMovementTime(sf::Time time);
 
 	// Custom methods
 	void printCreep() const;
@@ -52,4 +54,5 @@ private:
 	int locationX;
 	int locationY;
 	Direction direction;
+	sf::Time movementTime;
 };

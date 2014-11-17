@@ -15,6 +15,7 @@ Creep::Creep() : Observable()
 	locationX = 0;
 	locationY = 0;
 	direction = Direction::RIGHT;
+	movementTime = sf::Time::Zero; 
 }
 
 Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction) : Observable()
@@ -27,6 +28,7 @@ Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locat
 	this->locationX = locationX;
 	this->locationY = locationY;
 	this->direction = direction;
+	this->movementTime = sf::Time::Zero;
 }
 
 
@@ -71,6 +73,11 @@ Direction Creep::getDirection() const
 	return direction;
 }
 
+sf::Time Creep::getMovementTime() const
+{
+	return movementTime;
+}
+
 // Setters
 void Creep::setHitPoints(int hp)
 {
@@ -109,6 +116,11 @@ void Creep::setLocationY(int locationY)
 void Creep::setDirection(Direction direction)
 {
 	this->direction = direction;
+}
+
+void Creep::setMovementTime(sf::Time time)
+{
+	this->movementTime = time;
 }
 
 // Custom methods

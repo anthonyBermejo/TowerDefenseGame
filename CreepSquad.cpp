@@ -17,32 +17,39 @@ vector<DrawableCreep*> CreepSquad::getStartingCreepList() const { return startin
 
 void CreepSquad::move(Player* player, sf::Time elapsedTime, sf::RenderWindow* w)
 {
-
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
-
+		
 		// check if creep can move, change it's direction
 		checkMove(creepSquad[i]);
 
-		if (!checkEndTile(creepSquad[i], player)) {
-			// move creep along the internal amp
-			creepSquad[i]->move(map);
+		creepSquad[i]->setMovementTime(creepSquad[i]->getMovementTime() + elapsedTime);
 
-			// set position of the sprite
-			if (creepSquad[i]->getHitPoints() > 0) {
-				sf::Sprite* creepSprite = creepSquad[i]->getSprite();
-				creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+		if (creepSquad[i]->getMovementTime() >= sf::milliseconds(1000 / creepSquad[i]->getSpeed())) {
 
-				// display health bar
-				displayHealthBar(creepSquad[i]);
+			if (!checkEndTile(creepSquad[i], player)) {
+				// move creep along the internal amp
+				creepSquad[i]->move(map);
+
+				// set position of the sprite
+				if (creepSquad[i]->getHitPoints() > 0) {
+					sf::Sprite* creepSprite = creepSquad[i]->getSprite();
+					creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+
+					// display health bar
+					displayHealthBar(creepSquad[i]);
+				}
+
+			}
+			else {
+				// delete creep object and remove from vector of creeps
+				delete creepSquad[i];
+				creepSquad[i] = NULL;
+				creepSquad.erase(creepSquad.begin() + i);
+				i--;
+				continue;
 			}
 
-		}
-		else {
-			// delete creep object and remove from vector of creeps
-			delete creepSquad[i];
-			creepSquad[i] = NULL;
-			creepSquad.erase(creepSquad.begin() + i);
-			i--;
+			creepSquad[i]->setMovementTime(sf::Time::Zero);
 		}
 	}
 }
@@ -267,10 +274,9 @@ void CreepSquad::update()
 
 void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime)
 {
-	timeElapsed += elapsedTime;
 	spawnElapsedTime += elapsedTime;
 
-	if (spawnElapsedTime >= sf::milliseconds(2500) && timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
+	if (spawnElapsedTime >= sf::milliseconds(3000)) {
 		// remove creeps one at a time from a container list to enter game
 		if (!startingCreepList.empty()) {
 			DrawableCreep* creep = startingCreepList.back();
@@ -287,14 +293,9 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 		}
 	}
 
-	if (timeElapsed >= sf::milliseconds(1000 / creepSpeed)) {
+	removeDeadCreeps();
 
-		removeDeadCreeps();
-
-		move(player, elapsedTime, w);
-
-		timeElapsed = sf::Time::Zero;
-	}
+	move(player, elapsedTime, w);
 }
 
 void CreepSquad::displayHealthBar(DrawableCreep* creep)
