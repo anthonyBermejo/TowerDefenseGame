@@ -12,7 +12,7 @@ public:
 	~DrawableMap();
 	void addObserver(Observer* obs);
 	void removeObserver(Observer* obs);
-	void drawMap(sf::RenderWindow* w) const;
+	void drawMap();
 	void update();
 private:
 	Map* map;

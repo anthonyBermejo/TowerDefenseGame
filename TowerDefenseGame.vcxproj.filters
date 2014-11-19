@@ -102,6 +102,9 @@
     <ClInclude Include="NearestAttackStrategy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DrawableMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creep.cpp">
@@ -177,6 +180,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AttackStrategies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

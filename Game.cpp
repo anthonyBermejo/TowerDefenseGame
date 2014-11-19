@@ -156,7 +156,7 @@ void Game::update() {
 
 void Game::draw(sf::RenderWindow* w) {
 	w->clear();
-	drawable->update();
+	drawable->drawMap();
 	creeps->Draw(w);
 
 	for (int i = 0; i < towers.size(); ++i)

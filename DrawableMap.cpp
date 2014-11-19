@@ -60,7 +60,7 @@ DrawableMap::~DrawableMap()
 {
 }
 
-void DrawableMap::update(){
+void DrawableMap::drawMap(){
 	for (int i = 0; i < map->getCols(); ++i)
 		for (int j = 0; j < map->getRows(); ++j){
 		switch (map->getTile(j, i)){
@@ -90,4 +90,9 @@ void DrawableMap::update(){
 			break;
 		}
 		}
+}
+
+void DrawableMap::update(){
+	drawMap();
+	cout << "Map updated!" << endl;
 }
