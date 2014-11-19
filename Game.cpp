@@ -12,6 +12,8 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	this->tm = tm;
 	main = m;
 
+	drawable = new DrawableMap(this->map, this->tm, this->gameWindow);
+
 	creeps = new CreepSquad(map, tm);
 	player = new Player(tm, gameWindow);
 	towers = vector<Tower*>();
@@ -154,7 +156,7 @@ void Game::update() {
 
 void Game::draw(sf::RenderWindow* w) {
 	w->clear();
-	map->drawMap(w);
+	drawable->update();
 	creeps->Draw(w);
 
 	for (int i = 0; i < towers.size(); ++i)

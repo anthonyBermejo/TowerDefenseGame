@@ -6,6 +6,7 @@
 #include "CreepSquad.h"
 #include "Tower.h"
 #include "TextMessage.h"
+#include "DrawableMap.h"
 #include <vector>
 
 class MainClass;
@@ -26,6 +27,7 @@ public:
 private:
 	sf::RenderWindow* gameWindow;
 	Map* map;
+	DrawableMap* drawable;
 	TextureManager* tm;
 	CreepSquad* creeps;
 	Player* player;

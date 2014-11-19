@@ -16,12 +16,6 @@ MapEditor::MapEditor()
 	createCustomMap();
 }
 
-/*
-MapEditor::MapEditor(int rows, int cols){
-createNewMap(rows, cols);
-}
-*/
-
 MapEditor::MapEditor(std::string path, TextureManager* tm){
 	this->tm = tm;
 	loadMapFile(path);
@@ -193,7 +187,8 @@ void MapEditor::saveMap(std::string path){
 }
 
 void MapEditor::createNewMap(int rows, int cols){
-	this->map = new Map(rows, cols, tm);
+	this->map = new Map(rows, cols);
+	drawable = new DrawableMap(this->map, tm, win);
 }
 
 void MapEditor::createCustomMap(){
@@ -201,15 +196,17 @@ void MapEditor::createCustomMap(){
 	int rows;
 
 	//gets the number of rows and columns to generate from user
-	cout << "Enter number of rows: ";
+	cout << "Enter number of rows (From 8 - 64, inclusively): ";
 	cin >> rows;
-	cout << "\nEnter number of columns: ";
+	cout << "\nEnter number of columns (From 8 - 64, inclusively): ";
 	cin >> cols;
 
 	//checks that entered values are within the acceptable range of sizes of 8 and 64, inclusively
 	if (rows <= Map::MAX_MAP_HEIGHT && rows >= Map::MIN_MAP_HEIGHT &&
 		cols <= Map::MAX_MAP_WIDTH && cols >= Map::MIN_MAP_WIDTH)
 		createNewMap(rows, cols);
+
+	map->printMap();
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 }
@@ -410,38 +407,6 @@ bool MapEditor::isConnected(int x, int y) const{
 	return connected;
 }
 
-//For testing only
-void MapEditor::validityTest(){
-	//setting start and end
-	map->setTile(1, 0, Map::START);
-	map->setTile(4, 7, Map::END);
-
-	//creating path
-	map->setTile(1, 1, Map::PATH);
-	map->setTile(1, 2, Map::PATH);
-	map->setTile(2, 2, Map::PATH);
-	map->setTile(3, 2, Map::PATH);
-	map->setTile(3, 1, Map::PATH);
-	map->setTile(4, 1, Map::PATH);
-	map->setTile(5, 1, Map::PATH);
-	map->setTile(5, 2, Map::PATH);
-	map->setTile(5, 3, Map::PATH);
-	map->setTile(4, 3, Map::PATH);
-	map->setTile(4, 4, Map::PATH);
-	map->setTile(3, 4, Map::PATH);
-	map->setTile(2, 4, Map::PATH);
-	map->setTile(2, 5, Map::PATH);
-	map->setTile(2, 6, Map::PATH);
-	map->setTile(3, 6, Map::PATH);
-	map->setTile(4, 6, Map::PATH);
-
-	validateMap();
-
-	//removing path tile to show detection of broken path
-	map->setTile(5, 2, Map::END);
-
-	validateMap();
-}
 void MapEditor::update(){
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
@@ -500,7 +465,7 @@ void MapEditor::update(){
 	else
 		prevClick = false;
 
-	map->drawMap(win);
+	drawable->update();
 
 	int margin = map->getCols()/4;
 

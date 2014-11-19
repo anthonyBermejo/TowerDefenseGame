@@ -2,6 +2,7 @@
 #include "rapidxml.hpp"
 #include "Map.h"
 #include "TextMessage.h"
+#include "DrawableMap.h"
 #include <string>
 
 using namespace std;
@@ -36,6 +37,7 @@ private:
 	sf::RenderWindow* win;
 	TextureManager* tm;
 	MainClass* main;
+	DrawableMap* drawable;
 
 	TextMessage* saveMapMsg;
 	TextMessage* backMsg;
