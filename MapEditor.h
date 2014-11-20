@@ -10,12 +10,11 @@ using namespace rapidxml;
 
 class MainClass;
 
-class MapEditor
+class MapEditor : public Observable
 {
 public:
 	MapEditor();
 	MapEditor(std::string path, TextureManager* tm);
-	//MapEditor(int rows, int cols);
 	MapEditor(Map* map);
 	MapEditor(TextureManager* tm, sf::RenderWindow* win, MainClass* main);
 
@@ -28,9 +27,10 @@ public:
 	void validityTest();
 	void loadMapFile(std::string mapDir);
 	void setTile(int row, int col, int val);
-	void update();
 	std::string getFilePath();
 	Map* getMap();
+	void drawMap();
+	bool validateMap() const;
 private:
 	Map* map;
 	xml_document<> doc;
@@ -39,16 +39,11 @@ private:
 	MainClass* main;
 	DrawableMap* drawable;
 
-	TextMessage* saveMapMsg;
-	TextMessage* backMsg;
-	TextMessage* loadMsg;
-	TextMessage* createNewMsg;
-
 	bool prevClick;
 	bool startSet;
 	bool endSet;
 	bool isConnected(int x, int y) const;
-	bool validateMap() const;
+	
 	void createNewMap(int rows, int cols);
 	void importMap() const;
 	void printMap() const;

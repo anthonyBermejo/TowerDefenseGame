@@ -7,7 +7,6 @@ class DrawableMap :
 {
 public:
 	DrawableMap();
-	DrawableMap(TextureManager* textureManager);
 	DrawableMap(Map* map, TextureManager* textureManager, sf::RenderWindow* w);
 	~DrawableMap();
 	void addObserver(Observer* obs);

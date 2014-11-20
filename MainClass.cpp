@@ -61,7 +61,6 @@ void MainClass::run(){
 			}
 		}
 
-
 		switch (currentContext){
 		case MENU:
 			window->clear();
@@ -73,7 +72,7 @@ void MainClass::run(){
 			break;
 		case MAPEDIT:
 			window->clear();
-			mEdit->update();
+			mEdit->draw();
 			window->display();
 			break;
 		}
@@ -114,7 +113,7 @@ void MainClass::run(){
 				delete menu;
 				menu = NULL;
 				
-				mEdit = new MapEditor(tm, window,this);
+				mEdit = new DrawableMapEditor(tm, window,this);
 
 				//creating new map
 				if (newMap){
@@ -126,7 +125,6 @@ void MainClass::run(){
 						mEdit->loadMapFile(path);
 					}
 				}
-				//create the map editor with one of many constructors? :P
 				currentContext = MAPEDIT;
 			}
 		}

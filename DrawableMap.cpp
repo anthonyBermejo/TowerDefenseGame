@@ -94,5 +94,4 @@ void DrawableMap::drawMap(){
 
 void DrawableMap::update(){
 	drawMap();
-	cout << "Map updated!" << endl;
 }

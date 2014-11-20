@@ -36,18 +36,7 @@ MapEditor::MapEditor(Map* map){
 }
 
 MapEditor::~MapEditor(){
-	win = NULL;
-	tm = NULL;
 
-	delete saveMapMsg;
-	delete backMsg;
-	delete loadMsg;
-	delete createNewMsg;
-
-	saveMapMsg = NULL;
-	backMsg = NULL;
-	loadMsg = NULL;
-	createNewMsg = NULL;
 }
 
 void MapEditor::setPath(int x, int y){
@@ -55,6 +44,7 @@ void MapEditor::setPath(int x, int y){
 		map->setTile(x, y, 1);
 	else if (map->getTile(x, y) == 1)
 		map->setTile(x, y, 0);
+	notify();
 }
 
 void MapEditor::setStartAndEnd(int x, int y){
@@ -74,6 +64,7 @@ void MapEditor::setStartAndEnd(int x, int y){
 		map->setTile(x, y, Map::ENV);
 		endSet = false;
 	}
+	notify();
 }
 
 void MapEditor::loadMapFile(std::string mapDir){
@@ -128,6 +119,7 @@ void MapEditor::loadMapFile(std::string mapDir){
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 	map->printMap();
+	notify();
 }
 
 void MapEditor::saveMap(std::string path){
@@ -184,6 +176,8 @@ void MapEditor::saveMap(std::string path){
 		outputFile << output;
 		outputFile.close();
 		cout << "Map successfully saved!\n";
+
+		notify();
 }
 
 void MapEditor::createNewMap(int rows, int cols){
@@ -209,6 +203,7 @@ void MapEditor::createCustomMap(){
 	map->printMap();
 
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
+	notify();
 }
 
 void MapEditor::printMap() const{
@@ -220,14 +215,8 @@ Map* MapEditor::getMap(){
 }
 
 void MapEditor::setTile(int row, int col, int val){
-	/* acceptable vals
-	*  0 = scenery
-	*  1 = path
-	*  2 = tower
-	*  3 = start
-	*  4 = end
-	*/
 	map->setTile(row, col, val);
+	notify();
 }
 
 bool MapEditor::validateMap() const{
@@ -407,84 +396,8 @@ bool MapEditor::isConnected(int x, int y) const{
 	return connected;
 }
 
-void MapEditor::update(){
-	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-		int x = sf::Mouse::getPosition(*win).y / 24;
-		int y = sf::Mouse::getPosition(*win).x / 24;
-		if (x >= 0 && y >= 0){
-			if (x < map->getRows()){
-				setPath(x, y);
-			}
-			else {
-				//clicking on map editor buttons.
-				int margin = map->getCols() / 4;
-				if (y < margin){
-					//clicking on Load
-					std::string path;
-					path = getFilePath();
-					if (path.length() != 0) {
-						loadMapFile(path);
-					}
-				} else if (y >= margin && y < margin * 2){
-					if (validateMap()){
-						//clicking on Save
-						std::string path;
-						cout << "Enter path to save to: ";
-						cin >> path;
-						saveMap(path);
-					}
-					else
-						cout << "Failed to save map: Map is not valid.\n";
-				}
-				else if (y >= margin * 2 && y < margin * 3){
-					//return to menu via Alex's MainClass
-					main->switchToContext(MainClass::CONTEXT::MENU);
-				}
-				else{
-					createCustomMap();
-				}
-			}
-		}
-		prevClick = true;
-	}
-
-	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Right)){
-		int x = sf::Mouse::getPosition(*win).y / 24;
-		int y = sf::Mouse::getPosition(*win).x / 24;
-
-		if (x >= 0 && y >= 0){
-			setStartAndEnd(x, y);
-		}
-		prevClick = true;
-	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) || sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)){
-		if (!prevClick)
-			prevClick = true;
-	}
-	else
-		prevClick = false;
-
+void MapEditor::drawMap(){
 	drawable->update();
-
-	int margin = map->getCols()/4;
-
-	loadMsg = new TextMessage(tm, "Load", sf::Vector2f(0, win->getSize().y - 30));
-	saveMapMsg = new TextMessage(tm, "Save", sf::Vector2f(margin * 24, win->getSize().y - 30));
-	backMsg = new TextMessage(tm, "Back", sf::Vector2f(margin * 2 * 24, win->getSize().y - 30));
-	createNewMsg = new TextMessage(tm, "New", sf::Vector2f((margin * 3) * 24, win->getSize().y - 30));
-
-	float scale = map->getCols() < 17 ? 1.0 : 2.0;
-
-	loadMsg->setScale(sf::Vector2f(scale, scale));
-	saveMapMsg->setScale(sf::Vector2f(scale, scale));
-	backMsg->setScale(sf::Vector2f(scale, scale));
-	createNewMsg->setScale(sf::Vector2f(scale, scale));
-
-	loadMsg->drawMessage(win);
-	saveMapMsg->drawMessage(win);
-	backMsg->drawMessage(win);
-	createNewMsg->drawMessage(win);
 }
 
 std::string MapEditor::getFilePath(){
@@ -505,6 +418,8 @@ std::string MapEditor::getFilePath(){
 	ofn.lpstrInitialDir = NULL;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 	GetOpenFileName(&ofn);
+
+	notify();
 
 	return ofn.lpstrFile;
 }
