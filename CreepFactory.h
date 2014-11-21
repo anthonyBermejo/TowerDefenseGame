@@ -13,12 +13,13 @@
 class CreepFactory
 {
 public:
-	CreepFactory(TextureManager* textureManager);
+	CreepFactory(TextureManager* textureManager, Map* map);
 	~CreepFactory();
 
-	DrawableCreep* getCreepAtLevel(int, int, int);
+	DrawableCreep* getCreepAtLevel(int);
 
 private:
 	TextureManager * texManager;
+	Map* map;
 };
 

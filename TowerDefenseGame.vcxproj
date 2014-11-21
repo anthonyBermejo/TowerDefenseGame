@@ -19,6 +19,7 @@
     <ClInclude Include="CreepSquad.h" />
     <ClInclude Include="DrawableCreep.h" />
     <ClInclude Include="DrawableMap.h" />
+    <ClInclude Include="DrawableMapEditor.h" />
     <ClInclude Include="Elf.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Mage.h" />
@@ -52,6 +53,7 @@
     <ClCompile Include="CreepSquad.cpp" />
     <ClCompile Include="DrawableCreep.cpp" />
     <ClCompile Include="DrawableMap.cpp" />
+    <ClCompile Include="DrawableMapEditor.cpp" />
     <ClCompile Include="Elf.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Mage.cpp" />

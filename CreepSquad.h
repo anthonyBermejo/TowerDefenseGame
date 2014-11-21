@@ -33,9 +33,6 @@ private:
 	sf::Time timeElapsed;
 	sf::Time spawnElapsedTime;
 
-	int startLocationX;
-	int startLocationY;
-
 	void checkMove(DrawableCreep* creep);
 	bool checkEndTile(DrawableCreep* creep, Player* player);
 	void removeDeadCreeps();
