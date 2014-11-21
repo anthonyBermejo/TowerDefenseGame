@@ -182,6 +182,8 @@ void MapEditor::saveMap(std::string path){
 
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols);
+	startSet = false;
+	endSet = false;
 	drawable = new DrawableMap(this->map, tm, win);
 }
 
@@ -380,7 +382,7 @@ bool MapEditor::isConnected(int x, int y) const{
 			}
 			//path goes west
 			else if (map->getTile(x, y - 1) == Map::PATH) {
-				++y;
+				--y;
 			}
 			//path goes south
 			else if (map->getTile(x + 1, y) == Map::PATH) {

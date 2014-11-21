@@ -60,13 +60,11 @@ void DrawableMapEditor::update(){
 }
 
 void DrawableMapEditor::draw(){
-	cout << "in DrawableMapEditor update()!" << endl;
 	if (!prevClick && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
 		if (x >= 0 && y >= 0){
 			if (x < editor->getMap()->getRows()){
-				cout << "setting path!" << endl;
 				editor->setPath(x, y);
 			}
 			else {
