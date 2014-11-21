@@ -85,6 +85,7 @@ int Tower::getDamage() const{
 int Tower::getUpgradeLevel() const{ return upgradeLevel; }
 bool Tower::isCoolingDown() const{ return coolingDown; }
 sf::Vector2i Tower::getMapPosition() const{ return mapPosition; }
+sf::Vector2i Tower::getEndPointPosition() const{ return endPointPosition; }
 sf::Time Tower::getCooldownTime() const{ return cooldownTime; }
 
 int Tower::getUpgradeCost() const{

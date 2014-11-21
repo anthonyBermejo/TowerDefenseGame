@@ -28,6 +28,7 @@ public:
 	int getUpgradeLevel() const;
 	bool isCoolingDown() const;
 	sf::Vector2i getMapPosition() const;
+	sf::Vector2i getEndPointPosition() const;
 	TOWER_TYPE getType() const;
 	sf::Time getCooldownTime() const;
 	int getUpgradeCost() const;
@@ -61,6 +62,7 @@ private:
 	bool coolingDown;
 
 	const sf::Vector2i mapPosition;
+	const sf::Vector2i endPointPosition;
 	
 	CreepSquad* squad;
 
