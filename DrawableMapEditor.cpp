@@ -64,36 +64,38 @@ void DrawableMapEditor::draw(){
 		int x = sf::Mouse::getPosition(*win).y / 24;
 		int y = sf::Mouse::getPosition(*win).x / 24;
 		if (x >= 0 && y >= 0){
-			if (x < editor->getMap()->getRows()){
-				editor->setPath(x, y);
-			}
-			else {
-				//clicking on map editor buttons.
-				int margin = editor->getMap()->getCols() / 4;
-				if (y < margin){
-					//clicking on Load
-					std::string path;
-					path = getFilePath();
-					if (path.length() != 0) {
-						loadMapFile(path);
-					}
+			if (editor->getMap() != NULL){
+				if (x < editor->getMap()->getRows()){
+					editor->setPath(x, y);
 				}
-				else if (y >= margin && y < margin * 2){
-					if (editor->validateMap()){
-						//clicking on Save
+				else {
+					//clicking on map editor buttons.
+					int margin = editor->getMap()->getCols() / 4;
+					if (y < margin){
+						//clicking on Load
 						std::string path;
-						cout << "Enter path to save to: ";
-						cin >> path;
-						editor->saveMap(path);
+						path = getFilePath();
+						if (path.length() != 0) {
+							loadMapFile(path);
+						}
 					}
-					else
-						cout << "Failed to save map: Map is not valid.\n";
-				}
-				else if (y >= margin * 2 && y < margin * 3){
-					main->switchToContext(MainClass::CONTEXT::MENU);
-				}
-				else{
-					createCustomMap();
+					else if (y >= margin && y < margin * 2){
+						if (editor->validateMap()){
+							//clicking on Save
+							std::string path;
+							cout << "Enter path to save to: ";
+							cin >> path;
+							editor->saveMap(path);
+						}
+						else
+							cout << "Failed to save map: Map is not valid.\n";
+					}
+					else if (y >= margin * 2 && y < margin * 3){
+						main->switchToContext(MainClass::CONTEXT::MENU);
+					}
+					else{
+						createCustomMap();
+					}
 				}
 			}
 		}
@@ -117,8 +119,10 @@ void DrawableMapEditor::draw(){
 	else
 		prevClick = false;
 
-	update();
-	editor->drawMap();
+	if (editor->getMap() != NULL){
+		update();
+		editor->drawMap();
+	}
 }
 
 void DrawableMapEditor::createCustomMap(){

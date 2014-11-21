@@ -421,7 +421,5 @@ std::string MapEditor::getFilePath(){
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 	GetOpenFileName(&ofn);
 
-	notify();
-
 	return ofn.lpstrFile;
 }
