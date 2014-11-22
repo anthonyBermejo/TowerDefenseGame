@@ -29,16 +29,6 @@ void CreepSquad::move(Player* player, sf::Time elapsedTime, sf::RenderWindow* w)
 			if (!checkEndTile(creepSquad[i], player)) {
 				// move creep along the internal amp
 				creepSquad[i]->move(map);
-
-				// set position of the sprite
-				if (creepSquad[i]->getHitPoints() > 0) {
-					sf::Sprite* creepSprite = creepSquad[i]->getSprite();
-					creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
-
-					// display health bar
-					displayHealthBar(creepSquad[i]);
-				}
-
 			}
 			else {
 				// delete creep object and remove from vector of creeps
@@ -230,8 +220,14 @@ void CreepSquad::removeDeadCreeps()
 void CreepSquad::update()
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
-			// draw health bar of creep
+		// set position of the sprite
+		if (creepSquad[i]->getHitPoints() > 0) {
+			sf::Sprite* creepSprite = creepSquad[i]->getSprite();
+			creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f);
+
+			// display health bar
 			displayHealthBar(creepSquad[i]);
+		}
 	}
 }
 
@@ -246,11 +242,6 @@ void CreepSquad::Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTim
 
 			creepSquad.push_back(creep);
 			startingCreepList.pop_back();
-
-			sf::Sprite* creepSprite = creep->getSprite();
-			creepSprite->setPosition(creep->getLocationY() * 24.0f, creep->getLocationX() * 24.0f);
-
-			displayHealthBar(creep);
 
 			spawnElapsedTime = sf::Time::Zero;
 		}
