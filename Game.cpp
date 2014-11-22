@@ -19,8 +19,9 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	towers = vector<Tower*>();
 
 	isRunning = false;
-	level = 1;
-	creeps->resetCreepSquad(level, gameWindow);
+	waveStarted = false;
+	level = 0;
+	//creeps->resetCreepSquad(level, gameWindow);
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
@@ -40,7 +41,8 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	upgradeTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 5);
 	destroyTowerLoc = sf::Vector2i(map->getRows() + 3, map->getCols() + 5);
 	displayTowerSpriteLoc = sf::Vector2i(map->getRows() + 1, map->getCols() + 1);
-
+	startWaveLoc = sf::Vector2i(map->getRows() + 1, map->getCols() - 4);
+	startWaveLoc2 = sf::Vector2i(map->getRows() + 2, map->getCols() - 4);
 
 	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));
@@ -49,6 +51,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 30));
 	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24 - 20, upgradeTowerLoc.y * 24 + 30));
 	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24 - 20, destroyTowerLoc.y * 24 + 30));
+	startWaveText = new TextMessage(tm, "Start Wave", sf::Vector2f(startWaveLoc.x * 24 - 15, startWaveLoc.y * 24));
 	
 	towerTypeText = new TextMessage(tm, "Hi", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 10));
 	towerUpgradeLevelText = new TextMessage(tm, "This", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 25));
@@ -120,11 +123,12 @@ void Game::update() {
 			//clear window
 			gameWindow->clear();
 
-			//creeps
-			creeps->Update(player, gameWindow, timeElapsed);
-
 			healthText->setMessage("HP " + to_string(player->getHealth()));
 			coinsText->setMessage("Coins " + to_string(player->getCoins()));
+
+			// creeps
+			if (waveStarted)
+				creeps->Update(player, gameWindow, timeElapsed);
 
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
@@ -138,14 +142,13 @@ void Game::update() {
 			if (isGameOver()){
 				isRunning = false;
 				moreGameOverText->setMessage("You made it to level " + std::to_string(level));
+				waveStarted = false;
 			}
 			
-			if (isLevelCleared() && creeps->getStartingCreepList().empty()) {
-				++level;
-				levelText->setMessage("Level " + to_string(level));
-				creeps->resetCreepSquad(level, gameWindow);
-			}
 
+			if (level == 0 || (isLevelCleared() && creeps->getStartingCreepList().empty()))
+				waveStarted = false;
+		
 			//reset timeElapsed
 			timeElapsed = sf::Time::Zero;
 		}
@@ -157,7 +160,9 @@ void Game::update() {
 void Game::draw(sf::RenderWindow* w) {
 	w->clear();
 	drawable->drawMap();
-	creeps->Draw(w);
+
+	if (waveStarted)
+		creeps->Draw(w);
 
 	for (int i = 0; i < towers.size(); ++i)
 		towers[i]->Draw(gameWindow);
@@ -250,6 +255,17 @@ void Game::doInput(){
 			if (mPos == buildSupLoc){
 				towerTypeToBuild = Tower::SUPER;
 				currentInputState = INPUT_STATE::PLACE_TOWER;
+				break;
+			}
+
+			//check if clicked on start wave
+			if (mPos == startWaveLoc || mPos == startWaveLoc2) {
+				if (!waveStarted) {
+					level++;
+					creeps->resetCreepSquad(level, gameWindow);
+					levelText->setMessage("Level " + to_string(level));
+					waveStarted = true;
+				}
 				break;
 			}
 
@@ -413,5 +429,9 @@ void Game::drawUI(){
 	levelText->drawMessage(gameWindow);
 	healthText->drawMessage(gameWindow);
 	coinsText->drawMessage(gameWindow);
+
+	if (!waveStarted) {
+		startWaveText->drawMessage(gameWindow);
+	}
 
 }

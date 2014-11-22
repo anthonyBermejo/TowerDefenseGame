@@ -34,6 +34,7 @@ private:
 	vector<Tower*> towers;
 	bool isRunning;
 	int level;
+	bool waveStarted;
 	MainClass* main;
 
 
@@ -60,6 +61,8 @@ private:
 	sf::Vector2i upgradeTowerLoc;
 	sf::Vector2i destroyTowerLoc;
 	sf::Vector2i displayTowerSpriteLoc;
+	sf::Vector2i startWaveLoc;
+	sf::Vector2i startWaveLoc2;
 
 	void drawUI();
 
@@ -67,6 +70,7 @@ private:
 	TextMessage* gameOverText;
 	TextMessage* moreGameOverText;
 	TextMessage* evenMoreGameOverText;
+	TextMessage* startWaveText;
 	sf::RectangleShape* overlay;
 
 	
