@@ -14,7 +14,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 
 	drawable = new DrawableMap(this->map, this->tm, this->gameWindow);
 
-	creeps = new CreepSquad(map, tm);
+	creeps = new DrawableCreepSquad(map, tm);
 	player = new Player(tm, gameWindow);
 	towers = vector<Tower*>();
 
@@ -128,7 +128,7 @@ void Game::update() {
 
 			// creeps
 			if (waveStarted)
-				creeps->Update(player, gameWindow, timeElapsed);
+				creeps->Update(player, timeElapsed);
 
 			//towers
 			for (int i = 0; i < towers.size(); ++i){
@@ -161,11 +161,12 @@ void Game::draw(sf::RenderWindow* w) {
 	w->clear();
 	drawable->drawMap();
 
+	for (int i = 0; i < towers.size(); ++i)
+		towers[i]->Draw(gameWindow);
+
 	if (waveStarted)
 		creeps->Draw(w);
 
-	for (int i = 0; i < towers.size(); ++i)
-		towers[i]->Draw(gameWindow);
 	drawUI();
 	
 	if (!isRunning)
@@ -262,7 +263,7 @@ void Game::doInput(){
 			if (mPos == startWaveLoc || mPos == startWaveLoc2) {
 				if (!waveStarted) {
 					level++;
-					creeps->resetCreepSquad(level, gameWindow);
+					creeps->resetCreepSquad(level);
 					levelText->setMessage("Level " + to_string(level));
 					waveStarted = true;
 				}

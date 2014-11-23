@@ -111,6 +111,9 @@
     <ClInclude Include="DrawableMapEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DrawableCreepSquad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creep.cpp">
@@ -192,6 +195,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawableMapEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableCreepSquad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

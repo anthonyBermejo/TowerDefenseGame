@@ -14,16 +14,18 @@ class CreepSquad : public Observer
 {
 public:
 	CreepSquad(Map* map, TextureManager* texManager);
-	void move(Player *player, sf::Time elapsedTime, sf::RenderWindow* w);
-	void resetCreepSquad(int level, sf::RenderWindow* w);
+	void move(Player *player, sf::Time elapsedTime);
+	void resetCreepSquad(int level);
 	virtual ~CreepSquad();
 
 	vector<DrawableCreep*> getCreeps() const;
 	vector<DrawableCreep*> getStartingCreepList() const;
+	int getCreepTotalHP() const;
 
-	void update();
-	void Update(Player* player, sf::RenderWindow* w, sf::Time elapsedTime);
-	void Draw(sf::RenderWindow* w);
+	//void update();
+	void Update(Player* player, sf::Time elapsedTime);
+//	void Draw(sf::RenderWindow* w);
+
 
 private:
 	vector<DrawableCreep*> creepSquad;
@@ -32,6 +34,7 @@ private:
 	vector<DrawableCreep*> startingCreepList;
 	sf::Time timeElapsed;
 	sf::Time spawnElapsedTime;
+	sf::Time animationTime;
 
 	void checkMove(DrawableCreep* creep);
 	bool checkEndTile(DrawableCreep* creep, Player* player);

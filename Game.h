@@ -7,6 +7,7 @@
 #include "Tower.h"
 #include "TextMessage.h"
 #include "DrawableMap.h"
+#include "DrawableCreepSquad.h"
 #include <vector>
 
 class MainClass;
@@ -29,7 +30,7 @@ private:
 	Map* map;
 	DrawableMap* drawable;
 	TextureManager* tm;
-	CreepSquad* creeps;
+	DrawableCreepSquad* creeps;
 	Player* player;
 	vector<Tower*> towers;
 	bool isRunning;
