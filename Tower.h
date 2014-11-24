@@ -16,7 +16,7 @@ public:
 	*/
 	enum TOWER_TYPE{ ICE, CANNON, REGULAR, SUPER };
 
-	Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* squad,Player* p,TextureManager* tm);
+	Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* squad,Player* p);
 	~Tower();
 
 	//getters
@@ -32,7 +32,6 @@ public:
 	TOWER_TYPE getType() const;
 	sf::Time getCooldownTime() const;
 	int getUpgradeCost() const;
-	sf::Sprite getSprite() const;
 
 	static int getTowerTypeCost(TOWER_TYPE);
 
@@ -44,10 +43,8 @@ public:
 	//----------------------------------------
 	void Update(sf::Time elapsedTime); //elapsedTime being the time passed since last update
 
-	void Draw(sf::RenderWindow* w);
 
-
-private:
+protected:
 	//members
 	//----------------------------------------
 	int cost;
@@ -65,9 +62,6 @@ private:
 	const sf::Vector2i endPointPosition;
 	
 	CreepSquad* squad;
-
-	TextureManager* tm;
-	sf::Sprite sprite;
 
 	Player* p;
 

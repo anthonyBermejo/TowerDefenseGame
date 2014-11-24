@@ -3,13 +3,10 @@
 
 using namespace std;
 
-Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepSquad,Player* p,TextureManager* tm) : type(type), upgradeLevel(level), mapPosition(mapPos), squad(creepSquad), p(p), tm(tm) {
+Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepSquad,Player* p) : type(type), upgradeLevel(level), mapPosition(mapPos), squad(creepSquad), p(p) {
 
 	coolingDown = false;
 	cooldownElapsed = sf::Time::Zero;
-
-	sprite.setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
-	sprite.setPosition(sf::Vector2f(mapPosition.x * 24.0f, mapPosition.y * 24.0f));
 
 	//initialize variables based on the tower type
 	switch (type){
@@ -21,8 +18,6 @@ Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepS
 
 		cooldownTime = sf::milliseconds(1000);
 
-		sprite.setTextureRect(sf::IntRect(0, 0, 24, 24));
-
 		break;
 
 	case TOWER_TYPE::ICE:
@@ -32,8 +27,6 @@ Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepS
 		baseDamage = 4;
 
 		cooldownTime = sf::milliseconds(1300);
-
-		sprite.setTextureRect(sf::IntRect(24, 0, 24, 24));
 
 		break;
 
@@ -45,8 +38,6 @@ Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepS
 
 		cooldownTime = sf::milliseconds(2500);
 
-		sprite.setTextureRect(sf::IntRect(48, 0, 24, 24));
-
 		break;
 
 	case TOWER_TYPE::SUPER:
@@ -56,8 +47,6 @@ Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepS
 		baseDamage = 12;
 
 		cooldownTime = sf::milliseconds(1500);
-
-		sprite.setTextureRect(sf::IntRect(72, 0, 24, 24));
 
 		break;
 	}
@@ -136,10 +125,6 @@ void Tower::Update(sf::Time elapsedTime){
 		shootAvailableCreeps();
 		coolingDown = true;
 	}
-}
-
-void Tower::Draw(sf::RenderWindow* w){
-	w->draw(sprite);
 }
 
 void Tower::shootAvailableCreeps(){

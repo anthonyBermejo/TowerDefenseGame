@@ -190,7 +190,7 @@ vector<Creep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad
 			
 			//check if current creep is the strongest
 			//if strongestCreep is NULL then this is the first iteration through creeps
-			if (strongestCreep == NULL || strongestCreep->getHitPoints() > creeps[i]->getHitPoints())
+			if (strongestCreep == NULL || strongestCreep->getHitPoints() < creeps[i]->getHitPoints())
 				strongestCreep = creeps[i];
 		}
 	}

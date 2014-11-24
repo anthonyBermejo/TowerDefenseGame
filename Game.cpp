@@ -16,7 +16,7 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 
 	creeps = new DrawableCreepSquad(map, tm);
 	player = new Player(tm, gameWindow);
-	towers = vector<Tower*>();
+	towers = vector<DrawableTower*>();
 
 	isRunning = false;
 	waveStarted = false;
@@ -137,7 +137,6 @@ void Game::update() {
 
 			// draw window and all of the sprites, UI
 			draw(gameWindow);
-			//isRunning = gameWindow->isOpen();
 
 			if (isGameOver()){
 				isRunning = false;
@@ -161,8 +160,12 @@ void Game::draw(sf::RenderWindow* w) {
 	w->clear();
 	drawable->drawMap();
 
-	for (int i = 0; i < towers.size(); ++i)
-		towers[i]->Draw(gameWindow);
+	for (int i = 0; i < towers.size(); ++i){
+		if (currentInputState == TOWER_SELECTED && selectedTower == towers[i])
+			towers[i]->Draw(gameWindow, true);
+		else
+			towers[i]->Draw(gameWindow, false);
+	}
 
 	if (waveStarted)
 		creeps->Draw(w);
@@ -364,7 +367,7 @@ void Game::doInput(){
 					found = true;
 
 				if (!found){//YOU CAN BUILD IT :D
-					Tower* t = new Tower(towerTypeToBuild, 1, mPos, creeps, player, tm);
+					DrawableTower* t = new DrawableTower(towerTypeToBuild, 1, mPos, creeps, player, tm);
 					towers.push_back(t);
 					currentInputState = INPUT_STATE::SELECT_TOWER;
 					player->setCoins(player->getCoins() - t->getCost());

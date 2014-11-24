@@ -4,7 +4,7 @@
 #include "TextureManager.h"
 #include "Player.h"
 #include "CreepSquad.h"
-#include "Tower.h"
+#include "DrawableTower.h"
 #include "TextMessage.h"
 #include "DrawableMap.h"
 #include "DrawableCreepSquad.h"
@@ -32,7 +32,7 @@ private:
 	TextureManager* tm;
 	DrawableCreepSquad* creeps;
 	Player* player;
-	vector<Tower*> towers;
+	vector<DrawableTower*> towers;
 	bool isRunning;
 	int level;
 	bool waveStarted;

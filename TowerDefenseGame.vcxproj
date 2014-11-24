@@ -21,6 +21,7 @@
     <ClInclude Include="DrawableCreepSquad.h" />
     <ClInclude Include="DrawableMap.h" />
     <ClInclude Include="DrawableMapEditor.h" />
+    <ClInclude Include="DrawableTower.h" />
     <ClInclude Include="Elf.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Mage.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="WeakestAttackStrategy.h" />
     <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,7 @@
     <ClCompile Include="DrawableCreepSquad.cpp" />
     <ClCompile Include="DrawableMap.cpp" />
     <ClCompile Include="DrawableMapEditor.cpp" />
+    <ClCompile Include="DrawableTower.cpp" />
     <ClCompile Include="Elf.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Mage.cpp" />
@@ -76,7 +79,7 @@
     <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E46C5607-DA2A-4379-97FD-CB689FC8C081}</ProjectGuid>
+    <ProjectGuid>{537E97C6-D356-49AF-BB83-B5A38DE79D7C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TowerDefenseGame</RootNamespace>
   </PropertyGroup>
