@@ -50,6 +50,8 @@ private:
 	INPUT_STATE currentInputState;
 	bool mouseClickedPrev;
 	Tower::TOWER_TYPE towerTypeToBuild;
+	sf::Sprite* towerPreview;
+	bool previewTexSet = false;
 
 	sf::Vector2i getMousePosition();
 	void doInput();

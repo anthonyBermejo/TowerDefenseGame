@@ -104,6 +104,9 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	upgradeTowerIcon->setPosition(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24);
 
 	displayTowerIcon = new sf::Sprite();
+
+	towerPreview = new sf::Sprite();
+	towerPreview->setTexture(tm->getTexture(TextureManager::TEXTURE::TOWER));
 }
 
 void Game::run() {
@@ -353,6 +356,10 @@ void Game::doInput(){
 
 	case PLACE_TOWER:
 		if (mouseClicked()){
+
+			//reset bool for checking to reload texture for preview tower
+			previewTexSet = false;
+			
 			sf::Vector2i mPos = getMousePosition();
 
 			//Lots of stupidty involving getting the map coordinates
@@ -364,11 +371,11 @@ void Game::doInput(){
 				//search if tower already exists in that place
 				bool found = false;
 				for (int i = 0; !found && i < towers.size(); ++i)
-				if (mPos == towers[i]->getMapPosition())
-					found = true;
+					if (mPos == towers[i]->getMapPosition())
+						found = true;
 
 				if (!found){//YOU CAN BUILD IT :D
-					DrawableTower* t = new DrawableTower(towerTypeToBuild, 1, mPos, creeps, player, tm);
+					DrawableTower* t = new DrawableTower(towerTypeToBuild, 1, mPos, creeps, player, tm,map->getCols(),map->getRows());
 					towers.push_back(t);
 					currentInputState = INPUT_STATE::SELECT_TOWER;
 					player->setCoins(player->getCoins() - t->getCost());
@@ -387,6 +394,7 @@ void Game::doInput(){
 			}
 		}
 		break;
+
 	}
 
 	//set prevMouseClicked
@@ -418,6 +426,64 @@ void Game::drawUI(){
 		//gameWindow->draw(*displayTowerIcon);
 		gameWindow->draw(*destroyTowerIcon);
 		gameWindow->draw(*upgradeTowerIcon);
+	}
+
+	if (currentInputState == PLACE_TOWER){
+		sf::Vector2i mousePos = getMousePosition();
+
+		if (!previewTexSet){
+			cout << "SETTING TEXTURE\n";
+			switch (towerTypeToBuild){
+			case Tower::REGULAR:
+				towerPreview->setTextureRect(sf::IntRect(0, 0, 24, 24));
+				break;
+			case Tower::ICE:
+				towerPreview->setTextureRect(sf::IntRect(24, 0, 24, 24));
+				break;
+			case Tower::CANNON:
+				towerPreview->setTextureRect(sf::IntRect(48, 0, 24, 24));
+				break;
+			case Tower::SUPER:
+				towerPreview->setTextureRect(sf::IntRect(72, 0, 24, 24));
+				break;
+			}
+			previewTexSet = true;
+		}
+
+		//update stuff if mouse is within map bounds
+		if (mousePos.x < map->getCols() && mousePos.y < map->getRows()){
+
+			//set the position
+			towerPreview->setPosition((float)mousePos.x * 24, (float)mousePos.y * 24);
+
+			//set the color
+			if ((player->getCoins() - Tower::getTowerTypeCost(towerTypeToBuild)) >= 0){
+				if (map->getTile(mousePos.y, mousePos.x) == Map::ENV){
+					//search if tower already exists in that place
+					bool found = false;
+					for (int i = 0; !found && i < towers.size(); ++i)
+						if (mousePos == towers[i]->getMapPosition())
+							found = true;
+
+					if (found)
+						towerPreview->setColor(sf::Color::Color(255, 0, 0, 120));
+					else
+						//YOU CAN BUILD HERE, YAY! MAKE IT BLUE!!!!
+						towerPreview->setColor(sf::Color::Color(0, 0, 255, 120));
+				}else
+					//trying to build on path
+					towerPreview->setColor(sf::Color::Color(255, 0, 0, 120));
+			}
+			else
+				//can't afford it anyway
+				towerPreview->setColor(sf::Color::Color(255, 0, 0, 120));
+		}
+		else
+			//draw the tower offscreen
+			towerPreview->setPosition(-24.0f, -24.0f);
+
+
+		gameWindow->draw(*towerPreview);
 	}
 
 	// draw sprites

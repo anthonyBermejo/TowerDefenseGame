@@ -2,7 +2,7 @@
 
 using namespace std;
 
-DrawableTower::DrawableTower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* squad, Player* p, TextureManager* tm) :
+DrawableTower::DrawableTower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* squad, Player* p, TextureManager* tm, int mapCols, int mapRows) :
 Tower(type, level, mapPos, squad, p), tm(tm){
 
 	//set the proper sprite
@@ -27,12 +27,21 @@ Tower(type, level, mapPos, squad, p), tm(tm){
 	//calculate the proper size and position for the rectangle which displays the tower's range
 	float left = mapPos.x - range;
 	float top = mapPos.y - range;
+	
+	float width;
+	if (left + (range * 2 + 1) > mapCols)//width goes outside of map
+		width = mapCols - left;
+	else
+		width = range * 2 + 1;
 
-	cout << range << endl;
-	cout << mapPos.y << endl;
+	float height;
+	if (top + (range * 2 + 1) > mapRows)//height goes outside of map
+		height = mapRows - top;
+	else
+		height = range * 2 + 1;
 
 	rangeRect.setPosition(left*24, top*24);
-	rangeRect.setSize(sf::Vector2f((range * 2 + 1)*24, (range * 2 + 1)*24));
+	rangeRect.setSize(sf::Vector2f(width*24, height*24));
 	rangeRect.setFillColor(sf::Color::Color(0, 0, 255, 120));
 	rangeRect.setOutlineThickness(1);
 	rangeRect.setOutlineColor(sf::Color::Color(0, 0, 0, 170));
