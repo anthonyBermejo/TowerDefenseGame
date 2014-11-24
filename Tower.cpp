@@ -1,5 +1,6 @@
 #include "Tower.h"
 #include <iostream>
+#include "NearestAttackStrategy.h"
 
 using namespace std;
 
@@ -7,6 +8,9 @@ Tower::Tower(TOWER_TYPE type, int level, sf::Vector2i mapPos, CreepSquad* creepS
 
 	coolingDown = false;
 	cooldownElapsed = sf::Time::Zero;
+
+	//set the attack strategy to Nearest by default
+	strategy = new NearestAttackStrategy();
 
 	//initialize variables based on the tower type
 	switch (type){
@@ -56,6 +60,8 @@ Tower::~Tower(){
 	//get rid of map pointer
 	squad = NULL;
 	p = NULL;
+	delete strategy;
+	strategy = NULL;
 }
 
 //getters
@@ -106,6 +112,11 @@ int Tower::getTowerTypeCost(TOWER_TYPE t){
 //----------------------------------------------
 void Tower::setUpgradeLevel(int upgradeLevel){ this->upgradeLevel = upgradeLevel; }
 
+void Tower::setAttackStrategy(AttackStrategy* strat){
+	delete strategy;
+	strategy = strat;
+}
+
 //Juicy stuff
 //----------------------------------------------
 void Tower::Update(sf::Time elapsedTime){
@@ -123,46 +134,16 @@ void Tower::Update(sf::Time elapsedTime){
 	}
 	else{//ready to shoot
 		shootAvailableCreeps();
-		coolingDown = true;
 	}
 }
 
 void Tower::shootAvailableCreeps(){
-	vector<DrawableCreep*> creeps = squad->getCreeps();
+	vector<DrawableCreep*> creeps = strategy->selectAttackTargets(this, squad);
 
-	//loop through creeps and find closest creep, then damage it and pop out
-	//
-	//IN THE FUTURE -> no check for finding the CLOSEST, at the moment only the first encountered in the vector that is in range
-	for (int i = 0; i < creeps.size(); ++i){
+	for (int i = 0; i < creeps.size(); ++i)
+		creeps[i]->damageCreep(p, getDamage());
 
-		if (creeps[i] != NULL) {
-			if (abs(mapPosition.x - creeps[i]->getLocationX()) <= range &&
-				abs(mapPosition.y - creeps[i]->getLocationY()) <= range){
-				//AOE damage - for now, all AOE has 3 block radius 
-				if (type == TOWER_TYPE::CANNON || type == TOWER_TYPE::SUPER){
-					int xOrigin = creeps[i]->getLocationX();
-					int yOrigin = creeps[i]->getLocationY();
-					for (int j = 0; i < creeps.size(); ++i){
-						if (abs(xOrigin - creeps[j]->getLocationX()) <= 2 &&
-							abs(yOrigin - creeps[j]->getLocationY()) <= 2){
-							if (creeps[j]->getHitPoints() > 0){
-								creeps[j]->damageCreep(p, getDamage());
-								cout << "Fired!\n";
-							}
-						}
-					}
-					break;
-				}
-
-				if (creeps[i]->getHitPoints() > 0){
-					creeps[i]->damageCreep(p, getDamage());
-					cout << "Fired!\n";
-					break;
-				}
-			}
-		}
-	}
-
-	//set cooling down
-	coolingDown = true;
+	//set cooling down if shot
+	if (creeps.size() != 0)
+		coolingDown = true;
 }

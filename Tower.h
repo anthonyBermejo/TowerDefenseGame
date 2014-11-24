@@ -4,6 +4,9 @@
 #include<SFML/Graphics.hpp>
 #include "CreepSquad.h"
 #include "TextureManager.h"
+#include "AttackStrategy.h"
+
+using namespace std;
 
 class Tower{
 
@@ -43,6 +46,8 @@ public:
 	//----------------------------------------
 	void Update(sf::Time elapsedTime); //elapsedTime being the time passed since last update
 
+	void setAttackStrategy(AttackStrategy* strat);
+
 
 protected:
 	//members
@@ -64,6 +69,8 @@ protected:
 	CreepSquad* squad;
 
 	Player* p;
+
+	AttackStrategy* strategy;
 
 	//functions
 	//----------------------------------------

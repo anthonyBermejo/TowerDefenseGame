@@ -2,17 +2,18 @@
 #include "NearEndAttackStrategy.h"
 #include "WeakestAttackStrategy.h"
 #include "StrongestAttackStrategy.h"
+#include "Tower.h"
 
 using namespace std;
 
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack Strategy for selecting nearest target
 //------------------------------------------------------------------------------------------------------------------------------------
-vector<Creep*> NearestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
+vector<DrawableCreep*> NearestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
 	//get creeps
 	vector<DrawableCreep*> creeps = squad->getCreeps();
 
-	Creep* closestCreep = NULL;
+	DrawableCreep* closestCreep = NULL;
 	int closestDistance=0;
 	int currentDistance=0;
 
@@ -35,7 +36,7 @@ vector<Creep*> NearestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		}
 	}
 	
-	vector<Creep*> creepsToTarget;
+	vector<DrawableCreep*> creepsToTarget;
 
 	//if no creeps have been found, return an empty vector
 	if (closestCreep == NULL)
@@ -54,7 +55,8 @@ vector<Creep*> NearestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		//search for creeps within 2 blocks around the closestCreep
 		for (int i = 0; i < creeps.size(); ++i){
 			if (abs(xOrigin - creeps[i]->getLocationX()) <= 2 &&
-				abs(yOrigin - creeps[i]->getLocationY()) <= 2){
+				abs(yOrigin - creeps[i]->getLocationY()) <= 2 &&
+				closestCreep != creeps[i]){
 				creepsToTarget.push_back(creeps[i]);
 			}
 		}
@@ -66,11 +68,11 @@ vector<Creep*> NearestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting creep nearest to the end tile
 //------------------------------------------------------------------------------------------------------------------------------------
-vector<Creep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
+vector<DrawableCreep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
 	//get creeps
 	vector<DrawableCreep*> creeps = squad->getCreeps();
 
-	Creep* closestCreep = NULL;
+	DrawableCreep* closestCreep = NULL;
 	int closestDistance = 0;
 	int currentDistance = 0;
 
@@ -93,7 +95,7 @@ vector<Creep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		}
 	}
 
-	vector<Creep*> creepsToTarget;
+	vector<DrawableCreep*> creepsToTarget;
 
 	//if no creeps have been found in range, return empty vector
 	if (closestCreep == NULL)
@@ -111,7 +113,8 @@ vector<Creep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		//search for creeps within 2 blocks around the closestCreep
 		for (int i = 0; i < creeps.size(); ++i){
 			if (abs(xOrigin - creeps[i]->getLocationX()) <= 2 &&
-				abs(yOrigin - creeps[i]->getLocationY()) <= 2){
+				abs(yOrigin - creeps[i]->getLocationY()) <= 2 &&
+				closestCreep != creeps[i]){
 				creepsToTarget.push_back(creeps[i]);
 			}
 		}
@@ -125,11 +128,11 @@ vector<Creep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting the weakest creep
 //------------------------------------------------------------------------------------------------------------------------------------
-vector<Creep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
+vector<DrawableCreep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
 	//get creeps
 	vector<DrawableCreep*> creeps = squad->getCreeps();
 
-	Creep* weakestCreep = NULL;
+	DrawableCreep* weakestCreep = NULL;
 
 	//loop through creeps looking for the weakest
 	for (int i = 0; i < creeps.size(); ++i){
@@ -144,7 +147,7 @@ vector<Creep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		}
 	}
 
-	vector<Creep*> creepsToTarget;
+	vector<DrawableCreep*> creepsToTarget;
 
 	//if weakestCreep is NULL, then no creeps are in range
 	//return empty vector
@@ -163,7 +166,8 @@ vector<Creep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 		//search for creeps within 2 blocks around the closestCreep
 		for (int i = 0; i < creeps.size(); ++i){
 			if (abs(xOrigin - creeps[i]->getLocationX()) <= 2 &&
-				abs(yOrigin - creeps[i]->getLocationY()) <= 2){
+				abs(yOrigin - creeps[i]->getLocationY()) <= 2 &&
+				weakestCreep != creeps[i]){
 				creepsToTarget.push_back(creeps[i]);
 			}
 		}
@@ -176,11 +180,11 @@ vector<Creep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* 
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting the strongest creep
 //------------------------------------------------------------------------------------------------------------------------------------
-vector<Creep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
+vector<DrawableCreep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad* squad){
 	//get creeps
 	vector<DrawableCreep*> creeps = squad->getCreeps();
 
-	Creep* strongestCreep = NULL;
+	DrawableCreep* strongestCreep = NULL;
 
 	//loop through creeps looking for the strongest
 	for (int i = 0; i < creeps.size(); ++i){
@@ -195,7 +199,7 @@ vector<Creep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad
 		}
 	}
 
-	vector<Creep*> creepsToTarget;
+	vector<DrawableCreep*> creepsToTarget;
 
 	//return empty vector is no creep was found in range
 	if (strongestCreep == NULL)
@@ -213,7 +217,8 @@ vector<Creep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, CreepSquad
 		//search for creeps within 2 blocks around the closestCreep
 		for (int i = 0; i < creeps.size(); ++i){
 			if (abs(xOrigin - creeps[i]->getLocationX()) <= 2 &&
-				abs(yOrigin - creeps[i]->getLocationY()) <= 2){
+				abs(yOrigin - creeps[i]->getLocationY()) <= 2 &&
+				strongestCreep != creeps[i]){
 				creepsToTarget.push_back(creeps[i]);
 			}
 		}

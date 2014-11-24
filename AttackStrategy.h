@@ -1,7 +1,9 @@
 #pragma once
-#include "Tower.h"
 #include "CreepSquad.h"
+
+class Tower;
+
 class AttackStrategy{
 public:
-	virtual vector<Creep*> selectAttackTargets(Tower* t, CreepSquad* squad);
+	virtual vector<DrawableCreep*> selectAttackTargets(Tower* t, CreepSquad* squad) = 0;
 };

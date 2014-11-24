@@ -40,6 +40,7 @@
     <ClInclude Include="rapidxml_print.hpp" />
     <ClInclude Include="rapidxml_utils.hpp" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="StrongestAttackStrategy.h" />
     <ClInclude Include="TextMessage.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />

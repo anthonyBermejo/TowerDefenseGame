@@ -131,9 +131,10 @@ void Game::update() {
 				creeps->Update(player, timeElapsed);
 
 			//towers
-			for (int i = 0; i < towers.size(); ++i){
+			if (waveStarted)
+			for (int i = 0; i < towers.size(); ++i)
 				towers[i]->Update(timeElapsed);
-			}
+			
 
 			// draw window and all of the sprites, UI
 			draw(gameWindow);

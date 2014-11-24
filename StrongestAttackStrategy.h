@@ -2,5 +2,5 @@
 #include "AttackStrategy.h"
 
 class StrongestAttackStrategy : public AttackStrategy{
-	vector<Creep*> selectAttackTargets(Tower* t, CreepSquad* squad);
+	vector<DrawableCreep*> selectAttackTargets(Tower* t, CreepSquad* squad);
 };
