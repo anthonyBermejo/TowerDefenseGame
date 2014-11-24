@@ -110,8 +110,6 @@ void MainClass::run(){
 				break;
 			case MAPEDIT:
 				//the only place you should switch to map editor is from the MENU (no validation at this time)
-				delete menu;
-				menu = NULL;
 				
 				mEdit = new DrawableMapEditor(tm, window,this);
 
@@ -123,6 +121,15 @@ void MainClass::run(){
 					std::string path = mEdit->getFilePath();
 					if (path.length() != 0) {
 						mEdit->loadMapFile(path);
+						delete menu;
+						menu = NULL;
+					}
+					else{
+						//pressed cancel, return to menu
+						delete mEdit;
+						mEdit = NULL;
+						switchContext = false;
+						break;
 					}
 				}
 				currentContext = MAPEDIT;

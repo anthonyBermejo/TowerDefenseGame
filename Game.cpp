@@ -115,8 +115,18 @@ void Game::run() {
 }
 
 void Game::update() {
-
+	
 	while (isRunning) {
+		//sfml window related stuff
+		sf::Event event;
+		while (gameWindow->pollEvent(event)){
+			if (event.type == sf::Event::Closed){
+				gameWindow->close();
+				exit(0);
+			}
+		}
+
+
 		timeElapsed += programClock.restart();
 
 		if (timeElapsed >= frameLength){ //restrict to 60fps
@@ -154,6 +164,15 @@ void Game::update() {
 		
 			//reset timeElapsed
 			timeElapsed = sf::Time::Zero;
+		}
+	}
+
+	//sfml window related stuff
+	sf::Event event;
+	while (gameWindow->pollEvent(event)){
+		if (event.type == sf::Event::Closed){
+			gameWindow->close();
+			exit(0);
 		}
 	}
 

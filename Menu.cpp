@@ -140,6 +140,8 @@ void Menu::update(){
 			main->switchToContext(MainClass::CONTEXT::GAME);
 			break;
 		}
+		else//pressed cancel
+			menuLocation = START;
 		break;
 	case location::MAP_EDIT:
 		//editor->createCustomMap();
@@ -179,6 +181,7 @@ void Menu::update(){
 	case LOAD_MAP:
 		//dito
 		main->switchToContext(MainClass::CONTEXT::MAPEDIT, false);
+		menuLocation = MAP_EDIT;
 		break;
 	}
 
