@@ -22,10 +22,7 @@ public:
 	vector<DrawableCreep*> getStartingCreepList() const;
 	int getCreepTotalHP() const;
 
-	//void update();
 	void Update(Player* player, sf::Time elapsedTime);
-//	void Draw(sf::RenderWindow* w);
-
 
 private:
 	vector<DrawableCreep*> creepSquad;

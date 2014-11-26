@@ -1,5 +1,12 @@
 #include "Bull.h"
 
+// __________________________________
+//
+// Class representing a Bull creep
+//
+//___________________________________
+
+// Constructors
 Bull::Bull(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -8,12 +15,7 @@ Bull::Bull(int hp, int speed, int defense, int reward, int strength, int locatio
 {
 }
 
+// Deconstructor
 Bull::~Bull()
 {
-}
-
-void Bull::printCreep() const
-{
-	std::cout << "Hello. I am a Bull!" << std::endl;
-	Creep::printCreep();
 }

@@ -1,5 +1,12 @@
 #include "Mage.h"
 
+// ___________________________________________________
+//
+// Class representing a Mage creep
+//
+//____________________________________________________
+
+// Constructors
 Mage::Mage(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -8,12 +15,7 @@ Mage::Mage(int hp, int speed, int defense, int reward, int strength, int locatio
 {
 }
 
+// Destructor
 Mage::~Mage()
 {
-}
-
-void Mage::printCreep() const
-{
-	std::cout << "Hello. I am a Mage!" << std::endl;
-	Creep::printCreep();
 }

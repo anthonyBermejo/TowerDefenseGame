@@ -9,6 +9,5 @@ public:
 	Elf(sf::Sprite* sprite);
 	Elf(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction dir, sf::Sprite* sprite);
 	virtual ~Elf();
-	void printCreep() const;
 };
 

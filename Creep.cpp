@@ -4,6 +4,12 @@
 
 using namespace std;
 
+// __________________________________
+//
+// Class representing a Creep object
+//
+//___________________________________
+
 // Constructors
 Creep::Creep() : Observable()
 {
@@ -32,7 +38,7 @@ Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locat
 }
 
 
-// Getters
+// Accessors
 int Creep::getHitPoints() const
 {
 	return hitPoints;
@@ -78,7 +84,7 @@ sf::Time Creep::getMovementTime() const
 	return movementTime;
 }
 
-// Setters
+// Mutators
 void Creep::setHitPoints(int hp)
 {
 	this->hitPoints = hp;
@@ -125,19 +131,6 @@ void Creep::setMovementTime(sf::Time time)
 
 // Custom methods
 
-// Prints out the current values of a creep's attributes
-void Creep::printCreep() const
-{
-	std::cout << "hitpoints: " << hitPoints << std::endl;
-	std::cout << "speed: " << speed << std::endl;
-	std::cout << "defense: " << defense << std::endl;
-	std::cout << "reward: " << reward << std::endl;
-	std::cout << "strength: " << strength << std::endl;
-	std::cout << "locationX " << locationX << std::endl;
-	std::cout << "locationY " << locationY << std::endl;
-	std::cout << endl;
-}
-
 // Moves a creep on the map according to the direction they are going in
 void Creep::move(Map *map)
 {
@@ -174,6 +167,7 @@ void Creep::move(Map *map)
 	notify();
 }
 
+// Damages a creep with a specified amount of damage and modifies its hitpoints
 void Creep::damageCreep(Player *player, int damage)
 {
 	hitPoints = hitPoints - damage;

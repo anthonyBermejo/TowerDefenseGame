@@ -1,5 +1,12 @@
 #include "Blob.h"
 
+// __________________________________
+//
+// Class representing a Blob creep
+//
+//___________________________________
+
+// Constructors
 Blob::Blob(sf::Sprite sprite) : DrawableCreep()
 {
 }
@@ -8,11 +15,6 @@ Blob::Blob(int hp, int speed, int defense, int reward, int strength, int locatio
 {
 }
 
+// Deconstructor
 Blob::~Blob()
 {}
-
-void Blob::printCreep() const
-{
-	std::cout << "Hello. I am an Blob!" << std::endl;
-	Creep::printCreep();
-}

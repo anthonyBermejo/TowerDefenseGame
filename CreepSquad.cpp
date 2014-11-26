@@ -1,7 +1,14 @@
 #include "CreepSquad.h"
 
+// _________________________________________
+//
+// Class representing a collection of Creeps
+//
+//__________________________________________
+
 const int MAX_NUMBER_OF_CREEPS = 10;
 
+// constructor
 CreepSquad::CreepSquad(Map* map, TextureManager* texManager) : Observer()
 {
 	this->creepSquad = vector<DrawableCreep*>(MAX_NUMBER_OF_CREEPS);
@@ -12,10 +19,12 @@ CreepSquad::CreepSquad(Map* map, TextureManager* texManager) : Observer()
 	creepFactory = new CreepFactory(texManager, map);
 }
 
+// accessors
 vector<DrawableCreep*> CreepSquad::getCreeps() const { return creepSquad; }
 vector<DrawableCreep*> CreepSquad::getStartingCreepList() const { return startingCreepList; }
 int CreepSquad::getCreepTotalHP() const { return creepTotalHP; }
 
+// Moves a creep along a path in a specific direction
 void CreepSquad::move(Player* player, sf::Time elapsedTime)
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
@@ -69,6 +78,8 @@ void CreepSquad::move(Player* player, sf::Time elapsedTime)
 	}
 }
 
+// Reset the creep squad according to a specified level,
+// populating the vector with new creeps
 void CreepSquad::resetCreepSquad(int level)
 {
 	creepSquad.clear();
@@ -227,10 +238,12 @@ bool CreepSquad::checkEndTile(DrawableCreep* creep, Player* player)
 	return creepAtEndTile;
 }
 
+// Removes any dead creeps from the vector of creeps
 void CreepSquad::removeDeadCreeps()
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 		if (creepSquad[i]->getHitPoints() <= 0) {
+
 			// delete creep object and remove from vector of creeps
 			map->setTile(creepSquad[i]->getLocationX(), creepSquad[i]->getLocationY(), Map::PATH);
 
@@ -242,11 +255,14 @@ void CreepSquad::removeDeadCreeps()
 	}
 }
 
+// Update method that runs in every iteration of the game loop
 void CreepSquad::Update(Player* player, sf::Time elapsedTime)
 {
 	spawnElapsedTime += elapsedTime;
 
+	// set spawn timer for the creeps
 	if (spawnElapsedTime >= sf::milliseconds(3000)) {
+
 		// remove creeps one at a time from a container list to enter game
 		if (!startingCreepList.empty()) {
 			DrawableCreep* creep = startingCreepList.back();
@@ -258,15 +274,24 @@ void CreepSquad::Update(Player* player, sf::Time elapsedTime)
 		}
 	}
 
+	// remove any dead creeps
 	removeDeadCreeps();
 
+	// move the creeps
 	move(player, elapsedTime);
 }
 
+// Deconstructor
 CreepSquad::~CreepSquad()
 {
 	for (int i = 0; i < (int)creepSquad.size(); ++i) {
 		delete creepSquad[i];
 		creepSquad[i] = NULL;
 	}
+
+	delete map;
+	map = NULL;
+
+	delete creepFactory;
+	creepFactory = NULL;
 }

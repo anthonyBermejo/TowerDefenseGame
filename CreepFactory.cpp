@@ -1,17 +1,30 @@
 #include "CreepFactory.h"
 
+// _________________________________________
+//
+// Class representing a Factory pattern that 
+// produces creeps according to a specific
+//
+//__________________________________________
 
+// Constructor
 CreepFactory::CreepFactory(TextureManager *textureManager, Map* map)
 {
 	this->texManager = textureManager;
 	this->map = map;
 }
 
-
+// Destructor
 CreepFactory::~CreepFactory()
 {
+	delete texManager;
+	texManager = NULL;
+
+	delete map;
+	map = NULL;
 }
 
+// Returns a creep according to a specified level
 DrawableCreep* CreepFactory::getCreepAtLevel(int level)
 {
 	sf::Sprite* sprite = new sf::Sprite();
@@ -22,6 +35,7 @@ DrawableCreep* CreepFactory::getCreepAtLevel(int level)
 	int startLocationX = map->getStart()[0];
 	int startLocationY = map->getStart()[1];
 
+	// indicate direction the creeps will go in
 	if (startLocationX == 0)
 		dir = Direction::DOWN;
 	else if (startLocationX == map->getRows() - 1)

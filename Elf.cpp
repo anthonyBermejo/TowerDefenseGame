@@ -1,6 +1,12 @@
 #include "Elf.h"
 
+// ___________________________________________________
+//
+// Class representing an Elf creep
+//
+//____________________________________________________
 
+// Constructors
 Elf::Elf(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -9,13 +15,7 @@ Elf::Elf(int hp, int speed, int defense, int reward, int strength, int locationX
 {
 }
 
-
+// Destructor
 Elf::~Elf()
 {
-}
-
-void Elf::printCreep() const
-{
-	std::cout << "Hello. I am an Elf!" << std::endl;
-	Creep::printCreep();
 }

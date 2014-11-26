@@ -1,5 +1,12 @@
 #include "Ogre.h"
 
+// ___________________________________________________
+//
+// Class representing an Ogre creep
+//
+//____________________________________________________
+
+// Constructors
 Ogre::Ogre(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -8,12 +15,7 @@ Ogre::Ogre(int hp, int speed, int defense, int reward, int strength, int locatio
 {
 }
 
+// Destructors
 Ogre::~Ogre()
 {
-}
-
-void Ogre::printCreep() const
-{
-	std::cout << "Hello. I am an Ogre!" << std::endl;
-	Creep::printCreep();
 }

@@ -1,21 +1,31 @@
 #include "DrawableCreepSquad.h"
 
+// ___________________________________________________
+//
+// Class representing a collection of drawable Creeps
+// with UI components such as sprites
+//
+//____________________________________________________
 
+// Constructors
 DrawableCreepSquad::DrawableCreepSquad(Map* map, TextureManager* texManager) : CreepSquad(map, texManager)
 {
 	this->creepSquad = CreepSquad::getCreeps();
 	this->creepTotalHP = CreepSquad::getCreepTotalHP();
 }
 
+// Destructor
 DrawableCreepSquad::~DrawableCreepSquad()
 {
 }
 
+// Update method that runs in every iteration of the game loop
 void DrawableCreepSquad::Update(Player* player, sf::Time elapsedTime)
 {
 	CreepSquad::Update(player, elapsedTime);
 }
 
+// Update method used when notify is called on classes it observes
 void DrawableCreepSquad::update() {
 
 	creepSquad = CreepSquad::getCreeps();
@@ -32,6 +42,7 @@ void DrawableCreepSquad::update() {
 	}
 }
 
+// Draws the sprites of each creep
 void DrawableCreepSquad::Draw(sf::RenderWindow* w)
 {
 	creepSquad = CreepSquad::getCreeps();
@@ -52,6 +63,7 @@ void DrawableCreepSquad::Draw(sf::RenderWindow* w)
 	}
 }
 
+// Draws the health bars of each creep
 void DrawableCreepSquad::displayHealthBar(DrawableCreep* creep)
 {
 	creepTotalHP = CreepSquad::getCreepTotalHP();

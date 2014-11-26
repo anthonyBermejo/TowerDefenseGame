@@ -1,6 +1,13 @@
 #include "DrawableCreep.h"
 
+// __________________________________
+//
+// Class representing a Drawable Creep
+// with the necessary sprites
+//
+//___________________________________
 
+// Constructors
 DrawableCreep::DrawableCreep() : Creep()
 {
 	this->sprite = sprite;
@@ -25,10 +32,17 @@ DrawableCreep::DrawableCreep(int hp, int speed, int defense, int reward, int str
 	healthBar->setPosition(sprite->getPosition().x, sprite->getPosition().y - 5);
 }
 
+// destructor
 DrawableCreep::~DrawableCreep()
 {
+	delete sprite;
+	sprite = NULL;
+
+	delete healthBar;
+	healthBar = NULL;
 }
 
+// Accessors
 sf::Sprite* DrawableCreep::getSprite() const
 {
 	return sprite;

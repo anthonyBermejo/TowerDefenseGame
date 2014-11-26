@@ -1,6 +1,12 @@
 #include "Wolf.h"
 
+// ___________________________________________________
+//
+// Class representing a Wolf creep
+//
+//____________________________________________________
 
+// Constructors
 Wolf::Wolf(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -9,12 +15,7 @@ Wolf::Wolf(int hp, int speed, int defense, int reward, int strength, int locatio
 {
 }
 
+// Destructor
 Wolf::~Wolf()
 {
-}
-
-void Wolf::printCreep() const
-{
-	std::cout << "Hello. I am a Wolf!" << std::endl;
-	Creep::printCreep();
 }

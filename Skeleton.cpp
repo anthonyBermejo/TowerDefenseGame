@@ -1,7 +1,13 @@
 
 #include "Skeleton.h"
 
+// ___________________________________________________
+//
+// Class representing a skeleton creep
+//
+//____________________________________________________
 
+// Cosntructors
 Skeleton::Skeleton(sf::Sprite* sprite) : DrawableCreep()
 {
 }
@@ -10,13 +16,7 @@ Skeleton::Skeleton(int hp, int speed, int defense, int reward, int strength, int
 {
 }
 
-
+// Destructor
 Skeleton::~Skeleton()
 {
-}
-
-void Skeleton::printCreep() const
-{
-	std::cout << "Hello. I am a Skeleton!" << std::endl;
-	Creep::printCreep();
 }

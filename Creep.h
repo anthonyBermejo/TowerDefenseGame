@@ -41,7 +41,6 @@ public:
 	void setMovementTime(sf::Time time);
 
 	// Custom methods
-	void printCreep() const;
 	void move(Map *map);
 	void damageCreep(Player *player, int damage);
 

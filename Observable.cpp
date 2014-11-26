@@ -1,5 +1,11 @@
 #include "Observable.h"
 
+// ___________________________________________________
+//
+// Class representing an Observerable class
+//
+//____________________________________________________
+
 const int Observable::MAX_OBSERVERS = 10;
 
 // Constructor
@@ -15,6 +21,7 @@ Observable::~Observable()
 	delete observers;
 }
 
+// Adds an observer to it's list of observers
 void Observable::addObserver(Observer* obs)
 {
 	if (numObservers < MAX_OBSERVERS) {
@@ -28,6 +35,7 @@ void Observable::addObserver(Observer* obs)
 	}
 }
 
+// Calls the update of all observers that observe this class
 void Observable::notify() const
 {
 	for (int i = 0; i < numObservers; ++i)
