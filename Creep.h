@@ -28,6 +28,9 @@ public:
 	int getLocationY() const;
 	Direction getDirection() const;
 	sf::Time getMovementTime() const;
+	sf::Time getSlowDownTime() const;
+	sf::Time getElapsedSlowDownTime() const;
+	bool isSlowedDown() const;
 
 	// setters
 	void setHitPoints(int hp);
@@ -39,6 +42,9 @@ public:
 	void setLocationY(int locationY);
 	void setDirection(Direction direction);
 	void setMovementTime(sf::Time time);
+	void setSlowDownTime(sf::Time time);
+	void setElapsedSlowDownTime(sf::Time time);
+	void setSlowedDown(bool slow);
 
 	// Custom methods
 	void move(Map *map);
@@ -54,4 +60,7 @@ private:
 	int locationY;
 	Direction direction;
 	sf::Time movementTime;
+	sf::Time slowDownTime;
+	sf::Time elapsedSlowDowntime;
+	bool slowedDown;
 };

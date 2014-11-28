@@ -38,6 +38,10 @@ void DrawableCreepSquad::update() {
 
 			// display health bar
 			displayHealthBar(creepSquad[i]);
+
+			//check if creep is slowed
+			if (creepSquad[i]->isSlowedDown() && creepSquad[i]->getSprite()->getColor() != sf::Color::Blue)
+				creepSquad[i]->getSprite()->setColor(sf::Color::Blue);
 		}
 	}
 }

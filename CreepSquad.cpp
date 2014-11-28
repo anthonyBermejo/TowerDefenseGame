@@ -35,7 +35,19 @@ void CreepSquad::move(Player* player, sf::Time elapsedTime)
 		creepSquad[i]->setMovementTime(creepSquad[i]->getMovementTime() + elapsedTime);
 		animationTime += elapsedTime;
 
-		if (creepSquad[i]->getMovementTime() >= sf::milliseconds(1000 / creepSquad[i]->getSpeed())) {
+		//if slowed down, incremement elapsed slow down time
+		if (creepSquad[i]->isSlowedDown())
+			creepSquad[i]->setElapsedSlowDownTime(creepSquad[i]->getElapsedSlowDownTime() + elapsedTime);
+
+		//take away slow buff if surpased the time it lasts
+		if (creepSquad[i]->getElapsedSlowDownTime() >= creepSquad[i]->getSlowDownTime()){
+			creepSquad[i]->setSlowedDown(false);
+			creepSquad[i]->setElapsedSlowDownTime(sf::Time::Zero);
+			creepSquad[i]->getSprite()->setColor(sf::Color::White);
+		}
+
+		if (creepSquad[i]->getMovementTime() >= sf::milliseconds(1000 / creepSquad[i]->getSpeed())
+			+ (creepSquad[i]->isSlowedDown()?creepSquad[i]->getSlowDownTime():sf::Time::Zero)) {
 
 			if (!checkEndTile(creepSquad[i], player)) {
 				// move creep along the internal amp

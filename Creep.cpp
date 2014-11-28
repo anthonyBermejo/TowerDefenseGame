@@ -22,6 +22,7 @@ Creep::Creep() : Observable()
 	locationY = 0;
 	direction = Direction::RIGHT;
 	movementTime = sf::Time::Zero; 
+	slowDownTime = sf::Time::Zero;
 }
 
 Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction) : Observable()
@@ -35,6 +36,7 @@ Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locat
 	this->locationY = locationY;
 	this->direction = direction;
 	this->movementTime = sf::Time::Zero;
+	this->slowDownTime = sf::Time::Zero;
 }
 
 
@@ -84,6 +86,18 @@ sf::Time Creep::getMovementTime() const
 	return movementTime;
 }
 
+sf::Time Creep::getSlowDownTime() const{
+	return slowDownTime;
+}
+
+sf::Time Creep::getElapsedSlowDownTime() const{
+	return elapsedSlowDowntime;
+}
+
+bool Creep::isSlowedDown() const{
+	return slowedDown;
+}
+
 // Mutators
 void Creep::setHitPoints(int hp)
 {
@@ -127,6 +141,18 @@ void Creep::setDirection(Direction direction)
 void Creep::setMovementTime(sf::Time time)
 {
 	this->movementTime = time;
+}
+
+void Creep::setSlowDownTime(sf::Time time){
+	this->slowDownTime = time;
+}
+
+void Creep::setElapsedSlowDownTime(sf::Time time){
+	this->elapsedSlowDowntime = time;
+}
+
+void Creep::setSlowedDown(bool slow){
+	this->slowedDown = slow;
 }
 
 // Custom methods

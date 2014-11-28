@@ -140,8 +140,17 @@ void Tower::Update(sf::Time elapsedTime){
 void Tower::shootAvailableCreeps(){
 	vector<DrawableCreep*> creeps = strategy->selectAttackTargets(this, squad);
 
-	for (int i = 0; i < creeps.size(); ++i)
+	for (int i = 0; i < creeps.size(); ++i){
+		//check if tower does slow
+		//for the time being, the slow buff just adds 1.5 seconds to their movement
+		if (type == ICE || type == SUPER){
+			creeps[i]->setSlowedDown(true);
+			creeps[i]->setSlowDownTime(sf::milliseconds(1500));
+		}
+		
 		creeps[i]->damageCreep(p, getDamage());
+
+	}
 
 	//set cooling down if shot
 	if (creeps.size() != 0)
