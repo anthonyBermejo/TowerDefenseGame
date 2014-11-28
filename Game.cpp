@@ -38,11 +38,12 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	buildIceLoc = sf::Vector2i(4, map->getCols() + 2);
 	buildCanLoc = sf::Vector2i(1, map->getCols() + 4);
 	buildSupLoc = sf::Vector2i(4, map->getCols() + 4);
-	upgradeTowerLoc = sf::Vector2i(map->getRows(), map->getCols() + 5);
+	upgradeTowerLoc = sf::Vector2i(map->getRows()-1, map->getCols() + 5);
 	destroyTowerLoc = sf::Vector2i(map->getRows() + 3, map->getCols() + 5);
 	displayTowerSpriteLoc = sf::Vector2i(map->getRows() + 1, map->getCols() + 1);
 	startWaveLoc = sf::Vector2i(map->getRows() + 1, map->getCols() - 4);
 	startWaveLoc2 = sf::Vector2i(map->getRows() + 2, map->getCols() - 4);
+	cycleStratLoc = sf::Vector2i(map->getRows()-1, map->getCols() + 7);
 
 	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));
@@ -52,12 +53,14 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24 - 20, upgradeTowerLoc.y * 24 + 30));
 	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24 - 20, destroyTowerLoc.y * 24 + 30));
 	startWaveText = new TextMessage(tm, "Start Wave", sf::Vector2f(startWaveLoc.x * 24 - 15, startWaveLoc.y * 24));
+	cycleStratText = new TextMessage(tm, "Cycle Strat.", sf::Vector2f(cycleStratLoc.x * 24 + 26, cycleStratLoc.y * 24 + 8));
 	
-	towerTypeText = new TextMessage(tm, "Hi", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 10));
-	towerUpgradeLevelText = new TextMessage(tm, "This", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 25));
-	towerDamageText = new TextMessage(tm, "Is", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 40));
-	towerUpgradeCostText = new TextMessage(tm, "Here", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 55));
-	towerRefundCostText = new TextMessage(tm, "!!!", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 60, displayTowerSpriteLoc.y * 24 + 70));
+	towerTypeText = new TextMessage(tm, "Hi", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 -5 ));
+	towerUpgradeLevelText = new TextMessage(tm, "This", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 10));
+	towerDamageText = new TextMessage(tm, "Is", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 25));
+	towerUpgradeCostText = new TextMessage(tm, "Here", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 40));
+	towerRefundCostText = new TextMessage(tm, "!!!", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 55));
+	towerAttackStratText = new TextMessage(tm, "42", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 70));
 	
 	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
 	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
@@ -102,6 +105,11 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	upgradeTowerIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
 	upgradeTowerIcon->setTextureRect(sf::IntRect(24, 0, 24, 24));
 	upgradeTowerIcon->setPosition(upgradeTowerLoc.x * 24, upgradeTowerLoc.y * 24);
+
+	cycleAttackIcon = new sf::Sprite();
+	cycleAttackIcon->setTexture(tm->getTexture(TextureManager::TEXTURE::UI));
+	cycleAttackIcon->setTextureRect(sf::IntRect(48, 0, 24, 24));
+	cycleAttackIcon->setPosition(cycleStratLoc.x * 24, cycleStratLoc.y * 24);
 
 	displayTowerIcon = new sf::Sprite();
 
@@ -327,6 +335,7 @@ void Game::doInput(){
 		towerDamageText->setMessage("Damage: " + to_string(selectedTower->getDamage()));
 		towerUpgradeCostText->setMessage("Upgrade Cost: " + to_string(selectedTower->getUpgradeCost()));
 		towerRefundCostText->setMessage("Refund Cost: " + to_string(selectedTower->getRefund()));
+		towerAttackStratText->setMessage("Strat.: " + selectedTower->getAttackStrategy()->getStrategyName());
 
 		if (mouseClicked()){
 			sf::Vector2i mPos = getMousePosition();
@@ -353,6 +362,38 @@ void Game::doInput(){
 				currentInputState = INPUT_STATE::SELECT_TOWER;
 				didSomething = true;
 				break;
+			}
+
+			//cycle strategy
+			if (mPos == cycleStratLoc){
+				if (!selectedTower->getAttackStrategy()->getStrategyName().compare(string("Nearest"))){//string compare is weird :/
+					NearEndAttackStrategy* strat = new NearEndAttackStrategy();
+					selectedTower->setAttackStrategy(strat);
+					strat = NULL;
+					break;
+				}
+				
+				if (!selectedTower->getAttackStrategy()->getStrategyName().compare(string("Nearest End"))){
+					WeakestAttackStrategy* strat = new WeakestAttackStrategy();
+					selectedTower->setAttackStrategy(strat);
+					strat = NULL;
+					break;
+				}
+
+				if (!selectedTower->getAttackStrategy()->getStrategyName().compare(string("Weakest"))){
+					StrongestAttackStrategy* strat = new StrongestAttackStrategy();
+					selectedTower->setAttackStrategy(strat);
+					strat = NULL;
+					break;
+				}
+
+				if (!selectedTower->getAttackStrategy()->getStrategyName().compare(string("Strongest"))){
+					NearestAttackStrategy* strat = new NearestAttackStrategy();
+					selectedTower->setAttackStrategy(strat);
+					strat = NULL;
+					break;
+				}
+
 			}
 
 			//click on another tower
@@ -438,13 +479,16 @@ void Game::drawUI(){
 		towerDamageText->drawMessage(gameWindow);
 		towerUpgradeCostText->drawMessage(gameWindow);
 		towerRefundCostText->drawMessage(gameWindow);
+		towerAttackStratText->drawMessage(gameWindow);
 
 		//works
 		upgradeText->drawMessage(gameWindow);
 		destroyText->drawMessage(gameWindow);
+		cycleStratText->drawMessage(gameWindow);
 		//gameWindow->draw(*displayTowerIcon);
 		gameWindow->draw(*destroyTowerIcon);
 		gameWindow->draw(*upgradeTowerIcon);
+		gameWindow->draw(*cycleAttackIcon);
 	}
 
 	if (currentInputState == PLACE_TOWER){

@@ -35,6 +35,7 @@ public:
 	TOWER_TYPE getType() const;
 	sf::Time getCooldownTime() const;
 	int getUpgradeCost() const;
+	AttackStrategy* getAttackStrategy() const;
 
 	static int getTowerTypeCost(TOWER_TYPE);
 

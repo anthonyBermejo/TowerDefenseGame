@@ -3,4 +3,6 @@
 class NearestAttackStrategy : public AttackStrategy{
 public:
 	vector<DrawableCreep*> selectAttackTargets(Tower* t, CreepSquad* squad);
+
+	string getStrategyName();
 };

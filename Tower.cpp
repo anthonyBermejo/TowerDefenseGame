@@ -108,6 +108,10 @@ int Tower::getTowerTypeCost(TOWER_TYPE t){
 	}
 }
 
+AttackStrategy* Tower::getAttackStrategy() const{
+	return strategy;
+}
+
 //setters
 //----------------------------------------------
 void Tower::setUpgradeLevel(int upgradeLevel){ this->upgradeLevel = upgradeLevel; }

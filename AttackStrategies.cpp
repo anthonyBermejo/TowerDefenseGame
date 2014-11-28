@@ -65,6 +65,10 @@ vector<DrawableCreep*> NearestAttackStrategy::selectAttackTargets(Tower* t, Cree
 	return creepsToTarget;
 }
 
+string NearestAttackStrategy::getStrategyName(){
+	return "Nearest";
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting creep nearest to the end tile
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -124,6 +128,10 @@ vector<DrawableCreep*> NearEndAttackStrategy::selectAttackTargets(Tower* t, Cree
 
 }
 
+string NearEndAttackStrategy::getStrategyName(){
+	return "Nearest End";
+}
+
 
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting the weakest creep
@@ -177,6 +185,10 @@ vector<DrawableCreep*> WeakestAttackStrategy::selectAttackTargets(Tower* t, Cree
 
 }
 
+string WeakestAttackStrategy::getStrategyName(){
+	return "Weakest";
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------
 //Attack strategy for selecting the strongest creep
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -226,4 +238,8 @@ vector<DrawableCreep*> StrongestAttackStrategy::selectAttackTargets(Tower* t, Cr
 
 	return creepsToTarget;
 
+}
+
+string StrongestAttackStrategy::getStrategyName(){
+	return "Strongest";
 }

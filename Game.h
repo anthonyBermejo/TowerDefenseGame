@@ -8,6 +8,10 @@
 #include "TextMessage.h"
 #include "DrawableMap.h"
 #include "DrawableCreepSquad.h"
+#include "NearEndAttackStrategy.h"
+#include "NearestAttackStrategy.h"
+#include "StrongestAttackStrategy.h"
+#include "WeakestAttackStrategy.h"
 #include <vector>
 
 class MainClass;
@@ -64,6 +68,7 @@ private:
 	sf::Vector2i upgradeTowerLoc;
 	sf::Vector2i destroyTowerLoc;
 	sf::Vector2i displayTowerSpriteLoc;
+	sf::Vector2i cycleStratLoc;
 	sf::Vector2i startWaveLoc;
 	sf::Vector2i startWaveLoc2;
 
@@ -89,8 +94,10 @@ private:
 	TextMessage *towerUpgradeCostText;
 	TextMessage *towerRefundCostText;
 	TextMessage *towerUpgradeLevelText;
+	TextMessage *towerAttackStratText;
 	TextMessage *upgradeText;
 	TextMessage *destroyText;
+	TextMessage *cycleStratText;
 
 	// constant texts drawn
 	TextMessage *levelText;
@@ -105,4 +112,5 @@ private:
 	sf::Sprite* destroyTowerIcon;
 	sf::Sprite* upgradeTowerIcon;
 	sf::Sprite* displayTowerIcon;
+	sf::Sprite* cycleAttackIcon;
 };
