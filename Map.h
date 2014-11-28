@@ -34,6 +34,6 @@ private:
 	int end[2];
 	int cols;
 	int rows;
-	std::vector<std::vector<int> > map;
+	std::vector<std::vector<TILE_TYPE> > map;
 };
 

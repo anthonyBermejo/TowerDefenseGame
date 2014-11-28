@@ -8,12 +8,12 @@ using namespace std;
 
 Map::Map() : Observable()
 {
-	this->map = std::vector<std::vector<int> >(0, std::vector<int>(0));
+	this->map = std::vector<std::vector<TILE_TYPE> >(0, std::vector<TILE_TYPE>(0));
 }
 
 Map::Map(int rows, int cols) : Observable()
 {
-	this->map = std::vector<std::vector<int> >(rows, std::vector<int>(cols, 0));
+	this->map = std::vector<std::vector<TILE_TYPE> >(rows, std::vector<TILE_TYPE>(cols, ENV));
 }
 
 Map::~Map()
@@ -22,22 +22,25 @@ Map::~Map()
 
 void Map::setTile(int x, int y, int val){
 	//checking that x and y are within map range and that value is valid
-	if (x >= 0 && x <= (getRows() - 1) &&
-		y >= 0 && y <= (getCols() - 1) &&
-		(val >= 0 && val <= 3)){
-			if (val >= 0 && val <= 4){
-				if (val == Map::START){
-					start[0] = x;
-					start[1] = y;
-				}
-				else if (val == Map::END) {
-					end[0] = x;
-					end[1] = y;
-				}
-				map[x][y] = val;
-				notify();
-			}
-		}
+	switch (val){
+	case 0:
+		setTile(x, y, ENV);
+		break;
+	case 1:
+		setTile(x, y, PATH);
+		break;
+	case 2:
+		setTile(x, y, START);
+		break;
+	case 3:
+		setTile(x, y, END);
+		break;
+	case 4:
+		setTile(x, y, CREEP);
+		break;
+	default:
+		setTile(x, y, PATH);
+	}
 }
 
 
