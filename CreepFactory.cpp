@@ -59,7 +59,7 @@ DrawableCreep* CreepFactory::getCreepAtLevel(int level)
 		break;
 	case 3:
 		sprite->setTextureRect(sf::IntRect(24 * 8, 0, 24, 24));
-		return new Bull(100, 1, 5, 15, 50, startLocationX, startLocationX, dir, sprite);
+		return new Bull(100, 1, 5, 15, 50, startLocationX, startLocationY, dir, sprite);
 
 		break;
 	case 4:

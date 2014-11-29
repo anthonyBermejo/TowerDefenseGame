@@ -80,7 +80,7 @@
     <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{537E97C6-D356-49AF-BB83-B5A38DE79D7C}</ProjectGuid>
+    <ProjectGuid>{E46C5607-DA2A-4379-97FD-CB689FC8C081}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TowerDefenseGame</RootNamespace>
   </PropertyGroup>
