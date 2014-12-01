@@ -74,8 +74,5 @@ void DrawableCreepSquad::displayHealthBar(DrawableCreep* creep)
 
 	sf::RectangleShape* healthBar = creep->getHealthBar();
 	healthBar->setSize(sf::Vector2f(((float)creep->getHitPoints() / (float)creepTotalHP) * 24, 5));
-	healthBar->setFillColor(sf::Color::Red);
-	healthBar->setOutlineColor(sf::Color::Black);
-	healthBar->setOutlineThickness(0.5);
 	healthBar->setPosition(creep->getSprite()->getPosition().x, creep->getSprite()->getPosition().y - 5);
 }

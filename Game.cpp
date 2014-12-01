@@ -27,29 +27,33 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	frameLength = sf::milliseconds(1000 / 60); //time needed for 60 frames per second
 
 	// create window according to the map size
-	gameWindow->create(sf::VideoMode((map->getCols() + 5) * 24, (map->getRows() + 8 )* 24), "Tower Defense");
+	gameWindow->create(sf::VideoMode((map->getCols() + 8) * 24, (map->getRows() + 9 )* 24), "Tower Defense");
 
 	// ui stuff
 	mouseClickedPrev = false;
 	selectedTower = NULL;
 	currentInputState = INPUT_STATE::SELECT_TOWER;
 	towerTypeToBuild = Tower::TOWER_TYPE::REGULAR;
-	buildRegLoc = sf::Vector2i(1, map->getCols() + 2);
-	buildIceLoc = sf::Vector2i(4, map->getCols() + 2);
-	buildCanLoc = sf::Vector2i(1, map->getCols() + 4);
-	buildSupLoc = sf::Vector2i(4, map->getCols() + 4);
-	upgradeTowerLoc = sf::Vector2i(map->getRows()-1, map->getCols() + 5);
-	destroyTowerLoc = sf::Vector2i(map->getRows() + 3, map->getCols() + 5);
-	displayTowerSpriteLoc = sf::Vector2i(map->getRows() + 1, map->getCols() + 1);
-	startWaveLoc = sf::Vector2i(map->getRows() + 1, map->getCols() - 4);
-	startWaveLoc2 = sf::Vector2i(map->getRows() + 2, map->getCols() - 4);
-	cycleStratLoc = sf::Vector2i(map->getRows()-1, map->getCols() + 7);
+	buildRegLoc = sf::Vector2i(1, map->getRows() + 2);
+	buildIceLoc = sf::Vector2i(5, map->getRows() + 2);
+	buildCanLoc = sf::Vector2i(1, map->getRows() + 5);
+	buildSupLoc = sf::Vector2i(5, map->getRows() + 5);
+	upgradeTowerLoc = sf::Vector2i(map->getCols() + 2, map->getRows() + 5);
+	destroyTowerLoc = sf::Vector2i(map->getCols() + 6, map->getRows() + 5);
+	displayTowerSpriteLoc = sf::Vector2i(map->getCols() + 4, map->getRows() + 1);
+	startWaveLoc = sf::Vector2i(map->getCols() + 1, map->getRows() - 4);
+	startWaveLoc2 = sf::Vector2i(map->getCols() + 3, map->getRows() - 4);
+	cycleStratLoc = sf::Vector2i(map->getCols() + 2, map->getRows() + 7);
 
 	// text to be displayed on screen
 	regTowerText = new TextMessage(tm, "Regular", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 30));
+	regTowerCostText = new TextMessage(tm, "Cost: 100", sf::Vector2f(buildRegLoc.x * 24, buildRegLoc.y * 24 + 40));
 	iceTowerText = new TextMessage(tm, "Ice", sf::Vector2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 30));
+	iceTowerCostText = new TextMessage(tm, "Cost: 150", sf::Vector2f(buildIceLoc.x * 24, buildIceLoc.y * 24 + 40));
 	cannonTowerText = new TextMessage(tm, "Cannon", sf::Vector2f(buildCanLoc.x * 24, buildCanLoc.y * 24 + 30));
+	cannonTowerCostText = new TextMessage(tm, "Cost: 200", sf::Vector2f(buildCanLoc.x * 24, buildCanLoc.y * 24 + 40));
 	superTowerText = new TextMessage(tm, "Super", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 30));
+	superTowerCostText = new TextMessage(tm, "Cost: 500", sf::Vector2f(buildSupLoc.x * 24, buildSupLoc.y * 24 + 40));
 	upgradeText = new TextMessage(tm, "Upgrade", sf::Vector2f(upgradeTowerLoc.x * 24 - 20, upgradeTowerLoc.y * 24 + 30));
 	destroyText = new TextMessage(tm, "Destroy", sf::Vector2f(destroyTowerLoc.x * 24 - 20, destroyTowerLoc.y * 24 + 30));
 	startWaveText = new TextMessage(tm, "Start Wave", sf::Vector2f(startWaveLoc.x * 24 - 15, startWaveLoc.y * 24));
@@ -62,9 +66,9 @@ Game::Game(sf::RenderWindow* gameWindow, Map* map, TextureManager* tm, MainClass
 	towerRefundCostText = new TextMessage(tm, "!!!", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 55));
 	towerAttackStratText = new TextMessage(tm, "42", sf::Vector2f(displayTowerSpriteLoc.x * 24 - 70, displayTowerSpriteLoc.y * 24 + 70));
 	
-	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getRows() * 24 + 5, 10));
-	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getRows() * 24 + 5, 20));
-	coinsText = new TextMessage(tm, "Coins " + to_string(player->getCoins()), sf::Vector2f(map->getRows() * 24 + 5, 30));
+	levelText = new TextMessage(tm, "Level " + to_string(level), sf::Vector2f(map->getCols() * 24 + 5, 10));
+	healthText = new TextMessage(tm, "HP " + to_string(player->getHealth()), sf::Vector2f(map->getCols() * 24 + 5, 20));
+	coinsText = new TextMessage(tm, "Coins " + to_string(player->getCoins()), sf::Vector2f(map->getCols() * 24 + 5, 30));
 
 	gameOverText = new TextMessage(tm, "Game Over! :(", sf::Vector2f(0, 0));
 	gameOverText->setScale(sf::Vector2f(2.0f, 3.0f));
@@ -563,6 +567,10 @@ void Game::drawUI(){
 	levelText->drawMessage(gameWindow);
 	healthText->drawMessage(gameWindow);
 	coinsText->drawMessage(gameWindow);
+	regTowerCostText->drawMessage(gameWindow);
+	iceTowerCostText->drawMessage(gameWindow);
+	cannonTowerCostText->drawMessage(gameWindow);
+	superTowerCostText->drawMessage(gameWindow);
 
 	if (!waveStarted) {
 		startWaveText->drawMessage(gameWindow);

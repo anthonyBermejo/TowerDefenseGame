@@ -64,29 +64,6 @@ void CreepSquad::move(Player* player, sf::Time elapsedTime)
 
 			creepSquad[i]->setMovementTime(sf::Time::Zero);
 		}
-		//else  {
-		//	Direction direction = creepSquad[i]->getDirection();
-		//	sf::Sprite* creepSprite = creepSquad[i]->getSprite();
-
-		//	if (direction == Direction::LEFT)
-		//	{
-		//		creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f - 1, creepSquad[i]->getLocationX() * 24.0f);
-		//	}
-		//	else if (direction == Direction::RIGHT)
-		//	{
-		//		creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f + 1, creepSquad[i]->getLocationX() * 24.0f);
-		//	}
-		//	else if (direction == Direction::UP)
-		//	{
-		//		creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f - 1);
-		//	}
-		//	else
-		//	{
-		//		creepSprite->setPosition(creepSquad[i]->getLocationY() * 24.0f, creepSquad[i]->getLocationX() * 24.0f + 1);
-		//	}
-
-		//	animationTime = sf::Time::Zero;
-		//}
 	}
 }
 

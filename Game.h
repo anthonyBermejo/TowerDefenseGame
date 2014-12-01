@@ -87,6 +87,10 @@ private:
 	TextMessage *iceTowerText;
 	TextMessage *cannonTowerText;
 	TextMessage *superTowerText;
+	TextMessage *regTowerCostText;
+	TextMessage *iceTowerCostText;
+	TextMessage *cannonTowerCostText;
+	TextMessage *superTowerCostText;
 
 	// text for panel when tower is selected
 	TextMessage *towerTypeText;

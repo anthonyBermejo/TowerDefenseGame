@@ -26,6 +26,8 @@ public:
 	int getStrength() const;
 	int getLocationX() const;
 	int getLocationY() const;
+	int getStartLocationX() const;
+	int getStartLocationY() const;
 	Direction getDirection() const;
 	sf::Time getMovementTime() const;
 	sf::Time getSlowDownTime() const;
@@ -58,6 +60,8 @@ private:
 	int strength;
 	int locationX;
 	int locationY;
+	int startLocationX;
+	int startLocationY;
 	Direction direction;
 	sf::Time movementTime;
 	sf::Time slowDownTime;

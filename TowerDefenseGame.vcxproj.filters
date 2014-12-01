@@ -13,204 +13,249 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{e2bee98f-83ea-423e-938e-92e1531f9d74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Creep">
+      <UniqueIdentifier>{097386d1-3b9b-44f9-a72e-253ad408d443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Creep\Creep Subclasses">
+      <UniqueIdentifier>{a7660b88-d855-46c2-96a0-33d4e3f3e12e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tower">
+      <UniqueIdentifier>{30d4befb-1c0d-4d01-ac7a-a19c95d309c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Logic">
+      <UniqueIdentifier>{658cf90c-bd9e-4b52-885a-67edf9c33b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{6e74fe7d-ae41-498d-ab92-1d63918f84b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Driver">
+      <UniqueIdentifier>{e265794b-2da1-416f-93a1-e7bc86005bfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observer/Observable">
+      <UniqueIdentifier>{2ed13df3-46fd-4fc9-86c4-5a36d0f70efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Creep">
+      <UniqueIdentifier>{4cfda57d-d2af-4c2b-a224-dc0f4875dede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Creep\Creep Subclasses">
+      <UniqueIdentifier>{c497cf5d-14a0-49c5-9c0f-bb6162316007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Logic">
+      <UniqueIdentifier>{b39409a7-c6d9-4965-b61f-30e7941ba005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{4c1a3aac-bf4f-401a-9d77-953b884b40d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observer/Observable">
+      <UniqueIdentifier>{cf0eb1cb-6b69-4429-8325-a3f26c399498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tower">
+      <UniqueIdentifier>{3dc67f36-4b84-412d-86c0-d2130b56e7bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{8ce17633-fd6c-4bcc-b7b5-f8be00abcfc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Creep.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CreepSquad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MapEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tower.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_iterators.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_print.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rapidxml_utils.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Observable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableCreep.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep</Filter>
     </ClInclude>
     <ClInclude Include="CreepFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep</Filter>
+    </ClInclude>
+    <ClInclude Include="CreepSquad.h">
+      <Filter>Header Files\Creep</Filter>
     </ClInclude>
     <ClInclude Include="Blob.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Bull.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Elf.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Mage.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Ogre.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
     </ClInclude>
     <ClInclude Include="Wolf.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Creep\Creep Subclasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="MainClass.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditor.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observer/Observable</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
+      <Filter>Header Files\Observer/Observable</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml.hpp">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_iterators.hpp">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_print.hpp">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="rapidxml_utils.hpp">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
     <ClInclude Include="AttackStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NearestAttackStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableMap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tower</Filter>
     </ClInclude>
     <ClInclude Include="NearEndAttackStrategy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tower</Filter>
     </ClInclude>
-    <ClInclude Include="DrawableMapEditor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableCreepSquad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WeakestAttackStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableTower.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="NearestAttackStrategy.h">
+      <Filter>Header Files\Tower</Filter>
     </ClInclude>
     <ClInclude Include="StrongestAttackStrategy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Tower.h">
+      <Filter>Header Files\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakestAttackStrategy.h">
+      <Filter>Header Files\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableCreep.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableCreepSquad.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableMap.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableMapEditor.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawableTower.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextMessage.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Creep.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CreepSquad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MapEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tower.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MainClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Observable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Observer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DrawableCreep.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CreepFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Blob.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bull.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Elf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ogre.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Skeleton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Wolf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackStrategies.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawableMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawableMapEditor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="DrawableCreepSquad.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableMap.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawableMapEditor.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="DrawableTower.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Blob.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Bull.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Elf.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Ogre.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Wolf.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\Creep\Creep Subclasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Tower.cpp">
+      <Filter>Source Files\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackStrategies.cpp">
+      <Filter>Source Files\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="MainClass.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditor.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Driver</Filter>
+    </ClCompile>
+    <ClCompile Include="Observable.cpp">
+      <Filter>Source Files\Observer/Observable</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files\Observer/Observable</Filter>
+    </ClCompile>
+    <ClCompile Include="TextMessage.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Creep.cpp">
+      <Filter>Source Files\Creep</Filter>
+    </ClCompile>
+    <ClCompile Include="CreepFactory.cpp">
+      <Filter>Source Files\Creep</Filter>
+    </ClCompile>
+    <ClCompile Include="CreepSquad.cpp">
+      <Filter>Source Files\Creep</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

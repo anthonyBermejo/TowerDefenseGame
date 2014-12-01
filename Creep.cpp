@@ -23,6 +23,8 @@ Creep::Creep() : Observable()
 	direction = Direction::RIGHT;
 	movementTime = sf::Time::Zero; 
 	slowDownTime = sf::Time::Zero;
+	startLocationX = 0;
+	startLocationY = 0;
 }
 
 Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locationX, int locationY, Direction direction) : Observable()
@@ -37,6 +39,8 @@ Creep::Creep(int hp, int speed, int defense, int reward, int strength, int locat
 	this->direction = direction;
 	this->movementTime = sf::Time::Zero;
 	this->slowDownTime = sf::Time::Zero;
+	this->startLocationX = locationX;
+	this->startLocationY = locationY;
 }
 
 
@@ -74,6 +78,15 @@ int Creep::getLocationX() const
 int Creep::getLocationY() const
 {
 	return locationY;
+}
+
+int Creep::getStartLocationX() const
+{
+	return startLocationX;
+}
+int Creep::getStartLocationY() const
+{
+	return startLocationY;
 }
 
 Direction Creep::getDirection() const
@@ -196,11 +209,14 @@ void Creep::move(Map *map)
 // Damages a creep with a specified amount of damage and modifies its hitpoints
 void Creep::damageCreep(Player *player, int damage)
 {
-	hitPoints = hitPoints - damage;
+		// only damage creep if they are out of spawn
+		if (startLocationX != locationX || startLocationY != locationY) {
+			hitPoints = hitPoints - damage;
 
-	if (hitPoints <= 0) {
-		player->setCoins(player->getCoins() + reward);
-	}
+			if (hitPoints <= 0) {
+				player->setCoins(player->getCoins() + reward);
+			}
+		}
 	
 	notify();
 }
