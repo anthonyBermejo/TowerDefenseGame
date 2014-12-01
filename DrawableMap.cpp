@@ -7,6 +7,7 @@ DrawableMap::DrawableMap() {
 
 }
 
+//Constructor which sets the Map, TextureManager, and RenderWindow before loading all needed sprites
 DrawableMap::DrawableMap(Map* map, TextureManager* textureManager, sf::RenderWindow* w){
 	this->map = map;
 	this->w = w;
@@ -14,7 +15,6 @@ DrawableMap::DrawableMap(Map* map, TextureManager* textureManager, sf::RenderWin
 	this->map->addObserver(this);
 	
 	//create sprites
-
 	envSprite1.setTexture(texManager->getTexture(TextureManager::TEXTURE::ENV));
 	envSprite1.setTextureRect(sf::IntRect(0, 0, 24, 24));
 
@@ -55,11 +55,15 @@ DrawableMap::DrawableMap(Map* map, TextureManager* textureManager, sf::RenderWin
 	blockSprite.setTextureRect(sf::IntRect(24 * 12, 0, 24, 24));
 }
 
-
+//Destructor
 DrawableMap::~DrawableMap()
 {
+	map = NULL;
+	texManager = NULL;
+	w = NULL;
 }
 
+//Draws the internal map to the window
 void DrawableMap::drawMap(){
 	for (int i = 0; i < map->getCols(); ++i)
 		for (int j = 0; j < map->getRows(); ++j){
@@ -92,6 +96,7 @@ void DrawableMap::drawMap(){
 		}
 }
 
+//Redraws the map whenever it is updated.
 void DrawableMap::update(){
 	drawMap();
 }

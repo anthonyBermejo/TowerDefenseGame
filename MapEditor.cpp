@@ -11,23 +11,27 @@
 using namespace std;
 using namespace rapidxml;
 
+//Default constructor
 MapEditor::MapEditor()
 {
 	createCustomMap();
 }
 
+//Constructor which creates a map from the sent in file path
 MapEditor::MapEditor(std::string path, TextureManager* tm){
 	this->tm = tm;
 	loadMapFile(path);
 	validateMap();
 }
 
+//Constructor which sets the TextureManager, RenderWindow, and MainClass context
 MapEditor::MapEditor(TextureManager* tm, sf::RenderWindow* win, MainClass* main){
 	this->tm = tm;
 	this->win = win;
 	this->main = main;
 }
 
+//Constructor which sets the map
 MapEditor::MapEditor(Map* map){
 	createNewMap(map->getRows(), map->getCols());
 	for (int i = 0; i < map->getRows(); ++i)
@@ -35,10 +39,16 @@ MapEditor::MapEditor(Map* map){
 			this->map->setTile(i, j, map->getTile(i, j));
 }
 
-MapEditor::~MapEditor(){
-
+//Destructor
+MapEditor::~MapEditor(){	
+	map = NULL;
+	drawable = NULL;
+	win = NULL;
+	tm = NULL; 
+	main = NULL;
 }
 
+//Toggles path and environment tiles
 void MapEditor::setPath(int x, int y){
 	if (map->getTile(x, y) == 0)
 		map->setTile(x, y, 1);
@@ -47,20 +57,25 @@ void MapEditor::setPath(int x, int y){
 	notify();
 }
 
+//Toggles start and end tiles
 void MapEditor::setStartAndEnd(int x, int y){
 	if (!startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::END){
+		//sets the start tile if it is not set and it is being added to an edge
 		map->setTile(x, y, Map::START);
 		startSet = true;
 	}
 	else if (startSet && map->getTile(x, y) == Map::START){
+		//removes the start tile if it is set and being right clicked on
 		map->setTile(x, y, Map::ENV);
 		startSet = false;
 	}
 	else if (!endSet && startSet && (x == 0 || y == 0 || x == map->getRows() - 1 || y == map->getCols() - 1) && map->getTile(x, y) != Map::START){
+		//sets the end tile if it is not set and it is being added to an edge
 		map->setTile(x, y, Map::END);
 		endSet = true;
 	}
 	else if (endSet && map->getTile(x, y) == Map::END){
+		//removes the start tile if it is set and being right clicked on
 		map->setTile(x, y, Map::ENV);
 		endSet = false;
 	}
@@ -113,15 +128,46 @@ void MapEditor::loadMapFile(std::string mapDir){
 				y = 0;
 		}
 		++x;
+
 		if (x >= rows)
 			x = 0;
 	}
 
+	//recreates window to the dimensions of the map
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
-	map->printMap();
+	
 	notify();
 }
 
+//Opens a file selection dialog
+std::string MapEditor::getFilePath(){
+	OPENFILENAME ofn;
+	char szFile[100];
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+
+	//NOTE: Conversion error occurs if project character set is UNICODE
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFile = szFile;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+
+	//NOTE: Conversion error occurs if project character set is UNICODE
+	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
+	ofn.lpstrFilter = "Tower Defence Map File\0*.tdm\00";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	GetOpenFileName(&ofn);
+
+	//return the file path
+	return ofn.lpstrFile;
+}
+
+//Saves the intenral map to an XML file
 void MapEditor::saveMap(std::string path){
 		//used as temp holding to convert c_str() to xml string
 		char* val;
@@ -177,9 +223,11 @@ void MapEditor::saveMap(std::string path){
 		outputFile.close();
 		cout << "Map successfully saved!\n";
 
+		//notifies the observers
 		notify();
 }
 
+//Creates a new map with the dimensions sent it
 void MapEditor::createNewMap(int rows, int cols){
 	this->map = new Map(rows, cols);
 	startSet = false;
@@ -187,6 +235,7 @@ void MapEditor::createNewMap(int rows, int cols){
 	drawable = new DrawableMap(this->map, tm, win);
 }
 
+//Promopts the user for dimension then creates a map using dimensions entered
 void MapEditor::createCustomMap(){
 	int cols;
 	int rows;
@@ -202,25 +251,27 @@ void MapEditor::createCustomMap(){
 		cols <= Map::MAX_MAP_WIDTH && cols >= Map::MIN_MAP_WIDTH)
 		createNewMap(rows, cols);
 
-	map->printMap();
-
 	win->create(sf::VideoMode(cols * 24, (rows + 2) * 24), "TD");
 	notify();
 }
 
+//Prints the map for testing
 void MapEditor::printMap() const{
 	map->printMap();
 }
 
+//Returns a pointer to the map
 Map* MapEditor::getMap(){
 	return map;
 }
 
+//Sets the a map tile and notifies observers
 void MapEditor::setTile(int row, int col, int val){
 	map->setTile(row, col, val);
 	notify();
 }
 
+//Validates the map
 bool MapEditor::validateMap() const{
 	bool start = false;	//3
 	bool end = false;	//4
@@ -291,12 +342,15 @@ bool MapEditor::validateMap() const{
 			}
 	}
 
+	//path is valid if start and end are not in corners and the path is connected
 	if (startX != 0 || startY != 0)
 		connected = isConnected(startX, startY);
 
+	//indicated if start and end are set and if path is connected
 	return (start && end && connected);
 }
 
+//Checks if the path is properly connected
 bool MapEditor::isConnected(int x, int y) const{
 	char dir;
 	bool connected = true;
@@ -398,28 +452,7 @@ bool MapEditor::isConnected(int x, int y) const{
 	return connected;
 }
 
+//updates the drawable map
 void MapEditor::drawMap(){
 	drawable->update();
-}
-
-std::string MapEditor::getFilePath(){
-	OPENFILENAME ofn;
-	char szFile[100];
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFile = szFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(szFile);
-	//project->properties->config properties->general->character set->Default is UNICODE, changed to "Not Set"
-	ofn.lpstrFilter = "Tower Defence Map File\0*.tdm\00";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-	GetOpenFileName(&ofn);
-
-	return ofn.lpstrFile;
 }

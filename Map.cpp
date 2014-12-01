@@ -6,11 +6,13 @@
 
 using namespace std;
 
+//Creates an empty map
 Map::Map() : Observable()
 {
 	this->map = std::vector<std::vector<TILE_TYPE> >(0, std::vector<TILE_TYPE>(0));
 }
 
+//Creates a map using the dimensions provided
 Map::Map(int rows, int cols) : Observable()
 {
 	this->map = std::vector<std::vector<TILE_TYPE> >(rows, std::vector<TILE_TYPE>(cols, ENV));
@@ -20,8 +22,8 @@ Map::~Map()
 {
 }
 
+//Wrapper used when loading XML map into vector to set proper tiles
 void Map::setTile(int x, int y, int val){
-	//checking that x and y are within map range and that value is valid
 	switch (val){
 	case 0:
 		setTile(x, y, ENV);
@@ -43,7 +45,7 @@ void Map::setTile(int x, int y, int val){
 	}
 }
 
-
+//Sets the map tiles
 void Map::setTile(int x, int y, TILE_TYPE val){
 	//checking that x and y are within map range and that value is valid
 	if (x >= 0 && x <= (getRows() - 1) &&
@@ -62,15 +64,17 @@ void Map::setTile(int x, int y, TILE_TYPE val){
 	}
 }
 
+//Returns a pointer to the start tile coordinates
 int* Map::getStart(){
 	return start;
 }
 
+//Returns a pointer to the end tile coordinates
 int* Map::getEnd(){
 	return end;
 }
 
-//printing map for testing
+//Prints map for testing
 void Map::printMap() const {
 	for (int i = 0; i < getRows(); i++){
 		for (int j = 0; j < getCols(); j++)
@@ -79,17 +83,17 @@ void Map::printMap() const {
 	}
 }
 
-//return the number of rows in the map
+//Provides the number of rows in the map
 int Map::getRows() const{
 	return map.size();
 }
 
-//returns the number of columns in the map
+//Provides the number of columns in the map
 int Map::getCols() const{
 	return map[0].size();
 }
 
-//retrieves that value at a specified x, y index
+//Provides that value at a specified x, y index
 int Map::getTile(int x, int y) const {
 	if (x >= 0 && x <= (getRows() - 1) &&
 		y >= 0 && y <= (getCols() - 1))

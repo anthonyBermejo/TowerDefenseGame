@@ -6,22 +6,23 @@ class DrawableMap :
 	public Observer
 {
 public:
+	//Constructors and destructor
 	DrawableMap();
 	DrawableMap(Map* map, TextureManager* textureManager, sf::RenderWindow* w);
 	~DrawableMap();
+
+	//Utility methods
 	void addObserver(Observer* obs);
 	void removeObserver(Observer* obs);
 	void drawMap();
 	void update();
 private:
+	//Pointers to the interworking parts
 	Map* map;
 	TextureManager* texManager;
+	sf::RenderWindow* w;
 
-	TextMessage* saveMapMsg;
-	TextMessage* backMsg;
-	TextMessage* loadMsg;
-	TextMessage* createNewMsg;
-
+	//Handle to game sprites
 	sf::Sprite envSprite1; // solid green
 	sf::Sprite envSprite2; // green with "grass"
 	sf::Sprite pathSprite1;// verticle solid
@@ -35,6 +36,4 @@ private:
 	sf::Sprite startSprite;// start
 	sf::Sprite endSprite;  // end
 	sf::Sprite blockSprite;// block path
-
-	sf::RenderWindow* w;
 };
